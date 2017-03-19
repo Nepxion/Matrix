@@ -128,7 +128,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     @Override
     protected boolean shouldProxyTargetClass(Class<?> beanClass, String beanName) {
         Boolean proxyTargetClass = proxyTargetClassMap.get(beanName);
-        System.out.println("Bean class [" + beanClass + "] is proxied by [" + AnnotationUtils.convertParameter(getInterceptorClasses()) + "], proxyTargetClass is " + proxyTargetClass);
+        LOG.info("Bean class [{}] is proxied by [{}], proxyTargetClass is {}", beanClass, AnnotationUtils.convertParameter(getInterceptorClasses()), proxyTargetClass);
 
         if (proxyTargetClass != null) {
             return proxyTargetClass;
