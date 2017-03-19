@@ -26,7 +26,11 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
 
     public MyAutoScanProxy() {
         // ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION 对全部注解都进行代理
+        // ProxyMode.BY_CLASS_ANNOTATION_ONLY      只代理类或者接口名上注解
+        // ProxyMode.BY_METHOD_ANNOTATION_ONLY     只代理方法上的注解
         // ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION 对全部注解都进行扫描
+        // ScanMode.FOR_CLASS_ANNOTATION_ONLY      只扫描类或者接口名上注解
+        // ScanMode.FOR_METHOD_ANNOTATION_ONLY     只扫描方法上的注解
         super(ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION, ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION);
     }
 
@@ -41,7 +45,7 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     @SuppressWarnings("unchecked")
     @Override
     protected Class<? extends Annotation>[] getClassAnnotations() {
-        // 返回接口或者类名上的注解，可以多个；如果返回null，则不对列表中的注解不做代理和扫描
+        // 返回接口或者类名上的注解，可以多个；如果返回null，则对列表中的注解不做代理和扫描
         // 例如下面示例中，一旦你的接口或者类名出现MyAnnotation1或者MyAnnotation2，则所在的接口或者类将被代理和扫描
         return new Class[] { MyAnnotation1.class, MyAnnotation2.class };
         // return null;
@@ -50,7 +54,7 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     @SuppressWarnings("unchecked")
     @Override
     protected Class<? extends Annotation>[] getMethodAnnotations() {
-        // 返回方法名上的注解，可以多个；如果返回null，则不对列表中的注解不做代理和扫描
+        // 返回方法名上的注解，可以多个；如果返回null，则对列表中的注解不做代理和扫描
         // 例如下面示例中，一旦你的方法名上出现MyAnnotation3或者MyAnnotation4，则该方法所在的接口或者类将被代理和扫描
         return new Class[] { MyAnnotation3.class, MyAnnotation4.class };
         // return null;
