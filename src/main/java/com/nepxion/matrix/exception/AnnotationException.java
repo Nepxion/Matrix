@@ -1,7 +1,7 @@
 package com.nepxion.matrix.exception;
 
 /**
- * <p>Title: Nepxion Matrix AOP</p>
+ * <p>Title: Nepxion Matrix</p>
  * <p>Description: Nepxion Matrix AOP</p>
  * <p>Copyright: Copyright (c) 2017</p>
  * <p>Company: Nepxion</p>
