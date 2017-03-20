@@ -37,7 +37,7 @@ public class MyApplication {
         MyService3Impl myService3 = MyContextAware.getBean(MyService3Impl.class);
         myService3.doE("E");
         myService3.doF("F");
-        
+
         MyService4Impl myService4 = MyContextAware.getBean(MyService4Impl.class);
         myService4.doG("G");
         myService4.doH("H");
