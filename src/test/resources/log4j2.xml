@@ -8,7 +8,7 @@
         </Console>
         <!-- log/thunder.log to project path -->
         <!-- /log/thunder.log to root path -->
- 		<RollingRandomAccessFile name="logfile" fileName="log/thunder.log" filePattern="log/thunder-%d{yyyy-MM-dd}.log.%i">
+ 		<RollingRandomAccessFile name="logfile" fileName="log/matrix.log" filePattern="log/thunder-%d{yyyy-MM-dd}.log.%i">
             <PatternLayout>
                 <Pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%class:%line] - %msg%n</Pattern>
             </PatternLayout>
