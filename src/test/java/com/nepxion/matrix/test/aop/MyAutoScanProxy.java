@@ -13,10 +13,10 @@ package com.nepxion.matrix.test.aop;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.stereotype.Component;
 
 import com.nepxion.matrix.aop.AbstractAutoScanProxy;
-import com.nepxion.matrix.aop.AbstractInterceptor;
 import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
 
@@ -36,7 +36,7 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected Class<? extends AbstractInterceptor>[] getInterceptorClasses() {
+    protected Class<? extends MethodInterceptor>[] getInterceptorClasses() {
         // 返回具有调用拦截的切面实现类，可以多个；如果返回null，则不做切面调用
         return new Class[] { MyInterceptor1.class, MyInterceptor2.class };
         // return null;
