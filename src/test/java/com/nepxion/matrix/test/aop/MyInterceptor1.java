@@ -23,10 +23,10 @@ public class MyInterceptor1 extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Class<?> proxyClass = invocation.getClass();
-        String proxyClassName = proxyClass.getName();
+        String proxyClassName = proxyClass.getCanonicalName();
         Object proxiedObject = invocation.getThis();
         Class<?> proxiedClass = proxiedObject.getClass();
-        String proxiedClassName = proxiedClass.getName();
+        String proxiedClassName = proxiedClass.getCanonicalName();
         Annotation[] classAnnotations = proxiedClass.getAnnotations();
 
         Method method = invocation.getMethod();
@@ -44,7 +44,7 @@ public class MyInterceptor1 extends AbstractInterceptor {
 
         if (proxiedClass.getInterfaces() != null) {
             for (Class<?> proxiedInterface : proxiedClass.getInterfaces()) {
-                System.out.println("   interfaceName=" + proxiedInterface.getName());
+                System.out.println("   interfaceName=" + proxiedInterface.getCanonicalName());
                 System.out.println("   interfaceAnnotations=");
                 for (Annotation interfaceAnnotation : proxiedInterface.getAnnotations()) {
                     System.out.println("      " + interfaceAnnotation.toString());
@@ -57,7 +57,8 @@ public class MyInterceptor1 extends AbstractInterceptor {
         for (Annotation methodAnnotation : methodAnnotations) {
             System.out.println("      " + methodAnnotation.toString());
         }
-
+        System.out.println("------------------------------------------------------------------------------------------");
+        
         return invocation.proceed();
     }
 }

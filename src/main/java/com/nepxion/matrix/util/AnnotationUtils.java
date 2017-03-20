@@ -30,14 +30,13 @@ public class AnnotationUtils {
     @SuppressWarnings("unchecked")
     public static <T> T getValueByParameterAnnotation(MethodInvocation invocation, Class<?> parameterAnnotationType, Class<T> parameterType) {
         Method method = invocation.getMethod();
-        String methodName = method.getName();
         Class<?>[] parameterTypes = method.getParameterTypes();
-        String parameterTypesValue = convertParameter(parameterTypes);
+        String parameterTypesValue = toString(parameterTypes);
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
         Object[] arguments = invocation.getArguments();
 
         if (ArrayUtils.isEmpty(parameterAnnotations)) {
-            throw new AnnotationException("No annotation=" + parameterAnnotationType.getName() + " in method [name=" + methodName + ", parameterTypes=" + parameterTypesValue + "] found");
+            throw new AnnotationException("No annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] found");
         }
 
         T value = null;
@@ -47,18 +46,18 @@ public class AnnotationUtils {
                 if (annotation.annotationType() == parameterAnnotationType) {
                     // 方法注解在方法上只允许有一个（通过判断value的重复赋值）
                     if (value != null) {
-                        throw new AnnotationException("Only 1 annotation=" + parameterAnnotationType.getName() + " can be added in method [name=" + methodName + ", parameterTypes=" + parameterTypesValue + "]");
+                        throw new AnnotationException("Only 1 annotation=" + parameterAnnotationType.getName() + " can be added in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
                     }
 
                     Object object = arguments[index];
                     // 方法注解的值不允许为空
                     if (object == null) {
-                        throw new AnnotationException("Value for annotation=" + parameterAnnotationType.getName() + " in method [name=" + methodName + ", parameterTypes=" + parameterTypesValue + "] is null");
+                        throw new AnnotationException("Value for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] is null");
                     }
 
                     // 方法注解的类型不匹配
                     if (object.getClass() != parameterType) {
-                        throw new AnnotationException("Type for annotation=" + parameterAnnotationType.getName() + " in method [name=" + methodName + ", parameterTypes=" + parameterTypesValue + "] must be " + parameterType.getName());
+                        throw new AnnotationException("Type for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] must be " + parameterType.getName());
                     }
 
                     value = (T) object;
@@ -70,14 +69,23 @@ public class AnnotationUtils {
         return value;
     }
 
-    public static String convertParameter(Class<?>[] parameterTypes) {
+    public static Class<?>[] toClasses(Object[] objects) {
+        Class<?>[] classes = new Class<?>[objects.length];
+        for (int i = 0; i < classes.length; i++) {
+            classes[i] = objects[i].getClass();
+        }
+
+        return classes;
+    }
+
+    public static String toString(Class<?>[] parameterTypes) {
         if (ArrayUtils.isEmpty(parameterTypes)) {
             return "";
         }
 
         StringBuilder builder = new StringBuilder();
         for (Class<?> clazz : parameterTypes) {
-            builder.append("," + clazz.getName());
+            builder.append("," + clazz.getCanonicalName());
         }
 
         String parameter = builder.toString().trim();
