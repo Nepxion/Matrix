@@ -89,3 +89,19 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     }
 }
 ``` 
+在切面实现类中，你可以拿到一切你想要的东西
+```java
+My Interceptor 1 :
+   proxyClassName=org.springframework.aop.framework.ReflectiveMethodInvocation
+   className=com.nepxion.matrix.test.service.MyService1Impl
+   classAnnotations=
+      @org.springframework.stereotype.Service(value=myService1Impl)
+   interfaceName=com.nepxion.matrix.test.service.MyService1
+   interfaceAnnotations=
+      @com.nepxion.matrix.test.aop.MyAnnotation1(description=MyAnnotation1, name=MyAnnotation1, label=MyAnnotation1)
+      @com.nepxion.matrix.test.aop.MyAnnotation2(description=MyAnnotation2, name=MyAnnotation2, label=MyAnnotation2)
+   methodName=doA
+   methodAnnotations=
+      @com.nepxion.matrix.test.aop.MyAnnotation3(description=MyAnnotation3, name=MyAnnotation3, label=MyAnnotation3)
+doA
+``` 
