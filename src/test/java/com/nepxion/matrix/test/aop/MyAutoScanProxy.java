@@ -28,7 +28,7 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     private static final long serialVersionUID = -481395242918857264L;
 
     @SuppressWarnings("rawtypes")
-    private Class[] globalInterceptorClasses;
+    private Class[] commonInterceptorClasses;
 
     @SuppressWarnings("rawtypes")
     private Class[] classAnnotations;
@@ -56,14 +56,14 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected Class<? extends MethodInterceptor>[] getGlobalInterceptorClasses() {
+    protected Class<? extends MethodInterceptor>[] getCommonInterceptorClasses() {
         // 返回具有调用拦截的全局切面实现类，拦截类必须实现MethodInterceptor接口, 可以多个
         // 如果返回null， 全局切面代理关闭
-        if (globalInterceptorClasses == null) {
+        if (commonInterceptorClasses == null) {
             // Lazyloader模式，避免重复构造Class数组
-            globalInterceptorClasses = new Class[] { MyInterceptor1.class, MyInterceptor2.class };
+            commonInterceptorClasses = new Class[] { MyInterceptor1.class, MyInterceptor2.class };
         }
-        return globalInterceptorClasses;
+        return commonInterceptorClasses;
         
         // return null;
     }
