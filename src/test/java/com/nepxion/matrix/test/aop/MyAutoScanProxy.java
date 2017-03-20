@@ -56,7 +56,7 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected Class<? extends MethodInterceptor>[] getCommonInterceptorClasses() {
+    protected Class<? extends MethodInterceptor>[] getCommonInterceptors() {
         // 返回具有调用拦截的全局切面实现类，拦截类必须实现MethodInterceptor接口, 可以多个
         // 如果返回null， 全局切面代理关闭
         if (commonInterceptorClasses == null) {

@@ -63,7 +63,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
         // 可以设定多个全局拦截器，也可以设定多个额外拦截器；可以设定拦截触发由全局拦截器执行，还是由额外拦截器执行
         // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
-        Class<?>[] commonInterceptorClasses = getCommonInterceptorClasses();
+        Class<?>[] commonInterceptorClasses = getCommonInterceptors();
         if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
             String[] interceptorNames = new String[commonInterceptorClasses.length];
             for (int i = 0; i < commonInterceptorClasses.length; i++) {
@@ -173,7 +173,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                     proxyTargetClassMap.put(beanName, proxyTargetClass);
 
                     if (result == PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS) {
-                        LOG.info("Class [{}] is proxied by common interceptors [{}], proxyTargetClass={}", targetClassName, AnnotationUtils.toString(getCommonInterceptorClasses()), proxyTargetClass);
+                        LOG.info("Class [{}] is proxied by common interceptors [{}], proxyTargetClass={}", targetClassName, AnnotationUtils.toString(getCommonInterceptors()), proxyTargetClass);
                     } else {
                         LOG.info("Class [{}] is proxied by additional interceptors [{}], proxyTargetClass={}", targetClassName, result, proxyTargetClass);
                     }
@@ -250,7 +250,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             return interceptors;
         }
 
-        Class<?>[] commonInterceptorClasses = getCommonInterceptorClasses();
+        Class<?>[] commonInterceptorClasses = getCommonInterceptors();
         if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
             return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
         }
@@ -260,7 +260,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
     // 返回具有调用拦截的全局切面实现类，拦截类必须实现MethodInterceptor接口, 可以多个
     // 如果返回null， 全局切面代理关闭
-    protected abstract Class<? extends MethodInterceptor>[] getCommonInterceptorClasses();
+    protected abstract Class<? extends MethodInterceptor>[] getCommonInterceptors();
 
     // 返回额外的拦截类实例列表，拦截类必须实现MethodInterceptor接口，分别对不同的接口或者类赋予不同的拦截类，可以多个
     // 如果返回null， 额外切面代理关闭
