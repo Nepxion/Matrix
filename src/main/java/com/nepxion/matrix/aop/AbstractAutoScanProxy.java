@@ -61,13 +61,13 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         LOG.info("Proxy mode is {}", proxyMode);
         LOG.info("Scan mode is {}", scanMode);
 
-        // 可以设定多个通用代理器，也可以设定多个额外代理器；可以设定被代理类由通用代理器执行，还是由额外代理器执行
-        // 设置通用(Common) Interceptor代理器（实现于MethodInterceptor接口）
-        Class<?>[] interceptorClasses = getInterceptorClasses();
-        if (ArrayUtils.isNotEmpty(interceptorClasses)) {
-            String[] interceptorNames = new String[interceptorClasses.length];
-            for (int i = 0; i < interceptorClasses.length; i++) {
-                Class<?> interceptorClass = interceptorClasses[i];
+        // 可以设定多个全局拦截器，也可以设定多个额外拦截器；可以设定拦截触发由全局拦截器执行，还是由额外拦截器执行
+        // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
+        Class<?>[] globalInterceptorClasses = getGlobalInterceptorClasses();
+        if (ArrayUtils.isNotEmpty(globalInterceptorClasses)) {
+            String[] interceptorNames = new String[globalInterceptorClasses.length];
+            for (int i = 0; i < globalInterceptorClasses.length; i++) {
+                Class<?> interceptorClass = globalInterceptorClasses[i];
                 interceptorNames[i] = interceptorClass.getAnnotation(Component.class).value();
             }
             setInterceptorNames(interceptorNames);
@@ -116,19 +116,13 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             }
         }
 
-        // 如果满足注解扫描的条件，返回PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS，否则返回DO_NOT_PROXY
-        // 1. PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS（=new Object[0]）：
-        //    proxy without additional interceptors, just the common ones，只从设置了从interceptorNames解析处理的列表中获取
-        // 2. DO_NOT_PROXY（=null）：
-        //    do not proxy，不执行代理
         return DO_NOT_PROXY;
     }
 
     @Override
     protected boolean shouldProxyTargetClass(Class<?> beanClass, String beanName) {
+        // 设置不同场景下的接口代理，还是类代理
         Boolean proxyTargetClass = proxyTargetClassMap.get(beanName);
-        LOG.info("Bean class [{}] is proxied by [{}], proxyTargetClass is {}", beanClass, AnnotationUtils.convertParameter(getInterceptorClasses()), proxyTargetClass);
-
         if (proxyTargetClass != null) {
             return proxyTargetClass;
         }
@@ -136,34 +130,35 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         return super.shouldProxyTargetClass(beanClass, beanName);
     }
 
-    protected Object[] scanAndProxyForTarget(Class<?> targetClass, String beanName, boolean isProxyTargetClass) {
+    protected Object[] scanAndProxyForTarget(Class<?> targetClass, String beanName, boolean proxyTargetClass) {
         String targetClassName = targetClass.getCanonicalName();
+        Object[] interceptors = getInterceptors(targetClass);
         // 排除java开头的接口，例如java.io.Serializable，java.io.Closeable等，执行不被代理
         if (StringUtils.isNotEmpty(targetClassName) && !targetClassName.startsWith("java.")) {
             // 避免对同一个接口或者类扫描多次
             Boolean proxied = proxyMap.get(targetClassName);
             if (proxied != null) {
                 if (proxied) {
-                    return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
+                    return interceptors;
                 }
             } else {
                 Object[] result = null;
                 switch (proxyMode) {
                     // 只通过扫描到接口名或者类名上的注解后，来确定是否要代理
                     case BY_CLASS_ANNOTATION_ONLY:
-                        result = scanAndProxyForClass(targetClass, targetClassName, beanName, isProxyTargetClass);
+                        result = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         break;
                     // 只通过扫描到接口或者类方法上的注解后，来确定是否要代理
                     case BY_METHOD_ANNOTATION_ONLY:
-                        result = scanAndProxyForMethod(targetClass, targetClassName, beanName, isProxyTargetClass);
+                        result = scanAndProxyForMethod(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         break;
                     // 上述两者都可以
                     case BY_CLASS_OR_METHOD_ANNOTATION:
-                        Object[] classProxyResult = scanAndProxyForClass(targetClass, targetClassName, beanName, isProxyTargetClass);
+                        Object[] classProxyResult = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         // 没有接口或类名上扫描到目标注解，那么扫描接口或类的方法上的目标注解
-                        Object[] methodProxyResult = scanAndProxyForMethod(targetClass, targetClassName, beanName, isProxyTargetClass);
-                        if (classProxyResult == PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS || methodProxyResult == PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS) {
-                            result = PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
+                        Object[] methodProxyResult = scanAndProxyForMethod(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
+                        if (classProxyResult != DO_NOT_PROXY || methodProxyResult != DO_NOT_PROXY) {
+                            result = interceptors;
                         } else {
                             result = DO_NOT_PROXY;
                         }
@@ -173,9 +168,15 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                 // 是否需要代理
                 proxyMap.put(targetClassName, Boolean.valueOf(result != DO_NOT_PROXY));
 
-                // 是接口代理还是类代理
                 if (result != DO_NOT_PROXY) {
-                    proxyTargetClassMap.put(beanName, isProxyTargetClass);
+                    // 是接口代理还是类代理
+                    proxyTargetClassMap.put(beanName, proxyTargetClass);
+
+                    if (result == PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS) {
+                        LOG.info("Class [{}] is proxied by global interceptors [{}], proxyTargetClass={}", targetClassName, AnnotationUtils.toString(getGlobalInterceptorClasses()), proxyTargetClass);
+                    } else {
+                        LOG.info("Class [{}] is proxied by additional interceptors [{}], proxyTargetClass={}", targetClassName, result, proxyTargetClass);
+                    }
                 }
 
                 return result;
@@ -185,7 +186,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         return DO_NOT_PROXY;
     }
 
-    protected Object[] scanAndProxyForClass(Class<?> targetClass, String targetClassName, String beanName, boolean isProxyTargetClass) {
+    protected Object[] scanAndProxyForClass(Class<?> targetClass, String targetClassName, String beanName, Object[] interceptors, boolean proxyTargetClass) {
         // 判断目标注解是否标注在接口名或者类名上
         boolean proxied = false;
         Class<? extends Annotation>[] classAnnotations = getClassAnnotations();
@@ -197,7 +198,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                         classAnnotationScanned(targetClass, classAnnotation);
                     } else {
                         // 如果“注解扫描后处理”不开启，没必要再往下执行循环，直接返回
-                        return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
+                        return interceptors;
                     }
 
                     // 目标注解被扫描到，proxied赋值为true，即认为该接口或者类被代理
@@ -208,10 +209,10 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             }
         }
 
-        return proxied ? PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS : DO_NOT_PROXY;
+        return proxied ? interceptors : DO_NOT_PROXY;
     }
 
-    protected Object[] scanAndProxyForMethod(Class<?> targetClass, String targetClassName, String beanName, boolean isProxyTargetClass) {
+    protected Object[] scanAndProxyForMethod(Class<?> targetClass, String targetClassName, String beanName, Object[] interceptors, boolean proxyTargetClass) {
         // 判断目标注解是否标注在方法上
         boolean proxied = false;
         Class<? extends Annotation>[] methodAnnotations = getMethodAnnotations();
@@ -224,7 +225,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                             methodAnnotationScanned(targetClass, method, methodAnnotation);
                         } else {
                             // 如果“注解扫描后处理”不开启，没必要再往下执行循环，直接返回
-                            return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
+                            return interceptors;
                         }
 
                         // 目标注解被扫描到，proxied赋值为true，即认为该接口或者类被代理
@@ -236,24 +237,46 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             }
         }
 
-        return proxied ? PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS : DO_NOT_PROXY;
+        return proxied ? interceptors : DO_NOT_PROXY;
     }
 
-    // 返回拦截类列表， 拦截类必须实现MethodInterceptor接口
-    // 一般只有一个拦截类，也可以多个拦截类
-    protected abstract Class<? extends MethodInterceptor>[] getInterceptorClasses();
+    // 获取切面拦截类的方式
+    // 1. 根据targetClass从额外拦截类列表中去取（接口代理targetClass是接口类，类代理targetClass是类）
+    // 2. 如果从额外拦截类列表中没取到，就从全局拦截类列表中去取（PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS）
+    // 3. 如果从全局拦截类列表中没取到，就不代理（DO_NOT_PROXY）
+    protected Object[] getInterceptors(Class<?> targetClass) {
+        Object[] interceptors = getAdditionalInterceptors(targetClass);
+        if (ArrayUtils.isNotEmpty(interceptors)) {
+            return interceptors;
+        }
 
-    // 返回接口名或者类名上的注解，如果接口名或者类名上存在该注解，即认为该接口或者类需要被代理
-    // 一般只有一个注解，也可以多个注解
+        Class<?>[] globalInterceptorClasses = getGlobalInterceptorClasses();
+        if (ArrayUtils.isNotEmpty(globalInterceptorClasses)) {
+            return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
+        }
+
+        return DO_NOT_PROXY;
+    }
+
+    // 返回具有调用拦截的全局切面实现类，拦截类必须实现MethodInterceptor接口, 可以多个
+    // 如果返回null， 全局切面代理关闭
+    protected abstract Class<? extends MethodInterceptor>[] getGlobalInterceptorClasses();
+
+    // 返回额外的拦截类实例列表，拦截类必须实现MethodInterceptor接口，分别对不同的接口或者类赋予不同的拦截类，可以多个
+    // 如果返回null， 额外切面代理关闭
+    protected abstract Object[] getAdditionalInterceptors(Class<?> targetClass);
+
+    // 返回接口名或者类名上的注解列表，可以多个, 如果接口名或者类名上存在一个或者多个该列表中的注解，即认为该接口或者类需要被代理和扫描
+    // 如果返回null，则对列表中的注解不做代理和扫描
     protected abstract Class<? extends Annotation>[] getClassAnnotations();
 
-    // 返回接口或者类的方法名上的注解，如果接口或者类中方法名上存在该注解，即认为该接口或者类需要被代理
-    // 一般只有一个注解，也可以多个注解
+    // 返回接口或者类的方法名上的注解，可以多个，如果接口或者类中方法名上存在一个或者多个该列表中的注解，即认为该接口或者类需要被代理和扫描
+    // 如果返回null，则对列表中的注解不做代理和扫描
     protected abstract Class<? extends Annotation>[] getMethodAnnotations();
 
-    // 扫描到接口名或者类名上的注解后，所要做的处理
+    // 一旦指定的接口或者类名上的注解被扫描到，将会触发该方法
     protected abstract void classAnnotationScanned(Class<?> targetClass, Class<? extends Annotation> classAnnotation);
 
-    // 扫描到接口或者类的方法名上的注解后，所要做的处理
+    // 一旦指定的接口或者类的方法名上的注解被扫描到，将会触发该方法
     protected abstract void methodAnnotationScanned(Class<?> targetClass, Method method, Class<? extends Annotation> methodAnnotation);
 }
