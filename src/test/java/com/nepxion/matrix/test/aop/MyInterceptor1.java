@@ -11,6 +11,7 @@ package com.nepxion.matrix.test.aop;
  */
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.stereotype.Component;
@@ -21,17 +22,40 @@ import com.nepxion.matrix.aop.AbstractInterceptor;
 public class MyInterceptor1 extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        String proxyClassName = invocation.getClass().getName();
-        String methodName = invocation.getMethod().getName();
-        Annotation[] annotations = invocation.getMethod().getAnnotations();
+        Class<?> proxyClass = invocation.getClass();
+        String proxyClassName = proxyClass.getName();
+        Object proxiedObject = invocation.getThis();
+        Class<?> proxiedClass = proxiedObject.getClass();
+        String proxiedClassName = proxiedClass.getName();
+        Annotation[] classAnnotations = proxiedClass.getAnnotations();
+
+        Method method = invocation.getMethod();
+        String methodName = method.getName();
+        Annotation[] methodAnnotations = method.getAnnotations();
 
         System.out.println("------------------------------------------------------------------------------------------");
         System.out.println("My Interceptor 1 :");
         System.out.println("   proxyClassName=" + proxyClassName);
+        System.out.println("   className=" + proxiedClassName);
+        System.out.println("   classAnnotations=");
+        for (Annotation classAnnotation : classAnnotations) {
+            System.out.println("      " + classAnnotation.toString());
+        }
+
+        if (proxiedClass.getInterfaces() != null) {
+            for (Class<?> proxiedInterface : proxiedClass.getInterfaces()) {
+                System.out.println("   interfaceName=" + proxiedInterface.getName());
+                System.out.println("   interfaceAnnotations=");
+                for (Annotation interfaceAnnotation : proxiedInterface.getAnnotations()) {
+                    System.out.println("      " + interfaceAnnotation.toString());
+                }
+            }
+        }
+
         System.out.println("   methodName=" + methodName);
-        System.out.println("   annotations=");
-        for (Annotation annotation : annotations) {
-            System.out.println("               " + annotation.toString());
+        System.out.println("   methodAnnotations=");
+        for (Annotation methodAnnotation : methodAnnotations) {
+            System.out.println("      " + methodAnnotation.toString());
         }
 
         return invocation.proceed();
