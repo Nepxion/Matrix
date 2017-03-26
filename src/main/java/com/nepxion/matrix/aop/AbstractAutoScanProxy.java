@@ -102,17 +102,17 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             // 扫描接口（从实现类找到它的所有接口）
             if (targetClass.getInterfaces() != null) {
                 for (Class<?> targetInterface : targetClass.getInterfaces()) {
-                    Object[] result = scanAndProxyForTarget(targetInterface, beanName, false);
-                    if (result != null) {
-                        return result;
+                    Object[] proxyInterceptors = scanAndProxyForTarget(targetInterface, beanName, false);
+                    if (proxyInterceptors != null) {
+                        return proxyInterceptors;
                     }
                 }
             }
 
             // 扫描实现类（如果接口上没找到注解， 就找实现类的注解）
-            Object[] result = scanAndProxyForTarget(targetClass, beanName, true);
-            if (result != null) {
-                return result;
+            Object[] proxyInterceptors = scanAndProxyForTarget(targetClass, beanName, true);
+            if (proxyInterceptors != null) {
+                return proxyInterceptors;
             }
         }
 
@@ -142,44 +142,44 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                     return interceptors;
                 }
             } else {
-                Object[] result = null;
+                Object[] proxyInterceptors = null;
                 switch (proxyMode) {
                     // 只通过扫描到接口名或者类名上的注解后，来确定是否要代理
                     case BY_CLASS_ANNOTATION_ONLY:
-                        result = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
+                        proxyInterceptors = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         break;
                     // 只通过扫描到接口或者类方法上的注解后，来确定是否要代理
                     case BY_METHOD_ANNOTATION_ONLY:
-                        result = scanAndProxyForMethod(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
+                        proxyInterceptors = scanAndProxyForMethod(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         break;
                     // 上述两者都可以
                     case BY_CLASS_OR_METHOD_ANNOTATION:
-                        Object[] classProxyResult = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
+                        Object[] classProxyInterceptors = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         // 没有接口或类名上扫描到目标注解，那么扫描接口或类的方法上的目标注解
-                        Object[] methodProxyResult = scanAndProxyForMethod(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
-                        if (classProxyResult != DO_NOT_PROXY || methodProxyResult != DO_NOT_PROXY) {
-                            result = interceptors;
+                        Object[] methodProxyInterceptors = scanAndProxyForMethod(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
+                        if (classProxyInterceptors != DO_NOT_PROXY || methodProxyInterceptors != DO_NOT_PROXY) {
+                            proxyInterceptors = interceptors;
                         } else {
-                            result = DO_NOT_PROXY;
+                            proxyInterceptors = DO_NOT_PROXY;
                         }
                         break;
                 }
 
                 // 是否需要代理
-                proxyMap.put(targetClassName, Boolean.valueOf(result != DO_NOT_PROXY));
+                proxyMap.put(targetClassName, Boolean.valueOf(proxyInterceptors != DO_NOT_PROXY));
 
-                if (result != DO_NOT_PROXY) {
+                if (proxyInterceptors != DO_NOT_PROXY) {
                     // 是接口代理还是类代理
                     proxyTargetClassMap.put(beanName, proxyTargetClass);
 
-                    if (result == PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS) {
+                    if (proxyInterceptors == PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS) {
                         LOG.info("Class [{}] is proxied by common interceptors [{}], proxyTargetClass={}", targetClassName, MatrixUtils.toString(getCommonInterceptors()), proxyTargetClass);
                     } else {
-                        LOG.info("Class [{}] is proxied by additional interceptors [{}], proxyTargetClass={}", targetClassName, result, proxyTargetClass);
+                        LOG.info("Class [{}] is proxied by additional interceptors [{}], proxyTargetClass={}", targetClassName, proxyInterceptors, proxyTargetClass);
                     }
                 }
 
-                return result;
+                return proxyInterceptors;
             }
         }
 
