@@ -77,11 +77,11 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         // 前置扫描，把Bean名称和Bean对象关联存入Map
-        Object value = super.postProcessBeforeInitialization(bean, beanName);
+        Object object = super.postProcessBeforeInitialization(bean, beanName);
 
         beanMap.put(beanName, bean);
 
-        return value;
+        return object;
     }
 
     @Override
