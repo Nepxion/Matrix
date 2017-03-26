@@ -75,16 +75,6 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     }
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        // 前置扫描，把Bean名称和Bean对象关联存入Map
-        Object object = super.postProcessBeforeInitialization(bean, beanName);
-
-        beanMap.put(beanName, bean);
-
-        return object;
-    }
-
-    @Override
     protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName, TargetSource targetSource) {
         // 根据Bean名称获取Bean对象
         Object bean = beanMap.get(beanName);
@@ -103,7 +93,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             if (targetClass.getInterfaces() != null) {
                 for (Class<?> targetInterface : targetClass.getInterfaces()) {
                     Object[] proxyInterceptors = scanAndProxyForTarget(targetInterface, beanName, false);
-                    if (proxyInterceptors != null) {
+                    if (proxyInterceptors != DO_NOT_PROXY) {
                         return proxyInterceptors;
                     }
                 }
@@ -111,23 +101,12 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
             // 扫描实现类（如果接口上没找到注解， 就找实现类的注解）
             Object[] proxyInterceptors = scanAndProxyForTarget(targetClass, beanName, true);
-            if (proxyInterceptors != null) {
+            if (proxyInterceptors != DO_NOT_PROXY) {
                 return proxyInterceptors;
             }
         }
 
         return DO_NOT_PROXY;
-    }
-
-    @Override
-    protected boolean shouldProxyTargetClass(Class<?> beanClass, String beanName) {
-        // 设置不同场景下的接口代理，还是类代理
-        Boolean proxyTargetClass = proxyTargetClassMap.get(beanName);
-        if (proxyTargetClass != null) {
-            return proxyTargetClass;
-        }
-
-        return super.shouldProxyTargetClass(beanClass, beanName);
     }
 
     protected Object[] scanAndProxyForTarget(Class<?> targetClass, String beanName, boolean proxyTargetClass) {
@@ -238,6 +217,27 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         }
 
         return proxied ? interceptors : DO_NOT_PROXY;
+    }
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        // 前置扫描，把Bean名称和Bean对象关联存入Map
+        Object object = super.postProcessBeforeInitialization(bean, beanName);
+
+        beanMap.put(beanName, bean);
+
+        return object;
+    }
+
+    @Override
+    protected boolean shouldProxyTargetClass(Class<?> beanClass, String beanName) {
+        // 设置不同场景下的接口代理，还是类代理
+        Boolean proxyTargetClass = proxyTargetClassMap.get(beanName);
+        if (proxyTargetClass != null) {
+            return proxyTargetClass;
+        }
+
+        return super.shouldProxyTargetClass(beanClass, beanName);
     }
 
     // 获取切面拦截类的方式
