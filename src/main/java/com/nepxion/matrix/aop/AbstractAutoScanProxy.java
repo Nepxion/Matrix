@@ -61,7 +61,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         LOG.info("Proxy mode is {}", proxyMode);
         LOG.info("Scan mode is {}", scanMode);
 
-        // 可以设定多个全局拦截器，也可以设定多个额外拦截器；可以设定拦截触发由全局拦截器执行，还是由额外拦截器执行
+        // 设定全局拦截器，可以是多个
         // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
         Class<?>[] commonInterceptorClasses = getCommonInterceptors();
         if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
