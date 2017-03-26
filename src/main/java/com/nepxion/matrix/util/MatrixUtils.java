@@ -16,17 +16,9 @@ import java.lang.reflect.Method;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.nepxion.matrix.exception.AnnotationException;
+import com.nepxion.matrix.exception.MatrixException;
 
-public class AnnotationUtils {
-    /**
-     * 萃取参数注解值
-     * 
-     * @param invocation
-     * @param parameterAnnotationType, 例如UserId
-     * @param parameterType, 例如Integer
-     * @return
-     */
+public class MatrixUtils {
     @SuppressWarnings("unchecked")
     public static <T> T getValueByParameterAnnotation(MethodInvocation invocation, Class<?> parameterAnnotationType, Class<T> parameterType) {
         Method method = invocation.getMethod();
@@ -36,7 +28,7 @@ public class AnnotationUtils {
         Object[] arguments = invocation.getArguments();
 
         if (ArrayUtils.isEmpty(parameterAnnotations)) {
-            throw new AnnotationException("No annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] found");
+            throw new MatrixException("No annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] found");
         }
 
         T value = null;
@@ -46,18 +38,18 @@ public class AnnotationUtils {
                 if (annotation.annotationType() == parameterAnnotationType) {
                     // 方法注解在方法上只允许有一个（通过判断value的重复赋值）
                     if (value != null) {
-                        throw new AnnotationException("Only 1 annotation=" + parameterAnnotationType.getName() + " can be added in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
+                        throw new MatrixException("Only 1 annotation=" + parameterAnnotationType.getName() + " can be added in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
                     }
 
                     Object object = arguments[index];
                     // 方法注解的值不允许为空
                     if (object == null) {
-                        throw new AnnotationException("Value for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] is null");
+                        throw new MatrixException("Value for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] is null");
                     }
 
                     // 方法注解的类型不匹配
                     if (object.getClass() != parameterType) {
-                        throw new AnnotationException("Type for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] must be " + parameterType.getName());
+                        throw new MatrixException("Type for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] must be " + parameterType.getName());
                     }
 
                     value = (T) object;

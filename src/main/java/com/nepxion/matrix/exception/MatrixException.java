@@ -10,22 +10,22 @@ package com.nepxion.matrix.exception;
  * @version 1.0
  */
 
-public class AnnotationException extends RuntimeException {
-    private static final long serialVersionUID = 1121978434845423269L;
+public class MatrixException extends RuntimeException {
+    private static final long serialVersionUID = -5563106933655728813L;
 
-    public AnnotationException() {
+    public MatrixException() {
         super();
     }
 
-    public AnnotationException(String message) {
+    public MatrixException(String message) {
         super(message);
     }
 
-    public AnnotationException(String message, Throwable cause) {
+    public MatrixException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public AnnotationException(Throwable cause) {
+    public MatrixException(Throwable cause) {
         super(cause);
     }
 }
