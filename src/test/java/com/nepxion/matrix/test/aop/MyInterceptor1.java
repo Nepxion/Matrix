@@ -25,6 +25,7 @@ public class MyInterceptor1 extends AbstractInterceptor {
         Class<?> proxyClass = invocation.getClass();
         String proxyClassName = proxyClass.getCanonicalName();
         Object proxiedObject = invocation.getThis();
+        // Object[] arguments = invocation.getArguments();
         Class<?> proxiedClass = proxiedObject.getClass();
         String proxiedClassName = proxiedClass.getCanonicalName();
         Annotation[] classAnnotations = proxiedClass.getAnnotations();
