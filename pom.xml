@@ -114,7 +114,6 @@
             <artifactId>log4j-web</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
