@@ -63,8 +63,8 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
             // Lazyloader模式，避免重复构造Class数组
             commonInterceptorClasses = new Class[] { MyInterceptor1.class, MyInterceptor2.class };
         }
-
         return commonInterceptorClasses;
+        
         // return null;
     }
 
@@ -91,8 +91,8 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
             // Lazyloader模式，避免重复构造Class数组
             classAnnotations = new Class[] { MyAnnotation1.class, MyAnnotation2.class };
         }
-
         return classAnnotations;
+        
         // return null;
     }
 
@@ -106,7 +106,6 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
             // Lazyloader模式，避免重复构造Class数组
             methodAnnotations = new Class[] { MyAnnotation3.class, MyAnnotation4.class };
         }
-
         return methodAnnotations;
         // return null;
     }
