@@ -13,6 +13,7 @@ package com.nepxion.matrix.test.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nepxion.matrix.test.aop.MyAnnotation3;
 import com.nepxion.matrix.test.aop.MyAnnotation4;
 
 @Service("myService3Impl")
@@ -28,7 +29,7 @@ public class MyService3Impl {
 
     @MyAnnotation4(name = "MyAnnotation4", label = "MyAnnotation4", description = "MyAnnotation4")
     public void doF(String id) {
-        // 2. 通过AopContext.currentProxy()
+        // 2. 通过AopContext.currentProxy()，该方式必须实现设置AbstractAutoScanProxy的exposeProxy为true
         // MyService3Impl selfService3 = (MyService3Impl) AopContext.currentProxy();
         selfService3.doE(id);
 
