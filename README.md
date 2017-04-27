@@ -9,7 +9,7 @@
 4. 实现“只扫描不代理”，“既扫描又代理”；代理支持“只代理类或者接口名上注解”、“只代理方法上的注解”、“全部代理”三种模式；扫描支持“只扫描类或者接口名上注解”、“只扫描方法上的注解”、“全部扫描”三种模式
 5. 实现“代理和扫描多个注解“
 6. 实现“支持多个切面实现类Interceptor做调用拦截”  
-7. 实现“自身对自身的注解”
+7. 实现“自身调用自身的注解方法，达到切面效果”，提供自动装配和AopContext.currentProxy()两种方式
 
 ## 使用
 具体参考com.nepxion.matrix.test下的示例
@@ -31,6 +31,7 @@ import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 import com.nepxion.matrix.aop.AbstractAutoScanProxy;
@@ -55,8 +56,12 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     @Autowired
     private MyInterceptor1 myInterceptor1;
 
+    private Object[] myInterceptor1Array;
+
     @Autowired
     private MyInterceptor2 myInterceptor2;
+
+    private Object[] myInterceptor2Array;
 
     // 可以设定多个全局拦截器，也可以设定多个额外拦截器；可以设定拦截触发由全局拦截器执行，还是由额外拦截器执行
     // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
@@ -79,22 +84,68 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
             // Lazyloader模式，避免重复构造Class数组
             commonInterceptorClasses = new Class[] { MyInterceptor1.class, MyInterceptor2.class };
         }
-        return commonInterceptorClasses;
-        
-        // return null;
+        // return commonInterceptorClasses;
+
+        return null;
     }
 
     @Override
     protected Object[] getAdditionalInterceptors(Class<?> targetClass) {
         // 返回额外的拦截类实例列表，拦截类必须实现MethodInterceptor接口，分别对不同的接口或者类赋予不同的拦截类，可以多个
         // 如果返回null， 额外切面代理关闭
-        if (targetClass == MyService1.class) {
-            return new Object[] { myInterceptor1 };
-        } else if (targetClass == MyService2Impl.class) {
-            return new Object[] { myInterceptor2 };
+
+        // 由int值来表示使用策略
+        int strategy = 3;
+
+        if (strategy == 1) {
+            // 使用策略1：根据接口或者类决定选择哪个切面代理
+            // 例如下面示例中，如果所代理的接口是MyService1，执行myInterceptor1切面拦截
+            if (targetClass == MyService1.class) {
+                return getMyInterceptor1Array();
+                // 例如下面示例中，如果所代理的类是MyService2Impl，执行myInterceptor2切面拦截
+            } else if (targetClass == MyService2Impl.class) {
+                return getMyInterceptor2Array();
+            }
+        } else if (strategy == 2) {
+            // 使用策略2：根据接口或者类头部的注解决定选择哪个切面代理
+            // 例如下面示例中，如果所代理的接口或者类头部“只要”出现MyAnnotation1，所有方法都执行myInterceptor1切面拦截
+            MyAnnotation1 myAnnotation1 = AnnotationUtils.findAnnotation(targetClass, MyAnnotation1.class);
+            if (myAnnotation1 != null) {
+                return getMyInterceptor1Array();
+            }
+        } else if (strategy == 3) {
+            // 使用策略3：根据接口或者类的方法注解决定选择哪个切面代理
+            // 例如下面示例中，如果所代理的接口或者类的方法中“只要”出现MyAnnotation3，所有方法都执行myInterceptor1切面拦截；“只要”出现MyAnnotation4，所有方法都执行myInterceptor2切面拦截
+            Method[] methods = targetClass.getDeclaredMethods();
+            for (Method method : methods) {
+                MyAnnotation3 myAnnotation3 = AnnotationUtils.findAnnotation(method, MyAnnotation3.class);
+                if (myAnnotation3 != null) {
+                    return getMyInterceptor1Array();
+                }
+                MyAnnotation4 myAnnotation4 = AnnotationUtils.findAnnotation(method, MyAnnotation4.class);
+                if (myAnnotation4 != null) {
+                    return getMyInterceptor2Array();
+                }
+            }
         }
 
         return null;
+    }
+
+    private Object[] getMyInterceptor1Array() {
+        if (myInterceptor1Array == null) {
+            // Lazyloader模式，避免重复构造Class数组
+            myInterceptor1Array = new Object[] { myInterceptor1 };
+        }
+        return myInterceptor1Array;
+    }
+
+    private Object[] getMyInterceptor2Array() {
+        if (myInterceptor2Array == null) {
+            // Lazyloader模式，避免重复构造Class数组
+            myInterceptor2Array = new Object[] { myInterceptor2 };
+        }
+        return myInterceptor2Array;
     }
 
     @SuppressWarnings("unchecked")
@@ -108,7 +159,7 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
             classAnnotations = new Class[] { MyAnnotation1.class, MyAnnotation2.class };
         }
         return classAnnotations;
-        
+
         // return null;
     }
 

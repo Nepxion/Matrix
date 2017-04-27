@@ -18,9 +18,10 @@ import com.nepxion.matrix.test.aop.MyAnnotation4;
 
 @Service("myService3Impl")
 public class MyService3Impl {
-    // 1. 自身自动装配，只在4.3版本里才有效果
+    // 1. 通过自动装配的方式，自身调用自身的注解方法，但似乎在Spring 4.3.X版本里才有效果（在某些Spring版本没这个效果，未做全面调查）
+    // 如果没这个效果，请使用通过AopContext.currentProxy()的方式，也可以实现自身调用自身的注解方法，达到切面效果
     @Autowired
-    private MyService3Impl selfService3;
+    private MyService3Impl myService3;
 
     @MyAnnotation3(name = "MyAnnotation3", label = "MyAnnotation3", description = "MyAnnotation3")
     public void doE(String id) {
@@ -29,9 +30,9 @@ public class MyService3Impl {
 
     @MyAnnotation4(name = "MyAnnotation4", label = "MyAnnotation4", description = "MyAnnotation4")
     public void doF(String id) {
-        // 2. 通过AopContext.currentProxy()，该方式必须实现设置AbstractAutoScanProxy的exposeProxy为true
-        // MyService3Impl selfService3 = (MyService3Impl) AopContext.currentProxy();
-        selfService3.doE(id);
+        // 2. 通过AopContext.currentProxy()，该方式必须实现设置AbstractAutoScanProxy的构造方法中exposeProxy=true
+        // MyService3Impl myService3 = (MyService3Impl) AopContext.currentProxy();
+        myService3.doE(id);
 
         System.out.println("doF");
     }
