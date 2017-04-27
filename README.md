@@ -12,7 +12,7 @@
 7. 实现“自身调用自身的注解方法，达到切面效果”，提供自动装配和AopContext.currentProxy()两种方式
 
 ## 使用
-具体参考com.nepxion.matrix.test下的示例
+具体参考com.nepxion.matrix.test下的示例。该示例比较复杂，为了演示Auto proxy强大的功能。你在使用的时候，考虑到实际使用场景，会比较简单
 ```java
 package com.nepxion.matrix.test.aop;
 
