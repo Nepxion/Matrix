@@ -13,10 +13,12 @@ package com.nepxion.matrix.test.service;
 import org.springframework.stereotype.Service;
 
 import com.nepxion.matrix.test.aop.MyAnnotation2;
+import com.nepxion.matrix.test.aop.MyAnnotation4;
 
 @Service("myService4Impl")
 @MyAnnotation2(name = "MyAnnotation2", label = "MyAnnotation2", description = "MyAnnotation2")
 public class MyService4Impl {
+    @MyAnnotation4(name = "MyAnnotation4", label = "MyAnnotation4", description = "MyAnnotation4")
     public void doG(String id) {
         System.out.println("doG");
     }
