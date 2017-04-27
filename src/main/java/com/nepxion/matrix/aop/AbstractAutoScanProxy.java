@@ -38,7 +38,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     // Bean名称和Bean对象关联
     private final Map<String, Object> beanMap = new HashMap<String, Object>();
 
-    // Spring容器中哪些接口或类需要被代理
+    // Spring容器中哪些接口或者类需要被代理
     private final Map<String, Boolean> proxyMap = new HashMap<String, Boolean>();
 
     // Spring容器中哪些类是类代理，哪些类是通过它的接口做代理
@@ -139,7 +139,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                     // 上述两者都可以
                     case BY_CLASS_OR_METHOD_ANNOTATION:
                         Object[] classProxyInterceptors = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
-                        // 没有接口或类名上扫描到目标注解，那么扫描接口或类的方法上的目标注解
+                        // 没有接口或者类名上扫描到目标注解，那么扫描接口或者类的方法上的目标注解
                         Object[] methodProxyInterceptors = scanAndProxyForMethod(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         if (classProxyInterceptors != DO_NOT_PROXY || methodProxyInterceptors != DO_NOT_PROXY) {
                             proxyInterceptors = interceptors;
