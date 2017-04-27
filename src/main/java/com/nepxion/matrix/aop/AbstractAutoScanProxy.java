@@ -55,6 +55,11 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     }
 
     public AbstractAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode) {
+        this(proxyMode, scanMode, true);
+    }
+
+    public AbstractAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode,boolean exposeProxy) {
+        this.setExposeProxy(exposeProxy);
         this.proxyMode = proxyMode;
         this.scanMode = scanMode;
 
