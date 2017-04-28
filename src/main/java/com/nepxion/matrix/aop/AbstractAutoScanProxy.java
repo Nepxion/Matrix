@@ -44,6 +44,9 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     // Spring容器中哪些类是类代理，哪些类是通过它的接口做代理
     private final Map<String, Boolean> proxyTargetClassMap = new HashMap<String, Boolean>();
 
+    // 扫描和代理的目录，如果不指定，则扫描全部
+    private String scanPackage;
+
     // 通过注解确定代理
     private ProxyMode proxyMode;
 
@@ -51,14 +54,27 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private ScanMode scanMode;
 
     public AbstractAutoScanProxy() {
-        this(ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION, ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION);
+        this(null);
+    }
+
+    public AbstractAutoScanProxy(String scanPackage) {
+        this(scanPackage, ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION, ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION);
     }
 
     public AbstractAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode) {
-        this(proxyMode, scanMode, true);
+        this(null, proxyMode, scanMode);
     }
 
-    public AbstractAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode,boolean exposeProxy) {
+    public AbstractAutoScanProxy(String scanPackage, ProxyMode proxyMode, ScanMode scanMode) {
+        this(scanPackage, proxyMode, scanMode, true);
+    }
+
+    public AbstractAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
+        this(null, proxyMode, scanMode, exposeProxy);
+    }
+
+    public AbstractAutoScanProxy(String scanPackage, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
+        this.scanPackage = scanPackage;
         this.setExposeProxy(exposeProxy);
         this.proxyMode = proxyMode;
         this.scanMode = scanMode;
@@ -81,6 +97,13 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
     @Override
     protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName, TargetSource targetSource) {
+        if (StringUtils.isNotEmpty(scanPackage)) {
+            String beanClassName = beanClass.getCanonicalName();
+            if (!beanClassName.startsWith(scanPackage)) {
+                return DO_NOT_PROXY;
+            }
+        }
+
         // 根据Bean名称获取Bean对象
         Object bean = beanMap.get(beanName);
 
@@ -226,10 +249,17 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        // 前置扫描，把Bean名称和Bean对象关联存入Map
         Object object = super.postProcessBeforeInitialization(bean, beanName);
 
-        beanMap.put(beanName, bean);
+        // 前置扫描，把Bean名称和Bean对象关联存入Map
+        if (StringUtils.isNotEmpty(scanPackage)) {
+            String beanClassName = bean.getClass().getCanonicalName();
+            if (beanClassName.startsWith(scanPackage)) {
+                beanMap.put(beanName, bean);
+            }
+        } else {
+            beanMap.put(beanName, bean);
+        }
 
         return object;
     }
