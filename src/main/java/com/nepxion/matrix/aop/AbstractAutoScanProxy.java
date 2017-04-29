@@ -97,15 +97,13 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
     @Override
     protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName, TargetSource targetSource) {
-        // 如果beanClass的类路径，未包含在扫描目录中，返回DO_NOT_PROXY
-        if (ArrayUtils.isNotEmpty(scanPackages)) {
-            for (String scanPackage : scanPackages) {
-                if (StringUtils.isNotEmpty(scanPackage)) {
-                    String beanClassName = beanClass.getCanonicalName();
-                    if (!beanClassName.startsWith(scanPackage)) {
-                        return DO_NOT_PROXY;
-                    }
-                }
+        boolean scanPackagesEnabled = scanPackagesEnabled();
+        // scanPackagesEnabled=false，表示“只扫描指定目录”的方式未开启，则不会对扫描到的bean进行代理预先判断
+        if (scanPackagesEnabled) {
+            boolean scanPackagesContained = scanPackagesContained(beanClass);
+            // 如果beanClass的类路径，未包含在扫描目录中，返回DO_NOT_PROXY
+            if (!scanPackagesContained) {
+                return DO_NOT_PROXY;
             }
         }
 
@@ -257,17 +255,15 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         Object object = super.postProcessBeforeInitialization(bean, beanName);
 
         // 前置扫描，把Bean名称和Bean对象关联存入Map
-        if (ArrayUtils.isNotEmpty(scanPackages)) {
-            for (String scanPackage : scanPackages) {
-                if (StringUtils.isNotEmpty(scanPackage)) {
-                    String beanClassName = bean.getClass().getCanonicalName();
-                    if (beanClassName.startsWith(scanPackage)) {
-                        beanMap.put(beanName, bean);
-                        break;
-                    }
-                }
+        boolean scanPackagesEnabled = scanPackagesEnabled();
+        if (scanPackagesEnabled) {
+            boolean scanPackagesContained = scanPackagesContained(bean.getClass());
+            if (scanPackagesContained) {
+                // 如果beanClass的类路径，包含在扫描目录中，则加入beanMap
+                beanMap.put(beanName, bean);
             }
         } else {
+            // scanPackagesEnabled=false，表示“只扫描指定目录”的方式未开启，则所有扫描到的bean都加入beanMap
             beanMap.put(beanName, bean);
         }
 
@@ -283,6 +279,25 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         }
 
         return super.shouldProxyTargetClass(beanClass, beanName);
+    }
+
+    // 是否是“只扫描指定目录”的方式
+    protected boolean scanPackagesEnabled() {
+        return ArrayUtils.isNotEmpty(scanPackages);
+    }
+
+    // 是否指定的beanClass包含在扫描目录中
+    protected boolean scanPackagesContained(Class<?> beanClass) {
+        for (String scanPackage : scanPackages) {
+            if (StringUtils.isNotEmpty(scanPackage)) {
+                String beanClassName = beanClass.getCanonicalName();
+                if (beanClassName.startsWith(scanPackage)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     // 获取切面拦截类的方式
