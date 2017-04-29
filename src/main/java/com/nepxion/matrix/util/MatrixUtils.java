@@ -19,6 +19,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.nepxion.matrix.exception.MatrixException;
 
 public class MatrixUtils {
+    // 该场景只适用于同时满足如下三个条件（更多场景请自行扩展）：
+    // 1. 方法注解parameterAnnotationType，只能放在若干个参数中的一个
+    // 2. 方法注解parameterAnnotationType，对应的参数类型必须匹配给定的类型parameterType
+    // 3. 方法注解parameterAnnotationType，对应的参数值不能为null
     @SuppressWarnings("unchecked")
     public static <T> T getValueByParameterAnnotation(MethodInvocation invocation, Class<?> parameterAnnotationType, Class<T> parameterType) {
         Method method = invocation.getMethod();
@@ -28,11 +32,12 @@ public class MatrixUtils {
         Object[] arguments = invocation.getArguments();
 
         if (ArrayUtils.isEmpty(parameterAnnotations)) {
-            throw new MatrixException("No annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] found");
+            throw new MatrixException("Not found any annotations");
         }
 
         T value = null;
-        int index = 0;
+        int annotationIndex = 0;
+        int valueIndex = 0;
         for (Annotation[] parameterAnnotation : parameterAnnotations) {
             for (Annotation annotation : parameterAnnotation) {
                 if (annotation.annotationType() == parameterAnnotationType) {
@@ -41,7 +46,7 @@ public class MatrixUtils {
                         throw new MatrixException("Only 1 annotation=" + parameterAnnotationType.getName() + " can be added in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
                     }
 
-                    Object object = arguments[index];
+                    Object object = arguments[valueIndex];
                     // 方法注解的值不允许为空
                     if (object == null) {
                         throw new MatrixException("Value for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] is null");
@@ -53,9 +58,15 @@ public class MatrixUtils {
                     }
 
                     value = (T) object;
+
+                    annotationIndex++;
                 }
             }
-            index++;
+            valueIndex++;
+        }
+
+        if (annotationIndex == 0) {
+            throw new MatrixException("Not found annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
         }
 
         return value;

@@ -26,7 +26,7 @@ public class MyInterceptor1 extends AbstractInterceptor {
         Class<?> proxyClass = invocation.getClass();
         String proxyClassName = proxyClass.getCanonicalName();
         Object proxiedObject = invocation.getThis();
-        // Object[] arguments = invocation.getArguments();
+        Object[] arguments = invocation.getArguments();
         Class<?> proxiedClass = proxiedObject.getClass();
         String proxiedClassName = proxiedClass.getCanonicalName();
         Annotation[] classAnnotations = proxiedClass.getAnnotations();
@@ -60,9 +60,18 @@ public class MyInterceptor1 extends AbstractInterceptor {
             System.out.println("      " + methodAnnotation.toString());
         }
 
-        String parameterAnnotationValue = MatrixUtils.getValueByParameterAnnotation(invocation, MyAnnotation5.class, String.class);
-        System.out.println("   parameterAnnotation[MyAnnotation5] value=" + parameterAnnotationValue);
-
+        String parameterAnnotationValue = null;
+        try {
+            parameterAnnotationValue = MatrixUtils.getValueByParameterAnnotation(invocation, MyAnnotation5.class, String.class);
+        } catch (Exception e) {
+            
+        }
+        System.out.println("   parameterAnnotation[MyAnnotation5]'s value=" + parameterAnnotationValue);
+        
+        System.out.println("   arguments=");
+        for (int i = 0; i < arguments.length; i++) {
+            System.out.println("      " + arguments[i].toString());
+        }
         System.out.println("------------------------------------------------------------------------------------------");
 
         return invocation.proceed();
