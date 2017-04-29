@@ -19,7 +19,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.nepxion.matrix.exception.MatrixException;
 
 public class MatrixUtils {
-    // 该场景只适用于同时满足如下三个条件（更多场景请自行扩展）：
+    // 获取参数注解对应的参数值。该场景只适用于同时满足如下三个条件（更多场景请自行扩展）：
     // 1. 方法注解parameterAnnotationType，只能放在若干个参数中的一个
     // 2. 方法注解parameterAnnotationType，对应的参数类型必须匹配给定的类型parameterType
     // 3. 方法注解parameterAnnotationType，对应的参数值不能为null
@@ -72,15 +72,7 @@ public class MatrixUtils {
         return value;
     }
 
-    public static Class<?>[] toClasses(Object[] objects) {
-        Class<?>[] classes = new Class<?>[objects.length];
-        for (int i = 0; i < classes.length; i++) {
-            classes[i] = objects[i].getClass();
-        }
-
-        return classes;
-    }
-
+    // 转换Class数组成字符串格式
     public static String toString(Class<?>[] parameterTypes) {
         if (ArrayUtils.isEmpty(parameterTypes)) {
             return "";
