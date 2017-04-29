@@ -28,7 +28,7 @@ import com.nepxion.matrix.test.service.MyService2Impl;
 public class MyAutoScanProxy extends AbstractAutoScanProxy {
     private static final long serialVersionUID = -481395242918857264L;
 
-    private static final String SCAN_PACKAGE = "com.nepxion.matrix";
+    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix" };
 
     @SuppressWarnings("rawtypes")
     private Class[] commonInterceptorClasses;
@@ -52,14 +52,14 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     // 可以设定多个全局拦截器，也可以设定多个额外拦截器；可以设定拦截触发由全局拦截器执行，还是由额外拦截器执行
     // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
     public MyAutoScanProxy() {
-        // scanPackage                             扫描和代理的目录，如果不指定，则扫描全部
+        // SCAN_PACKAGES                           扫描目录，如果不指定，则扫描全局
         // ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION 对全部注解都进行代理
         // ProxyMode.BY_CLASS_ANNOTATION_ONLY      只代理类或者接口名上注解
         // ProxyMode.BY_METHOD_ANNOTATION_ONLY     只代理方法上的注解
         // ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION 对全部注解都进行扫描
         // ScanMode.FOR_CLASS_ANNOTATION_ONLY      只扫描类或者接口名上注解
         // ScanMode.FOR_METHOD_ANNOTATION_ONLY     只扫描方法上的注解
-        super(SCAN_PACKAGE, ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION, ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION);
+        super(SCAN_PACKAGES, ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION, ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION);
     }
 
     @Override
