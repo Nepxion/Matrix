@@ -207,15 +207,7 @@ My Interceptor 1 :
    methodName=doA
    methodAnnotations=
       @com.nepxion.matrix.test.aop.MyAnnotation3(description=MyAnnotation3, name=MyAnnotation3, label=MyAnnotation3)
-
-My Interceptor 2 :
-   proxyClassName=org.springframework.aop.framework.CglibAopProxy.CglibMethodInvocation
-   className=com.nepxion.matrix.test.service.MyService2Impl
-   classAnnotations=
-      @com.nepxion.matrix.test.aop.MyAnnotation1(description=MyAnnotation1, name=MyAnnotation1, label=MyAnnotation1)
-      @org.springframework.stereotype.Service(value=myService2Impl)
-      @com.nepxion.matrix.test.aop.MyAnnotation2(description=MyAnnotation2, name=MyAnnotation2, label=MyAnnotation2)
-   methodName=doC
-   methodAnnotations=
-      @com.nepxion.matrix.test.aop.MyAnnotation3(description=MyAnnotation3, name=MyAnnotation3, label=MyAnnotation3)
+   parameterAnnotation[MyAnnotation5]'s value=A
+   arguments=
+      A
 ``` 
