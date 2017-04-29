@@ -44,7 +44,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     // Spring容器中哪些类是类代理，哪些类是通过它的接口做代理
     private final Map<String, Boolean> proxyTargetClassMap = new HashMap<String, Boolean>();
 
-    // 扫描目录，如果不指定，则扫描全局
+    // 扫描目录，如果不指定，则扫描全局。两种方式运行结果没区别，只是指定扫描目录加快扫描速度，同时可以减少缓存量
     private String[] scanPackages;
 
     // 通过注解确定代理
