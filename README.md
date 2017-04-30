@@ -24,7 +24,7 @@ Matrix框架一般可以应用到如下场景中：
     4. 强大的注解扫描和拦截功能，在不侵入业务代码的前提下（只是需要在业务端加入一个注解而已），你可以实现业务应用，例如API监控统计、API健康检查等
 
 ## 使用
-示例1，通过全局拦截器实现对类头部注解的扫描和代理
+示例1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
 ```java
 package com.nepxion.matrix.test.simple.aop;
 
@@ -90,7 +90,7 @@ public class MyAutoScanProxyForClassDelegate extends AutoScanProxyDelegate {
 }
 ```
 
-示例2，通过额外拦截器实现对方法头部注解的扫描和代理
+示例2，通过额外拦截器实现对方法头部注解的扫描和代理，详细用法可参考示例3
 ```java
 package com.nepxion.matrix.test.simple.aop;
 
