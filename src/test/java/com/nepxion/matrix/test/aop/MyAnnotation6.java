@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Inherited()
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MyAnnotation5 {
+public @interface MyAnnotation6 {
     String name();
 
     String label();

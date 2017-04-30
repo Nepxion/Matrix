@@ -14,13 +14,13 @@ import com.nepxion.matrix.test.aop.MyAnnotation1;
 import com.nepxion.matrix.test.aop.MyAnnotation2;
 import com.nepxion.matrix.test.aop.MyAnnotation3;
 import com.nepxion.matrix.test.aop.MyAnnotation4;
-import com.nepxion.matrix.test.aop.MyAnnotation5;
+import com.nepxion.matrix.test.aop.MyAnnotation7;
 
 @MyAnnotation1(name = "MyAnnotation1", label = "MyAnnotation1", description = "MyAnnotation1")
 @MyAnnotation2(name = "MyAnnotation2", label = "MyAnnotation2", description = "MyAnnotation2")
 public interface MyService1 {
     @MyAnnotation3(name = "MyAnnotation3", label = "MyAnnotation3", description = "MyAnnotation3")
-    void doA(@MyAnnotation5(name = "MyAnnotation5", label = "MyAnnotation5", description = "MyAnnotation5") String id);
+    void doA(@MyAnnotation7(name = "MyAnnotation7", label = "MyAnnotation7", description = "MyAnnotation7") String id);
 
     @MyAnnotation3(name = "MyAnnotation3", label = "MyAnnotation3", description = "MyAnnotation3")
     @MyAnnotation4(name = "MyAnnotation4", label = "MyAnnotation4", description = "MyAnnotation4")

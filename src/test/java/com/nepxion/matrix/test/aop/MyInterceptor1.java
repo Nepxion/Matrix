@@ -62,11 +62,11 @@ public class MyInterceptor1 extends AbstractInterceptor {
 
         String parameterAnnotationValue = null;
         try {
-            parameterAnnotationValue = MatrixUtils.getValueByParameterAnnotation(invocation, MyAnnotation5.class, String.class);
+            parameterAnnotationValue = MatrixUtils.getValueByParameterAnnotation(invocation, MyAnnotation7.class, String.class);
         } catch (Exception e) {
             
         }
-        System.out.println("   parameterAnnotation[MyAnnotation5]'s value=" + parameterAnnotationValue);
+        System.out.println("   parameterAnnotation[MyAnnotation7]'s value=" + parameterAnnotationValue);
         
         System.out.println("   arguments=");
         for (int i = 0; i < arguments.length; i++) {

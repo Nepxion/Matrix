@@ -15,16 +15,16 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.nepxion.matrix.context.MatrixContextAware;
-import com.nepxion.matrix.test.service.MyService2Impl;
+import com.nepxion.matrix.test.service.MyService6Impl;
 
 @EnableAutoConfiguration
 @ComponentScan(basePackages = { "com.nepxion.matrix.test" })
-public class MyApplication2 {
+public class MyApplication6 {
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(MyApplication2.class, args);
+        SpringApplication.run(MyApplication6.class, args);
 
-        MyService2Impl myService2 = MatrixContextAware.getBean(MyService2Impl.class);
-        myService2.doC("C");
-        myService2.doD("D");
+        MyService6Impl myService6 = MatrixContextAware.getBean(MyService6Impl.class);
+        myService6.doK("K");
+        myService6.doL("L");
     }
 }

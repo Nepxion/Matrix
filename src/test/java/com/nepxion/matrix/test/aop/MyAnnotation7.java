@@ -17,9 +17,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Inherited()
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ ElementType.PARAMETER, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MyAnnotation5 {
+public @interface MyAnnotation7 {
     String name();
 
     String label();

@@ -1,4 +1,4 @@
-package com.nepxion.matrix.test.context;
+package com.nepxion.matrix.context;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -15,19 +15,19 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MyContextAware implements ApplicationContextAware {
+public class MatrixContextAware implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
-    private MyContextAware() {
+    private MatrixContextAware() {
     }
 
     private static void setContext(ApplicationContext applicationContext) {
-        MyContextAware.applicationContext = applicationContext;
+        MatrixContextAware.applicationContext = applicationContext;
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
-        MyContextAware.setContext(applicationContext);
+        MatrixContextAware.setContext(applicationContext);
     }
 
     public static <T> T getBean(Class<T> clazz) {

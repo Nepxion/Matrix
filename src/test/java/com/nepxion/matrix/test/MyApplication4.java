@@ -14,7 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.nepxion.matrix.test.context.MyContextAware;
+import com.nepxion.matrix.context.MatrixContextAware;
 import com.nepxion.matrix.test.service.MyService4Impl;
 
 @EnableAutoConfiguration
@@ -23,7 +23,7 @@ public class MyApplication4 {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(MyApplication4.class, args);
 
-        MyService4Impl myService4 = MyContextAware.getBean(MyService4Impl.class);
+        MyService4Impl myService4 = MatrixContextAware.getBean(MyService4Impl.class);
         myService4.doG("G");
         myService4.doH("H");
     }

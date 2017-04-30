@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 import com.nepxion.matrix.test.aop.MyAnnotation2;
 import com.nepxion.matrix.test.aop.MyAnnotation3;
 import com.nepxion.matrix.test.aop.MyAnnotation4;
-import com.nepxion.matrix.test.aop.MyAnnotation5;
+import com.nepxion.matrix.test.aop.MyAnnotation7;
 
 @Service("myService2Impl")
 @MyAnnotation2(name = "MyAnnotation2", label = "MyAnnotation2", description = "MyAnnotation2")
 public class MyService2Impl {
     @MyAnnotation3(name = "MyAnnotation3", label = "MyAnnotation3", description = "MyAnnotation3")
-    public void doC(@MyAnnotation5(name = "MyAnnotation5", label = "MyAnnotation5", description = "MyAnnotation5") String id) {
+    public void doC(@MyAnnotation7(name = "MyAnnotation7", label = "MyAnnotation7", description = "MyAnnotation7") String id) {
         System.out.println("doC");
     }
 
