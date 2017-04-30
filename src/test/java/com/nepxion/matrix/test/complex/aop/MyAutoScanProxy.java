@@ -77,7 +77,7 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     @Override
     protected Object[] getAdditionalInterceptors(Class<?> targetClass) {
         // 返回额外的拦截类实例列表，拦截类必须实现MethodInterceptor接口，分别对不同的接口或者类赋予不同的拦截类，可以多个
-        // 如果返回null， 额外切面代理关闭
+        // 如果返回null，额外切面代理关闭
 
         // 由int值来表示使用策略
         int strategy = 3;
