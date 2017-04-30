@@ -21,7 +21,7 @@ import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
 import com.nepxion.matrix.test.simple.service.MyService2Impl;
 
-//通过额外拦截器实现对方法头部注解的扫描和代理
+// 通过额外拦截器实现对方法头部注解的扫描和代理
 @Component("myAutoScanProxyForMethodDelegate")
 public class MyAutoScanProxyForMethodDelegate extends AutoScanProxyDelegate {
     private static final long serialVersionUID = -481395242918857264L;
