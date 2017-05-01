@@ -30,7 +30,7 @@ public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
     private Class[] commonInterceptorClasses;
 
     @SuppressWarnings("rawtypes")
-    private Class[] classAnnotations;;
+    private Class[] classAnnotations;
 
     public MyAutoScanProxyForClass() {
         super(SCAN_PACKAGES, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
