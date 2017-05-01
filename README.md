@@ -43,13 +43,13 @@ import java.lang.annotation.Annotation;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.stereotype.Component;
 
-import com.nepxion.matrix.aop.AutoScanProxyDelegate;
+import com.nepxion.matrix.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
 
 // 通过全局拦截器实现对类头部注解的扫描和代理
-@Component("myClassAutoScanProxyDelegate")
-public class MyAutoScanProxyForClassDelegate extends AutoScanProxyDelegate {
+@Component("myAutoScanProxyForClass")
+public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -5968030133395182024L;
 
     private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.test.simple" };
@@ -60,7 +60,7 @@ public class MyAutoScanProxyForClassDelegate extends AutoScanProxyDelegate {
     @SuppressWarnings("rawtypes")
     private Class[] classAnnotations;;
 
-    public MyAutoScanProxyForClassDelegate() {
+    public MyAutoScanProxyForClass() {
         super(SCAN_PACKAGES, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
     }
 
@@ -80,7 +80,6 @@ public class MyAutoScanProxyForClassDelegate extends AutoScanProxyDelegate {
             classAnnotations = new Class[] { MyAnnotation1.class };
         }
         return classAnnotations;
-
     }
 
     @Override
@@ -110,14 +109,14 @@ import java.lang.reflect.Method;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nepxion.matrix.aop.AutoScanProxyDelegate;
+import com.nepxion.matrix.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
 import com.nepxion.matrix.test.simple.service.MyService2Impl;
 
 // 通过额外拦截器实现对方法头部注解的扫描和代理
-@Component("myAutoScanProxyForMethodDelegate")
-public class MyAutoScanProxyForMethodDelegate extends AutoScanProxyDelegate {
+@Component("myAutoScanProxyForMethod")
+public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -481395242918857264L;
 
     private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.test.simple" };
@@ -130,7 +129,7 @@ public class MyAutoScanProxyForMethodDelegate extends AutoScanProxyDelegate {
 
     private Object[] myInterceptor2Array;
 
-    public MyAutoScanProxyForMethodDelegate() {
+    public MyAutoScanProxyForMethod() {
         super(SCAN_PACKAGES, ProxyMode.BY_METHOD_ANNOTATION_ONLY, ScanMode.FOR_METHOD_ANNOTATION_ONLY);
     }
 
