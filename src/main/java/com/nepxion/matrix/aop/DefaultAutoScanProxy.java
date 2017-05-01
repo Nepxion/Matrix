@@ -18,30 +18,30 @@ import org.aopalliance.intercept.MethodInterceptor;
 import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
 
-public class AutoScanProxyDelegate extends AbstractAutoScanProxy {
+public class DefaultAutoScanProxy extends AbstractAutoScanProxy {
     private static final long serialVersionUID = 9073263289068871774L;
 
-    public AutoScanProxyDelegate() {
+    public DefaultAutoScanProxy() {
         super();
     }
 
-    public AutoScanProxyDelegate(String[] scanPackages) {
+    public DefaultAutoScanProxy(String[] scanPackages) {
         super(scanPackages);
     }
 
-    public AutoScanProxyDelegate(ProxyMode proxyMode, ScanMode scanMode) {
+    public DefaultAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode) {
         super(proxyMode, scanMode);
     }
 
-    public AutoScanProxyDelegate(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode) {
+    public DefaultAutoScanProxy(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode) {
         super(scanPackages, proxyMode, scanMode);
     }
 
-    public AutoScanProxyDelegate(ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
+    public DefaultAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
         super(proxyMode, scanMode, exposeProxy);
     }
 
-    public AutoScanProxyDelegate(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
+    public DefaultAutoScanProxy(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
         super(scanPackages, proxyMode, scanMode, exposeProxy);
     }
 

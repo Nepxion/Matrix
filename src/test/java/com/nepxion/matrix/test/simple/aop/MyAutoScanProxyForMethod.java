@@ -16,14 +16,14 @@ import java.lang.reflect.Method;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nepxion.matrix.aop.AutoScanProxyDelegate;
+import com.nepxion.matrix.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
 import com.nepxion.matrix.test.simple.service.MyService2Impl;
 
 // 通过额外拦截器实现对方法头部注解的扫描和代理
-@Component("myAutoScanProxyForMethodDelegate")
-public class MyAutoScanProxyForMethodDelegate extends AutoScanProxyDelegate {
+@Component("myAutoScanProxyForMethod")
+public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -481395242918857264L;
 
     private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.test.simple" };
@@ -36,7 +36,7 @@ public class MyAutoScanProxyForMethodDelegate extends AutoScanProxyDelegate {
 
     private Object[] myInterceptor2Array;
 
-    public MyAutoScanProxyForMethodDelegate() {
+    public MyAutoScanProxyForMethod() {
         super(SCAN_PACKAGES, ProxyMode.BY_METHOD_ANNOTATION_ONLY, ScanMode.FOR_METHOD_ANNOTATION_ONLY);
     }
 
