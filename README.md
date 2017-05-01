@@ -343,25 +343,25 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
 }
 ```
 
-两个重要的输出结果
+代理结果
 ```java
-2017-05-01 12:33:40.683 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Informations ---------------
+2017-05-01 12:33:40.683 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Information ---------------
 2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.test.complex.service.MyService3] is proxied by common interceptors [com.nepxion.matrix.test.complex.aop.MyInterceptor3,com.nepxion.matrix.test.complex.aop.MyInterceptor4], proxyTargetClass=false
 2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.test.complex.service.MyService3] is proxied by additional interceptors [[com.nepxion.matrix.test.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=false
-2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - --------------------------------------------------
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Informations ---------------
+2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
+2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Information ---------------
 2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.test.complex.service.MyService4Impl] is proxied by common interceptors [com.nepxion.matrix.test.complex.aop.MyInterceptor3,com.nepxion.matrix.test.complex.aop.MyInterceptor4], proxyTargetClass=true
 2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.test.complex.service.MyService4Impl] is proxied by additional interceptors [[com.nepxion.matrix.test.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=true
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - --------------------------------------------------
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Informations ---------------
+2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
+2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Information ---------------
 2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.test.complex.service.MyService5Impl] is proxied by common interceptors [com.nepxion.matrix.test.complex.aop.MyInterceptor3,com.nepxion.matrix.test.complex.aop.MyInterceptor4], proxyTargetClass=true
 2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.test.complex.service.MyService5Impl] is proxied by additional interceptors [[com.nepxion.matrix.test.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=true
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - --------------------------------------------------
-2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Informations ---------------
+2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
+2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Information ---------------
 2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.test.complex.service.MyService6Impl] is proxied by common interceptors [com.nepxion.matrix.test.complex.aop.MyInterceptor3,com.nepxion.matrix.test.complex.aop.MyInterceptor4], proxyTargetClass=true
-2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - --------------------------------------------------
+2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
 ``` 
-
+切面结果
 ```java
 My Interceptor 3 :
    proxyClassName=org.springframework.aop.framework.ReflectiveMethodInvocation
