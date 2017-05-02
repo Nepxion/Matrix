@@ -19,7 +19,7 @@ import com.nepxion.matrix.test.complex.aop.MyAnnotation6;
 @Service("myService5Impl")
 public class MyService5Impl {
     // 1. 通过自动装配的方式，自身调用自身的注解方法，但似乎在Spring 4.3.X版本里才有效果（在某些Spring版本没这个效果，未做全面调查）
-    // 如果没这个效果，请使用通过AopContext.currentProxy()的方式，也可以实现自身调用自身的注解方法，达到切面效果
+    // 对于低版本的Spring，请使用通过AopContext.currentProxy()的方式，也可以实现自身调用自身的注解方法，达到切面效果
     @Autowired
     private MyService5Impl myService5;
 
