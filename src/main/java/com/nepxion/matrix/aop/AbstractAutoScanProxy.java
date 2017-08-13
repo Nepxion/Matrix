@@ -295,8 +295,9 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     protected boolean scanPackagesContained(Class<?> beanClass) {
         for (String scanPackage : scanPackages) {
             if (StringUtils.isNotEmpty(scanPackage)) {
+                // beanClassName有时候会为null...
                 String beanClassName = beanClass.getCanonicalName();
-                if (beanClassName.startsWith(scanPackage)) {
+                if (StringUtils.isNotEmpty(beanClassName) && beanClassName.startsWith(scanPackage)) {
                     return true;
                 }
             }
