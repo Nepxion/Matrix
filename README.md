@@ -24,6 +24,18 @@ Matrix框架一般可以应用到如下场景中：
     3. 扫描到一个注解后，你可以做一些处理，例如你可以把注解对应的数据存入数据库
     4. 强大的注解扫描和拦截功能，在不侵入业务代码的前提下（只是需要在业务端加入一个注解而已），你可以实现业务应用，例如API监控统计、API健康检查等
 
+## 注意
+拦截实现类中@Component注解一定要加名称，因为全局拦截机制是根据名称BeanName来的
+```java
+@Component("myInterceptor1")
+public class MyInterceptor1 extends AbstractInterceptor {
+    @Override
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+	    ......
+    }
+}
+```
+
 ## 使用
 示例1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
 ```java
