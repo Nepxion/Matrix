@@ -14,6 +14,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import com.nepxion.matrix.aop.AbstractInterceptor;
@@ -34,6 +35,8 @@ public class MyInterceptor3 extends AbstractInterceptor {
         Method method = invocation.getMethod();
         String methodName = method.getName();
         Annotation[] methodAnnotations = method.getAnnotations();
+
+        String[] parameterNames = getParameterNames(invocation);
 
         System.out.println("------------------------------------------------------------------------------------------");
         System.out.println("My Interceptor 3 :");
@@ -64,13 +67,19 @@ public class MyInterceptor3 extends AbstractInterceptor {
         try {
             parameterAnnotationValue = MatrixUtil.getValueByParameterAnnotation(invocation, MyAnnotation7.class, String.class);
         } catch (Exception e) {
-            
+
         }
         System.out.println("   parameterAnnotation[MyAnnotation7]'s value=" + parameterAnnotationValue);
-        
+
         System.out.println("   arguments=");
         for (int i = 0; i < arguments.length; i++) {
             System.out.println("      " + arguments[i].toString());
+        }
+        if (ArrayUtils.isNotEmpty(parameterNames)) {
+            System.out.println("   parameterNames=");
+            for (int i = 0; i < parameterNames.length; i++) {
+                System.out.println("      " + parameterNames[i].toString());
+            }
         }
         System.out.println("------------------------------------------------------------------------------------------");
 
