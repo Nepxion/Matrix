@@ -53,7 +53,7 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
         String[] parameterNames = getParameterNames(invocation);
         Object[] arguments = invocation.getArguments();
 
-        // 使用SPEL进行key的解析
+        // 使用SPEL进行Key的解析
         ExpressionParser parser = new SpelExpressionParser();
 
         // SPEL上下文
