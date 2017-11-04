@@ -18,7 +18,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.nepxion.matrix.exception.MatrixException;
 
-public class MatrixUtils {
+public class MatrixUtil {
     // 获取参数注解对应的参数值。例如方法doXX(@MyAnnotation String id)，根据MyAnnotation注解和String类型，获得id的值
     // 但下面的方法只适用于同时满足如下三个条件的场景（更多场景请自行扩展）：
     // 1. 方法注解parameterAnnotationType，只能放在若干个参数中的一个

@@ -17,7 +17,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.stereotype.Component;
 
 import com.nepxion.matrix.aop.AbstractInterceptor;
-import com.nepxion.matrix.util.MatrixUtils;
+import com.nepxion.matrix.util.MatrixUtil;
 
 @Component("myInterceptor4")
 public class MyInterceptor4 extends AbstractInterceptor {
@@ -62,7 +62,7 @@ public class MyInterceptor4 extends AbstractInterceptor {
 
         String parameterAnnotationValue = null;
         try {
-            parameterAnnotationValue = MatrixUtils.getValueByParameterAnnotation(invocation, MyAnnotation7.class, String.class);
+            parameterAnnotationValue = MatrixUtil.getValueByParameterAnnotation(invocation, MyAnnotation7.class, String.class);
         } catch (Exception e) {
             
         }

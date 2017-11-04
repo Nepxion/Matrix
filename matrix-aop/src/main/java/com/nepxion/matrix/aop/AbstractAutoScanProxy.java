@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 
 import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
-import com.nepxion.matrix.util.MatrixUtils;
+import com.nepxion.matrix.util.MatrixUtil;
 
 public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private static final long serialVersionUID = 6827218905375993727L;
@@ -185,7 +185,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                     LOG.info("--------------- Proxy Information ---------------");
                     Class<? extends MethodInterceptor>[] commonInterceptors = getCommonInterceptors();
                     if (ArrayUtils.isNotEmpty(commonInterceptors)) {
-                        LOG.info("Class [{}] is proxied by common interceptors [{}], proxyTargetClass={}", targetClassName, MatrixUtils.toString(commonInterceptors), proxyTargetClass);
+                        LOG.info("Class [{}] is proxied by common interceptors [{}], proxyTargetClass={}", targetClassName, MatrixUtil.toString(commonInterceptors), proxyTargetClass);
                     }
 
                     if (proxyInterceptors != PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS && ArrayUtils.isNotEmpty(proxyInterceptors)) {
