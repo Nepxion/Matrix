@@ -22,9 +22,9 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
-public abstract class AbstractInterceptor implements MethodInterceptor {
-    private static final String CGLIB = "Cglib";
+import com.nepxion.matrix.constant.MatrixConstant;
 
+public abstract class AbstractInterceptor implements MethodInterceptor {
     // 通过标准反射来获取变量名，适用于接口代理
     // 只作用在Java8下，同时需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
     // https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
@@ -35,17 +35,29 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
 
     // 获取变量名
     public String[] getParameterNames(MethodInvocation invocation) {
-        Object proxiedObject = invocation.getThis();
-        Class<?> proxiedClass = proxiedObject.getClass();
-        String proxiedClassName = proxiedClass.getCanonicalName();
-
         Method method = invocation.getMethod();
 
-        boolean isCglibAopProxy = proxiedClassName.contains(CGLIB);
+        boolean isCglibAopProxy = isCglibAopProxy(invocation);
         if (isCglibAopProxy) {
             return localVariableTableParameterNameDiscoverer.getParameterNames(method);
         } else {
             return standardReflectionParameterNameDiscoverer.getParameterNames(method);
+        }
+    }
+
+    public boolean isCglibAopProxy(MethodInvocation invocation) {
+        Class<?> proxyClass = invocation.getClass();
+        String proxyClassName = proxyClass.getCanonicalName();
+
+        return proxyClassName.contains(MatrixConstant.CGLIB);
+    }
+
+    public String getProxyType(MethodInvocation invocation) {
+        boolean isCglibAopProxy = isCglibAopProxy(invocation);
+        if (isCglibAopProxy) {
+            return MatrixConstant.PROXY_TYPE_CGLIB;
+        } else {
+            return MatrixConstant.PROXY_TYPE_REFLECTIVE;
         }
     }
 
