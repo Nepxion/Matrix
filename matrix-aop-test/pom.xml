@@ -17,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>nepxion</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>matrix-aop</artifactId>
         </dependency>
 
