@@ -33,6 +33,18 @@ import com.nepxion.matrix.util.MatrixUtil;
 public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private static final long serialVersionUID = 6827218905375993727L;
 
+    static {
+        System.out.println("");
+        System.out.println("╔═╗╔═╗   ╔╗");
+        System.out.println("║║╚╝║║  ╔╝╚╗");
+        System.out.println("║╔╗╔╗╠══╬╗╔╬═╦╦╗╔╗");
+        System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
+        System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
+        System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
+        System.out.println("Nepxion Matrix  v1.0.0.RELEASE");
+        System.out.println("");   
+    }
+
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAutoScanProxy.class);
 
     // Bean名称和Bean对象关联
@@ -154,7 +166,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             } else {
                 Object[] proxyInterceptors = null;
                 switch (proxyMode) {
-                    // 只通过扫描到接口名或者类名上的注解后，来确定是否要代理
+                // 只通过扫描到接口名或者类名上的注解后，来确定是否要代理
                     case BY_CLASS_ANNOTATION_ONLY:
                         proxyInterceptors = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         break;
