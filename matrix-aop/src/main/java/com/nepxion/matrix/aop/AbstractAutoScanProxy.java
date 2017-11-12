@@ -33,6 +33,8 @@ import com.nepxion.matrix.util.MatrixUtil;
 public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private static final long serialVersionUID = 6827218905375993727L;
 
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractAutoScanProxy.class);
+
     static {
         System.out.println("");
         System.out.println("╔═╗╔═╗   ╔╗");
@@ -42,10 +44,8 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
         System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
         System.out.println("Nepxion Matrix  v1.0.0.RELEASE");
-        System.out.println("");   
+        System.out.println("");
     }
-
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractAutoScanProxy.class);
 
     // Bean名称和Bean对象关联
     private final Map<String, Object> beanMap = new HashMap<String, Object>();
