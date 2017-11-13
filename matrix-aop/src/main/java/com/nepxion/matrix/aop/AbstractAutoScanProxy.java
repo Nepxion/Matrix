@@ -91,8 +91,23 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         this.proxyMode = proxyMode;
         this.scanMode = scanMode;
 
+        StringBuilder builder = new StringBuilder();
+        if (ArrayUtils.isNotEmpty(scanPackages)) {
+            for (int i = 0; i < scanPackages.length; i++) {
+                String scanPackage = scanPackages[i];
+                builder.append(scanPackage);
+                if (i < scanPackages.length - 1) {
+                    builder.append(";");
+                }
+            }
+        }
+        LOG.info("---------------- Aop Information ----------------");
+        LOG.info("Auto scan proxy class is {}", getClass().getCanonicalName());
+        LOG.info("Scan packages is {}", builder.toString());
         LOG.info("Proxy mode is {}", proxyMode);
         LOG.info("Scan mode is {}", scanMode);
+        LOG.info("Expose proxy is {}", exposeProxy);
+        LOG.info("-------------------------------------------------");
 
         // 设定全局拦截器，可以是多个
         // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
