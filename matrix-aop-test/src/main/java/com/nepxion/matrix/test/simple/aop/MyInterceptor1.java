@@ -11,7 +11,6 @@ package com.nepxion.matrix.test.simple.aop;
  */
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
@@ -23,18 +22,13 @@ import com.nepxion.matrix.aop.AbstractInterceptor;
 public class MyInterceptor1 extends AbstractInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        Class<?> proxyClass = invocation.getClass();
-        String proxyClassName = proxyClass.getCanonicalName();
-        Object proxiedObject = invocation.getThis();
-        Object[] arguments = invocation.getArguments();
-        Class<?> proxiedClass = proxiedObject.getClass();
-        String proxiedClassName = proxiedClass.getCanonicalName();
-        Annotation[] classAnnotations = proxiedClass.getAnnotations();
-
-        Method method = invocation.getMethod();
-        String methodName = method.getName();
-        Annotation[] methodAnnotations = method.getAnnotations();
-
+        String proxyClassName = getProxyClassName(invocation);
+        Object[] arguments = getArguments(invocation);
+        String proxiedClassName = getProxiedClassName(invocation);
+        Class<?>[] proxiedInterfaces = getProxiedInterfaces(invocation);
+        Annotation[] classAnnotations = getProxiedClassAnnotations(invocation);
+        String methodName = getMethodName(invocation);
+        Annotation[] methodAnnotations = getMethodAnnotations(invocation);
         String[] parameterNames = getParameterNames(invocation);
 
         System.out.println("------------------------------------------------------------------------------------------");
@@ -46,8 +40,8 @@ public class MyInterceptor1 extends AbstractInterceptor {
             System.out.println("      " + classAnnotation.toString());
         }
 
-        if (proxiedClass.getInterfaces() != null) {
-            for (Class<?> proxiedInterface : proxiedClass.getInterfaces()) {
+        if (proxiedInterfaces != null) {
+            for (Class<?> proxiedInterface : proxiedInterfaces) {
                 System.out.println("   interfaceName=" + proxiedInterface.getCanonicalName());
                 System.out.println("   interfaceAnnotations=");
                 for (Annotation interfaceAnnotation : proxiedInterface.getAnnotations()) {
