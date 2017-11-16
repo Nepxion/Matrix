@@ -19,6 +19,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import com.nepxion.matrix.constant.MatrixConstant;
 import com.nepxion.matrix.exception.MatrixException;
@@ -154,5 +158,23 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
         }
 
         return value;
+    }
+
+    public String getSpelKey(MethodInvocation invocation, String prefix, String name, String key) {
+        String[] parameterNames = getParameterNames(invocation);
+        Object[] arguments = getArguments(invocation);
+
+        // 使用SPEL进行Key的解析
+        ExpressionParser parser = new SpelExpressionParser();
+
+        // SPEL上下文
+        EvaluationContext context = new StandardEvaluationContext();
+
+        // 把方法参数放入SPEL上下文中
+        for (int i = 0; i < parameterNames.length; i++) {
+            context.setVariable(parameterNames[i], arguments[i]);
+        }
+
+        return prefix + "_" + name + "_" + parser.parseExpression(key).getValue(context, String.class);
     }
 }
