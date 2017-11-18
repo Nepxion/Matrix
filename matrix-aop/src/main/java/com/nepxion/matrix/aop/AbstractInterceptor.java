@@ -160,7 +160,7 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
         return value;
     }
 
-    public String getSpelKey(MethodInvocation invocation, String prefix, String name, String key) {
+    public String getSpelKey(MethodInvocation invocation, String key) {
         String[] parameterNames = getParameterNames(invocation);
         Object[] arguments = getArguments(invocation);
 
@@ -175,6 +175,6 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
             context.setVariable(parameterNames[i], arguments[i]);
         }
 
-        return prefix + "_" + name + "_" + parser.parseExpression(key).getValue(context, String.class);
+        return parser.parseExpression(key).getValue(context, String.class);
     }
 }
