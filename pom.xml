@@ -11,7 +11,7 @@
 
     <modules>
         <module>matrix-aop</module>
-        <module>matrix-aop-test</module>
+        <module>matrix-aop-spring-boot</module>
     </modules>
 
     <properties>
@@ -35,7 +35,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>matrix-aop-test</artifactId>
+                <artifactId>matrix-aop-spring-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
