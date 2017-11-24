@@ -35,6 +35,8 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAutoScanProxy.class);
 
+    private static final String SEPARATOR = ";";
+
     static {
         System.out.println("");
         System.out.println("╔═╗╔═╗   ╔╗");
@@ -66,7 +68,11 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private ScanMode scanMode;
 
     public AbstractAutoScanProxy() {
-        this(null);
+        this((String[]) null);
+    }
+
+    public AbstractAutoScanProxy(String scanPackages) {
+        this(scanPackages, ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION, ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION);
     }
 
     public AbstractAutoScanProxy(String[] scanPackages) {
@@ -74,7 +80,11 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     }
 
     public AbstractAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode) {
-        this(null, proxyMode, scanMode);
+        this((String[]) null, proxyMode, scanMode);
+    }
+
+    public AbstractAutoScanProxy(String scanPackages, ProxyMode proxyMode, ScanMode scanMode) {
+        this(scanPackages, proxyMode, scanMode, true);
     }
 
     public AbstractAutoScanProxy(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode) {
@@ -82,7 +92,11 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     }
 
     public AbstractAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
-        this(null, proxyMode, scanMode, exposeProxy);
+        this((String[]) null, proxyMode, scanMode, exposeProxy);
+    }
+
+    public AbstractAutoScanProxy(String scanPackages, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
+        this(StringUtils.isNotEmpty(scanPackages) ? scanPackages.trim().split(SEPARATOR) : null, proxyMode, scanMode, exposeProxy);
     }
 
     public AbstractAutoScanProxy(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
@@ -97,7 +111,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                 String scanPackage = scanPackages[i];
                 builder.append(scanPackage);
                 if (i < scanPackages.length - 1) {
-                    builder.append(";");
+                    builder.append(SEPARATOR);
                 }
             }
         }

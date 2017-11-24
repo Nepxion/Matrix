@@ -25,6 +25,10 @@ public class DefaultAutoScanProxy extends AbstractAutoScanProxy {
         super();
     }
 
+    public DefaultAutoScanProxy(String scanPackages) {
+        super(scanPackages);
+    }
+
     public DefaultAutoScanProxy(String[] scanPackages) {
         super(scanPackages);
     }
@@ -33,12 +37,20 @@ public class DefaultAutoScanProxy extends AbstractAutoScanProxy {
         super(proxyMode, scanMode);
     }
 
+    public DefaultAutoScanProxy(String scanPackages, ProxyMode proxyMode, ScanMode scanMode) {
+        super(scanPackages, proxyMode, scanMode);
+    }
+
     public DefaultAutoScanProxy(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode) {
         super(scanPackages, proxyMode, scanMode);
     }
 
     public DefaultAutoScanProxy(ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
         super(proxyMode, scanMode, exposeProxy);
+    }
+
+    public DefaultAutoScanProxy(String scanPackages, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
+        super(scanPackages, proxyMode, scanMode, exposeProxy);
     }
 
     public DefaultAutoScanProxy(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {

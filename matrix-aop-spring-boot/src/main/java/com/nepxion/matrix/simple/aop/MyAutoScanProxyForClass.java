@@ -24,7 +24,8 @@ import com.nepxion.matrix.mode.ScanMode;
 public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -5968030133395182024L;
 
-    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.simple" };
+    // 多个包路径，用“;”分隔
+    private static final String SCAN_PACKAGES = "com.nepxion.matrix.simple";
 
     @SuppressWarnings("rawtypes")
     private Class[] commonInterceptorClasses;
