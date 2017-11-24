@@ -41,7 +41,7 @@ public class MyInterceptor1 extends AbstractInterceptor {
 ## 使用
 示例1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
 ```java
-package com.nepxion.matrix.test.simple.aop;
+package com.nepxion.matrix.simple.aop;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -67,13 +67,13 @@ import com.nepxion.matrix.mode.ScanMode;
 public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -5968030133395182024L;
 
-    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.test.simple" };
+    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.simple" };
 
     @SuppressWarnings("rawtypes")
     private Class[] commonInterceptorClasses;
 
     @SuppressWarnings("rawtypes")
-    private Class[] classAnnotations;;
+    private Class[] classAnnotations;
 
     public MyAutoScanProxyForClass() {
         super(SCAN_PACKAGES, ProxyMode.BY_CLASS_ANNOTATION_ONLY, ScanMode.FOR_CLASS_ANNOTATION_ONLY);
@@ -106,7 +106,7 @@ public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
 
 示例2，通过额外拦截器实现对方法头部注解的扫描和代理，详细用法可参考示例3
 ```java
-package com.nepxion.matrix.test.simple.aop;
+package com.nepxion.matrix.simple.aop;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -127,14 +127,14 @@ import org.springframework.stereotype.Component;
 import com.nepxion.matrix.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
-import com.nepxion.matrix.test.simple.service.MyService2Impl;
+import com.nepxion.matrix.simple.service.MyService2Impl;
 
 // 通过额外拦截器实现对方法头部注解的扫描和代理
 @Component("myAutoScanProxyForMethod")
 public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -481395242918857264L;
 
-    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.test.simple" };
+    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.simple" };
 
     @SuppressWarnings("rawtypes")
     private Class[] methodAnnotations;
@@ -181,7 +181,7 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 
 示例3，该示例比较复杂，为了演示Auto proxy强大的功能
 ```java
-package com.nepxion.matrix.test.complex.aop;
+package com.nepxion.matrix.complex.aop;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -202,16 +202,16 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 import com.nepxion.matrix.aop.AbstractAutoScanProxy;
+import com.nepxion.matrix.complex.service.MyService3;
+import com.nepxion.matrix.complex.service.MyService4Impl;
 import com.nepxion.matrix.mode.ProxyMode;
 import com.nepxion.matrix.mode.ScanMode;
-import com.nepxion.matrix.test.complex.service.MyService3;
-import com.nepxion.matrix.test.complex.service.MyService4Impl;
 
 @Component("myAutoScanProxy")
 public class MyAutoScanProxy extends AbstractAutoScanProxy {
     private static final long serialVersionUID = -481395242918857264L;
 
-    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.test.complex" };
+    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.complex" };
 
     @SuppressWarnings("rawtypes")
     private Class[] commonInterceptorClasses;
@@ -360,37 +360,40 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
 
 代理结果
 ```java
-2017-05-01 12:33:40.683 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Information ---------------
-2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.test.complex.service.MyService3] is proxied by common interceptors [com.nepxion.matrix.test.complex.aop.MyInterceptor3,com.nepxion.matrix.test.complex.aop.MyInterceptor4], proxyTargetClass=false
-2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.test.complex.service.MyService3] is proxied by additional interceptors [[com.nepxion.matrix.test.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=false
+2017-05-01 12:33:40.683 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Matrix Proxy Information ---------------
+2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.complex.service.MyService3] is proxied by common interceptors [com.nepxion.matrix.complex.aop.MyInterceptor3,com.nepxion.matrix.complex.aop.MyInterceptor4], proxyTargetClass=false
+2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.complex.service.MyService3] is proxied by additional interceptors [[com.nepxion.matrix.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=false
 2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Information ---------------
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.test.complex.service.MyService4Impl] is proxied by common interceptors [com.nepxion.matrix.test.complex.aop.MyInterceptor3,com.nepxion.matrix.test.complex.aop.MyInterceptor4], proxyTargetClass=true
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.test.complex.service.MyService4Impl] is proxied by additional interceptors [[com.nepxion.matrix.test.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=true
+2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Matrix Proxy Information ---------------
+2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.complex.service.MyService4Impl] is proxied by common interceptors [com.nepxion.matrix.complex.aop.MyInterceptor3,com.nepxion.matrix.complex.aop.MyInterceptor4], proxyTargetClass=true
+2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.complex.service.MyService4Impl] is proxied by additional interceptors [[com.nepxion.matrix.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=true
 2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Information ---------------
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.test.complex.service.MyService5Impl] is proxied by common interceptors [com.nepxion.matrix.test.complex.aop.MyInterceptor3,com.nepxion.matrix.test.complex.aop.MyInterceptor4], proxyTargetClass=true
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.test.complex.service.MyService5Impl] is proxied by additional interceptors [[com.nepxion.matrix.test.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=true
+2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Matrix Proxy Information ---------------
+2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.complex.service.MyService5Impl] is proxied by common interceptors [com.nepxion.matrix.complex.aop.MyInterceptor3,com.nepxion.matrix.complex.aop.MyInterceptor4], proxyTargetClass=true
+2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.complex.service.MyService5Impl] is proxied by additional interceptors [[com.nepxion.matrix.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=true
 2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
-2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Proxy Information ---------------
-2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.test.complex.service.MyService6Impl] is proxied by common interceptors [com.nepxion.matrix.test.complex.aop.MyInterceptor3,com.nepxion.matrix.test.complex.aop.MyInterceptor4], proxyTargetClass=true
+2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Matrix Proxy Information ---------------
+2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.complex.service.MyService6Impl] is proxied by common interceptors [com.nepxion.matrix.complex.aop.MyInterceptor3,com.nepxion.matrix.complex.aop.MyInterceptor4], proxyTargetClass=true
 2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
 ``` 
+
 切面结果
 ```java
 My Interceptor 3 :
    proxyClassName=org.springframework.aop.framework.ReflectiveMethodInvocation
-   className=com.nepxion.matrix.test.complex.service.MyService3Impl
+   className=com.nepxion.matrix.complex.service.MyService3Impl
    classAnnotations=
       @org.springframework.stereotype.Service(value=myService3Impl)
-   interfaceName=com.nepxion.matrix.test.complex.service.MyService3
+   interfaceName=com.nepxion.matrix.complex.service.MyService3
    interfaceAnnotations=
-      @com.nepxion.matrix.test.complex.aop.MyAnnotation3(description=MyAnnotation3, name=MyAnnotation3, label=MyAnnotation3)
-      @com.nepxion.matrix.test.complex.aop.MyAnnotation4(description=MyAnnotation4, name=MyAnnotation4, label=MyAnnotation4)
+      @com.nepxion.matrix.complex.aop.MyAnnotation3(description=MyAnnotation3, name=MyAnnotation3, label=MyAnnotation3)
+      @com.nepxion.matrix.complex.aop.MyAnnotation4(description=MyAnnotation4, name=MyAnnotation4, label=MyAnnotation4)
    methodName=doE
    methodAnnotations=
-      @com.nepxion.matrix.test.complex.aop.MyAnnotation5(description=MyAnnotation5, name=MyAnnotation5, label=MyAnnotation5)
+      @com.nepxion.matrix.complex.aop.MyAnnotation5(description=MyAnnotation5, name=MyAnnotation5, label=MyAnnotation5)
    parameterAnnotation[MyAnnotation7]'s value=E
    arguments=
       E
+   parameterNames=
+      id
 ``` 
