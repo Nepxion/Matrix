@@ -31,7 +31,8 @@ import com.nepxion.matrix.util.MatrixUtil;
 public abstract class AbstractInterceptor implements MethodInterceptor {
     // 通过标准反射来获取变量名，适用于接口代理
     // 只作用在Java8下，同时需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
-    // https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
+    // 1)Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
+    // 2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
     private ParameterNameDiscoverer standardReflectionParameterNameDiscoverer = new StandardReflectionParameterNameDiscoverer();
 
     // 通过解析字节码文件的本地变量表来获取的，只支持CGLIG(ASM library)，适用于类代理
