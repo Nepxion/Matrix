@@ -1,7 +1,7 @@
 # Matrix AOP
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-基于Spring AOP AutoProxy机制定制，可以轻松快速实现对接口或者类的复杂代理业务
+Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高的通用性，健壮性，灵活性和易用性。它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务
 
 ## 介绍
     1. 实现接口走Spring代理，类走CGLIB代理
@@ -16,12 +16,12 @@
        标准反射的方式，需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
        1)Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
        2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
+
 ## 应用
 Matrix框架一般可以应用到如下场景中：
-
     1. 对于有复杂AOP使用场景的，用Matrix可以简化你的切面开发。例如：
-    1.1 根据不同的业务逻辑，指定所有的注解由同一个或者多个拦截类来拦截；也可以指定不同的注解由不同的切面拦截类来拦截；更可以指定不同的接口和实现类，由不同的拦截类来拦截
-    1.2 如果注解很多，可以指定，你只关心哪些类注解，哪些方法注解，不管这些注解是你自定义的，还是系统定义的
+       1.1 根据不同的业务逻辑，指定所有的注解由同一个或者多个拦截类来拦截；也可以指定不同的注解由不同的切面拦截类来拦截；更可以指定不同的接口和实现类，由不同的拦截类来拦截
+       1.2 如果注解很多，可以指定，你只关心哪些类注解，哪些方法注解，不管这些注解是你自定义的，还是系统定义的
     2. 注解加在接口上，还是实现类上，或者没有接口的类，可以随意换
     3. 扫描到一个注解后，你可以做一些处理，例如你可以把注解对应的数据存入数据库
     4. 强大的注解扫描和拦截功能，在不侵入业务代码的前提下（只是需要在业务端加入一个注解而已），你可以实现业务应用，例如API监控统计、API健康检查等
@@ -38,7 +38,7 @@ public class MyInterceptor1 extends AbstractInterceptor {
 }
 ```
 
-## 使用
+## 示例
 示例1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
 ```java
 package com.nepxion.matrix.simple.aop;
