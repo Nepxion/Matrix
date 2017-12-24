@@ -1,4 +1,4 @@
-# Matrix AOP
+# Nepxion Matrix
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
 Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高的通用性，健壮性，灵活性和易用性。它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务
@@ -18,7 +18,7 @@ Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高�
        1)Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
        2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
 
-## 应用
+## 场景
 Matrix框架一般可以应用到如下场景中：
 
     1. 对于有复杂AOP使用场景的，用Matrix可以简化你的切面开发。例如：
@@ -41,7 +41,7 @@ public class MyInterceptor1 extends AbstractInterceptor {
 ```
 
 ## 示例
-示例1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
+调用入口1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
 ```java
 package com.nepxion.matrix.simple.aop;
 
@@ -129,7 +129,7 @@ public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
 }
 ```
 
-示例2，通过额外拦截器实现对方法头部注解的扫描和代理，详细用法可参考示例3
+调用入口2，通过额外拦截器实现对方法头部注解的扫描和代理，详细用法可参考示例3
 ```java
 package com.nepxion.matrix.simple.aop;
 
@@ -204,7 +204,7 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 }
 ```
 
-示例3，该示例比较复杂，为了演示Auto proxy强大的功能
+调用入口3，该示例比较复杂，为了演示Auto proxy强大的功能
 ```java
 package com.nepxion.matrix.complex.aop;
 
