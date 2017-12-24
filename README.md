@@ -4,18 +4,18 @@
 基于Spring AOP AutoProxy机制定制，可以轻松快速实现对接口或者类的复杂代理业务
 
 ## 介绍
-1. 实现接口走Spring代理，类走CGLIB代理
-2. 实现同一进程中，可以接口代理和类代理同存
-3. 实现对类或者接口名上注解Annotation，方法上注解Annotation的快速扫描，并开放处理接口供业务端实现
-4. 实现“只扫描不代理”，“既扫描又代理”；代理支持“只代理类或者接口名上注解”、“只代理方法上的注解”、“全部代理”三种模式；扫描支持“只扫描类或者接口名上注解”、“只扫描方法上的注解”、“全部扫描”三种模式
-5. 实现“代理和扫描多个注解“
-6. 实现“支持多个切面实现类Interceptor做调用拦截”  
-7. 实现“自身调用自身的注解方法，达到切面效果”，提供自动装配(Spring 4.3.X以上的版本支持)和AopContext.currentProxy()两种方式
-8. 实现“只扫描指定目录”和“扫描全局目录”两种方式
-9. 实现根据Java8的特性来获取注解对应方法上的变量名(不是变量类型)，支持标准反射和字节码CGLIG(ASM library)来获取，前者适用于接口代理，后者适用于类代理
-   标准反射的方式，需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
-   1)Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
-   2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
+    1. 实现接口走Spring代理，类走CGLIB代理
+    2. 实现同一进程中，可以接口代理和类代理同存
+    3. 实现对类或者接口名上注解Annotation，方法上注解Annotation的快速扫描，并开放处理接口供业务端实现
+    4. 实现“只扫描不代理”，“既扫描又代理”；代理支持“只代理类或者接口名上注解”、“只代理方法上的注解”、“全部代理”三种模式；扫描支持“只扫描类或者接口名上注解”、“只扫描方法上的注解”、“全部扫描”三种模式
+    5. 实现“代理和扫描多个注解“
+    6. 实现“支持多个切面实现类Interceptor做调用拦截”  
+    7. 实现“自身调用自身的注解方法，达到切面效果”，提供自动装配(Spring 4.3.X以上的版本支持)和AopContext.currentProxy()两种方式
+    8. 实现“只扫描指定目录”和“扫描全局目录”两种方式
+    9. 实现根据Java8的特性来获取注解对应方法上的变量名(不是变量类型)，支持标准反射和字节码CGLIG(ASM library)来获取，前者适用于接口代理，后者适用于类代理
+       标准反射的方式，需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
+       1)Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
+       2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
 ## 应用
 Matrix框架一般可以应用到如下场景中：
 
