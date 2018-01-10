@@ -1,5 +1,6 @@
 # Nepxion Matrix
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/Nepxion/Matrix/blob/master/LICENSE)
+[![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/matrix.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20matrix)
 [![Build Status](https://travis-ci.org/Nepxion/Matrix.svg?branch=master)](https://travis-ci.org/Nepxion/Matrix)
 
 Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高的通用性，健壮性，灵活性和易用性。它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务
@@ -28,6 +29,16 @@ Matrix框架一般可以应用到如下场景中：
     2. 注解加在接口上，还是实现类上，或者没有接口的类，可以随意换
     3. 扫描到一个注解后，你可以做一些处理，例如你可以把注解对应的数据存入数据库
     4. 强大的注解扫描和拦截功能，在不侵入业务代码的前提下(只是需要在业务端加入一个注解而已)，你可以实现业务应用，例如API监控统计、API健康检查等
+
+### 依赖
+
+```xml
+<dependency>
+  <groupId>com.nepxion</groupId>
+  <artifactId>matrix-aop</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
 
 ## 注意
 拦截实现类中@Component注解一定要加名称，因为全局拦截机制是根据名称BeanName来的
