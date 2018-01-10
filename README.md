@@ -36,7 +36,7 @@ Matrix框架一般可以应用到如下场景中：
 <dependency>
   <groupId>com.nepxion</groupId>
   <artifactId>matrix-aop</artifactId>
-  <version>1.0.0</version>
+  <version>${matrix.version}</version>
 </dependency>
 ```
 
