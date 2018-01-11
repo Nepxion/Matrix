@@ -145,6 +145,13 @@
         </profile>
     </profiles>
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
     <scm>
         <url>https://github.com/Nepxion/Matrix</url>
         <connection>scm:git:https://github.com/Nepxion/Matrix.git</connection>
@@ -152,12 +159,10 @@
         <tag>v${project.version}</tag>
     </scm>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
+    <organization>
+        <name>Nepxion</name>
+        <url>http://www.nepxion.com</url>
+    </organization>
 
     <developers>
         <developer>
