@@ -15,5 +15,5 @@
 @title Nepxion Matrix
 @color 0a
 
-mvn versions:set -DnewVersion=1.0.5
+mvn versions:set -DnewVersion=1.0.6
 pause
