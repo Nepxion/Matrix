@@ -6,7 +6,7 @@
     <name>Nepxion Matrix</name>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <description>Nepxion Matrix is an AOP framework based on Spring AutoProxy to encapsulate Spring and CGLIB proxy</description>
     <url>http://www.nepxion.com</url>
 
