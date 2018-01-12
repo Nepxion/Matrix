@@ -64,7 +64,6 @@ package com.nepxion.matrix.simple.aop;
  * <p>Copyright: Copyright (c) 2017</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
- * @email 1394997@qq.com
  * @version 1.0
  */
 
@@ -86,7 +85,6 @@ package com.nepxion.matrix.simple.aop;
  * <p>Copyright: Copyright (c) 2017</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
- * @email 1394997@qq.com
  * @version 1.0
  */
 
@@ -152,7 +150,6 @@ package com.nepxion.matrix.simple.aop;
  * <p>Copyright: Copyright (c) 2017</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
- * @email 1394997@qq.com
  * @version 1.0
  */
 
@@ -227,7 +224,6 @@ package com.nepxion.matrix.complex.aop;
  * <p>Copyright: Copyright (c) 2017</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
- * @email 1394997@qq.com
  * @version 1.0
  */
 
