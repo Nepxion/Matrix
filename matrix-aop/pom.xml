@@ -5,6 +5,8 @@
     <name>Nepxion Matrix Aop</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
+    <description>Nepxion Matrix is an AOP framework based on Spring AutoProxy to encapsulate Spring and CGLIB proxy</description>
+    <url>http://www.nepxion.com</url>
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>matrix</artifactId>
