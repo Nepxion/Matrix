@@ -154,7 +154,8 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
         }
 
         if (annotationIndex == 0) {
-            throw new MatrixException("Not found annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
+            return null;
+            // throw new MatrixException("Not found annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
         }
 
         return value;
