@@ -28,7 +28,7 @@ public class MyInterceptor3 extends AbstractInterceptor {
         Annotation[] classAnnotations = getProxiedClassAnnotations(invocation);
         String methodName = getMethodName(invocation);
         Annotation[] methodAnnotations = getMethodAnnotations(invocation);
-        String[] parameterNames = getParameterNames(invocation);
+        String[] parameterNames = getMethodParameterNames(invocation);
         String parameterAnnotationValue = null;
         try {
             parameterAnnotationValue = getValueByParameterAnnotation(invocation, MyAnnotation7.class, String.class);
