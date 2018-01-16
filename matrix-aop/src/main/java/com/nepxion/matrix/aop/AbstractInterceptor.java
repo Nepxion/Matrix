@@ -86,12 +86,23 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
         return getMethod(invocation).getName();
     }
 
-    public Object[] getArguments(MethodInvocation invocation) {
-        return invocation.getArguments();
+    public Annotation[][] getMethodParameterAnnotations(MethodInvocation invocation) {
+        return getMethod(invocation).getParameterAnnotations();
+    }
+
+    public Class<?>[] getMethodParameterTypes(MethodInvocation invocation) {
+        return getMethod(invocation).getParameterTypes();
+    }
+
+    public String getMethodParameterTypesValue(MethodInvocation invocation) {
+        Class<?>[] parameterTypes = getMethodParameterTypes(invocation);
+        String parameterTypesValue = MatrixUtil.toString(parameterTypes);
+
+        return parameterTypesValue;
     }
 
     // 获取变量名
-    public String[] getParameterNames(MethodInvocation invocation) {
+    public String[] getMethodParameterNames(MethodInvocation invocation) {
         Method method = getMethod(invocation);
 
         boolean isCglibAopProxy = isCglibAopProxy(invocation);
@@ -106,6 +117,10 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
         return getMethod(invocation).getAnnotations();
     }
 
+    public Object[] getArguments(MethodInvocation invocation) {
+        return invocation.getArguments();
+    }
+
     // 获取参数注解对应的参数值。例如方法doXX(@MyAnnotation String id)，根据MyAnnotation注解和String类型，获得id的值
     // 但下面的方法只适用于同时满足如下三个条件的场景（更多场景请自行扩展）：
     // 1. 方法注解parameterAnnotationType，只能放在若干个参数中的一个
@@ -113,11 +128,10 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
     // 3. 方法注解parameterAnnotationType，对应的参数值不能为null
     @SuppressWarnings("unchecked")
     public <T> T getValueByParameterAnnotation(MethodInvocation invocation, Class<?> parameterAnnotationType, Class<T> parameterType) {
-        Method method = invocation.getMethod();
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        String parameterTypesValue = MatrixUtil.toString(parameterTypes);
-        Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-        Object[] arguments = invocation.getArguments();
+        String methodName = getMethodName(invocation);
+        String parameterTypesValue = getMethodParameterTypesValue(invocation);
+        Annotation[][] parameterAnnotations = getMethodParameterAnnotations(invocation);
+        Object[] arguments = getArguments(invocation);
 
         if (ArrayUtils.isEmpty(parameterAnnotations)) {
             throw new MatrixException("Not found any annotations");
@@ -131,18 +145,18 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
                 if (annotation.annotationType() == parameterAnnotationType) {
                     // 方法注解在方法上只允许有一个（通过判断value的重复赋值）
                     if (value != null) {
-                        throw new MatrixException("Only 1 annotation=" + parameterAnnotationType.getName() + " can be added in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
+                        throw new MatrixException("Only 1 annotation=" + parameterAnnotationType.getName() + " can be added in method [name=" + methodName + ", parameterTypes=" + parameterTypesValue + "]");
                     }
 
                     Object object = arguments[valueIndex];
                     // 方法注解的值不允许为空
                     if (object == null) {
-                        throw new MatrixException("Value for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] is null");
+                        throw new MatrixException("Value for annotation=" + parameterAnnotationType.getName() + " in method [name=" + methodName + ", parameterTypes=" + parameterTypesValue + "] is null");
                     }
 
                     // 方法注解的类型不匹配
                     if (object.getClass() != parameterType) {
-                        throw new MatrixException("Type for annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "] must be " + parameterType.getName());
+                        throw new MatrixException("Type for annotation=" + parameterAnnotationType.getName() + " in method [name=" + methodName + ", parameterTypes=" + parameterTypesValue + "] must be " + parameterType.getName());
                     }
 
                     value = (T) object;
@@ -155,14 +169,14 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
 
         if (annotationIndex == 0) {
             return null;
-            // throw new MatrixException("Not found annotation=" + parameterAnnotationType.getName() + " in method [name=" + method.getName() + ", parameterTypes=" + parameterTypesValue + "]");
+            // throw new MatrixException("Not found annotation=" + parameterAnnotationType.getName() + " in method [name=" + methodName + ", parameterTypes=" + parameterTypesValue + "]");
         }
 
         return value;
     }
 
     public String getSpelKey(MethodInvocation invocation, String key) {
-        String[] parameterNames = getParameterNames(invocation);
+        String[] parameterNames = getMethodParameterNames(invocation);
         Object[] arguments = getArguments(invocation);
 
         // 使用SPEL进行Key的解析
