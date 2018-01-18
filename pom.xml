@@ -12,7 +12,7 @@
 
     <modules>
         <module>matrix-aop</module>
-        <module>matrix-aop-spring-boot-example</module>
+        <module>matrix-spring-boot-example</module>
     </modules>
 
     <properties>
