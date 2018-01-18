@@ -5,8 +5,8 @@
 @echo $                                                           $
 @echo $                                                           $
 @echo $                                                           $
-@echo $  Nepxion Technologies All Right Reserved                  $
-@echo $  Copyright(C) 2017                                        $
+@echo $  Nepxion Studio All Right Reserved                        $
+@echo $  Copyright (C) 2017-2050                                  $
 @echo $                                                           $
 @echo =============================================================
 @echo.
@@ -15,5 +15,6 @@
 @title Nepxion Matrix
 @color 0a
 
-mvn versions:set -DnewVersion=1.0.8
+call mvn versions:set -DnewVersion=1.0.8
+
 pause
