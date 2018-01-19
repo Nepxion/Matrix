@@ -116,7 +116,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         }
         LOG.info("------------- Matrix Aop Information ------------");
         LOG.info("Auto scan proxy class is {}", getClass().getCanonicalName());
-        LOG.info("Scan packages is {}", builder.toString());
+        LOG.info("Scan packages is {}", ArrayUtils.isNotEmpty(scanPackages) ? builder.toString() : "not set");
         LOG.info("Proxy mode is {}", proxyMode);
         LOG.info("Scan mode is {}", scanMode);
         LOG.info("Expose proxy is {}", exposeProxy);
