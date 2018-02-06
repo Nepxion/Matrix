@@ -1,7 +1,7 @@
 # Nepxion Matrix
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Matrix/blob/master/LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/matrix.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20matrix)
-[![Javadocs](http://www.javadoc.io/badge/com.nepxion/matrix.svg)](http://www.javadoc.io/doc/com.nepxion/matrix)
+[![Javadocs](http://www.javadoc.io/badge/com.nepxion/matrix-aop.svg)](http://www.javadoc.io/doc/com.nepxion/matrix-aop)
 [![Build Status](https://travis-ci.org/Nepxion/Matrix.svg?branch=master)](https://travis-ci.org/Nepxion/Matrix)
 
 Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高的通用性，健壮性，灵活性和易用性。它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务
@@ -56,27 +56,6 @@ public class MyInterceptor1 extends AbstractInterceptor {
 ## 示例
 调用入口1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
 ```java
-package com.nepxion.matrix.simple.aop;
-
-/**
- * <p>Title: Nepxion Matrix</p>
- * <p>Description: Nepxion Matrix AOP</p>
- * <p>Copyright: Copyright (c) 2017</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.lang.annotation.Annotation;
-
-import org.aopalliance.intercept.MethodInterceptor;
-import org.springframework.stereotype.Component;
-
-import com.nepxion.matrix.aop.DefaultAutoScanProxy;
-import com.nepxion.matrix.mode.ProxyMode;
-import com.nepxion.matrix.mode.ScanMode;
-
-// 通过全局拦截器实现对类头部注解的扫描和代理
 package com.nepxion.matrix.simple.aop;
 
 /**
