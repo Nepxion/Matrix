@@ -40,6 +40,18 @@ import org.springframework.util.StringUtils;
 public abstract class AbstractRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, BeanClassLoaderAware, EnvironmentAware {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRegistrar.class);
 
+    static {
+        System.out.println("");
+        System.out.println("╔═╗╔═╗   ╔╗");
+        System.out.println("║║╚╝║║  ╔╝╚╗");
+        System.out.println("║╔╗╔╗╠══╬╗╔╬═╦╦╗╔╗");
+        System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
+        System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
+        System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
+        System.out.println("Nepxion Matrix - Registrar  v1.0.10");
+        System.out.println("");
+    }
+
     private ResourceLoader resourceLoader;
     private ClassLoader classLoader;
     private Environment environment;
