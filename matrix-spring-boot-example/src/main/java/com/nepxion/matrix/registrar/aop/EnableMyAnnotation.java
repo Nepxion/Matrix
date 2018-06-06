@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-@Import(MyAnnotationsRegistrar.class)
+@Import(MyRegistrar.class)
 public @interface EnableMyAnnotation {
     String[] value() default {};
 

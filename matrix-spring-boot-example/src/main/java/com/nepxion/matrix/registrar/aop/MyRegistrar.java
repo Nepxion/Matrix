@@ -11,9 +11,12 @@ package com.nepxion.matrix.registrar.aop;
 
 import java.lang.annotation.Annotation;
 
-import com.nepxion.matrix.registrar.AbstractAnnotationsRegistrar;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.springframework.beans.MutablePropertyValues;
 
-public class MyAnnotationsRegistrar extends AbstractAnnotationsRegistrar {
+import com.nepxion.matrix.registrar.AbstractRegistrar;
+
+public class MyRegistrar extends AbstractRegistrar {
     @Override
     protected Class<? extends Annotation> getEnableAnnotationClass() {
         return EnableMyAnnotation.class;
@@ -26,6 +29,11 @@ public class MyAnnotationsRegistrar extends AbstractAnnotationsRegistrar {
 
     @Override
     protected Class<?> getBeanClass() {
-        return MyBean.class;
+        return MyRegistrarFactoryBean.class;
+    }
+
+    @Override
+    protected MethodInterceptor getInterceptor(MutablePropertyValues annotationValues) {
+        return new MyInterceptor(annotationValues);
     }
 }

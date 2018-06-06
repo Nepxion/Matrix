@@ -14,8 +14,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.aopalliance.intercept.MethodInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -35,14 +37,14 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
-public abstract class AbstractAnnotationsRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, BeanClassLoaderAware, EnvironmentAware {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractAnnotationsRegistrar.class);
+public abstract class AbstractRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, BeanClassLoaderAware, EnvironmentAware {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractRegistrar.class);
 
     private ResourceLoader resourceLoader;
     private ClassLoader classLoader;
     private Environment environment;
 
-    public AbstractAnnotationsRegistrar() {
+    public AbstractRegistrar() {
 
     }
 
@@ -95,13 +97,20 @@ public abstract class AbstractAnnotationsRegistrar implements ImportBeanDefiniti
         LOG.info("Found annotation [{}] in {} ", getAnnotationClass().getSimpleName(), className);
 
         BeanDefinitionBuilder definition = BeanDefinitionBuilder.genericBeanDefinition(getBeanClass());
+        AbstractBeanDefinition beanDefinition = definition.getBeanDefinition();
 
         customize(registry, annotationMetadata, attributes, definition);
+
+        try {
+            definition.addPropertyValue("interfaze", Class.forName(className));
+        } catch (ClassNotFoundException e) {
+            LOG.error("Get interface for name error", e);
+        }
+        definition.addPropertyValue("interceptor", getInterceptor(beanDefinition.getPropertyValues()));
 
         definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
 
         String alias = className;
-        AbstractBeanDefinition beanDefinition = definition.getBeanDefinition();
 
         BeanDefinitionHolder holder = new BeanDefinitionHolder(beanDefinition, className, new String[] { alias });
         BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
@@ -114,7 +123,7 @@ public abstract class AbstractAnnotationsRegistrar implements ImportBeanDefiniti
                 if (beanDefinition.getMetadata().isIndependent()) {
                     if (beanDefinition.getMetadata().isInterface() && beanDefinition.getMetadata().getInterfaceNames().length == 1 && Annotation.class.getName().equals(beanDefinition.getMetadata().getInterfaceNames()[0])) {
                         try {
-                            Class<?> target = ClassUtils.forName(beanDefinition.getMetadata().getClassName(), AbstractAnnotationsRegistrar.this.classLoader);
+                            Class<?> target = ClassUtils.forName(beanDefinition.getMetadata().getClassName(), AbstractRegistrar.this.classLoader);
 
                             return !target.isAnnotation();
                         } catch (Exception ex) {
@@ -166,4 +175,6 @@ public abstract class AbstractAnnotationsRegistrar implements ImportBeanDefiniti
     protected abstract Class<? extends Annotation> getAnnotationClass();
 
     protected abstract Class<?> getBeanClass();
+
+    protected abstract MethodInterceptor getInterceptor(MutablePropertyValues annotationValues);
 }

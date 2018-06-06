@@ -14,7 +14,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class MyBean {
+import com.nepxion.matrix.registrar.RegistrarFactoryBean;
+
+public class MyRegistrarFactoryBean extends RegistrarFactoryBean {
     private String name;
     private String label;
     private String description;

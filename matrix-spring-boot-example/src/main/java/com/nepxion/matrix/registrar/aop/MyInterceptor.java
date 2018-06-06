@@ -9,21 +9,24 @@ package com.nepxion.matrix.registrar.aop;
  * @version 1.0
  */
 
-import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.MutablePropertyValues;
 
-public class MyInterceptor implements MethodInterceptor {
+import com.nepxion.matrix.registrar.AbstractRegistrarInterceptor;
+
+public class MyInterceptor extends AbstractRegistrarInterceptor {
+    public MyInterceptor(MutablePropertyValues annotationValues) {
+        super(annotationValues);
+    }
+
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        String interfaze = invocation.getMethod().getDeclaringClass().getCanonicalName();
-        MyBean myBean = null;
-        try {
-            myBean = MyContextAware.getBean(interfaze, MyBean.class);
-            System.out.println("接口=" + interfaze + "，对应注解对象 =" + myBean);
-            return "接口[" + interfaze + "]找到@MyAnnotation，走特殊代理";
-        } catch (NoSuchBeanDefinitionException e) { // 如果接口类上没有相关的注解，会抛出NoSuchBeanDefinitionException
-            return "接口[" + interfaze + "]没找到@MyAnnotation，走其它代理";
-        }
+        String interfaze = getInterface(invocation);
+
+        System.out.println("Interface=" + interfaze + ", annotation:name=" + annotationValues.get("name") + ", label=" + annotationValues.get("label") + ", description=" + annotationValues.get("description"));
+
+        // 实现业务代码
+
+        return null;
     }
 }
