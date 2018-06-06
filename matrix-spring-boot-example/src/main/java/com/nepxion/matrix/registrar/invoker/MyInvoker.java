@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar;
+package com.nepxion.matrix.registrar.invoker;
 
 /**
  * <p>Title: Nepxion Matrix</p>

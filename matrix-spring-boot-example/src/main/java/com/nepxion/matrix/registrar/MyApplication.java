@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.nepxion.matrix.registrar.aop.EnableMyAnnotation;
 import com.nepxion.matrix.registrar.context.MyContextAware;
+import com.nepxion.matrix.registrar.invoker.MyInvoker;
 
 @SpringBootApplication
 @EnableMyAnnotation(basePackages = "com.nepxion.matrix.registrar.service")
