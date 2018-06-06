@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar.aop;
+package com.nepxion.matrix.registrar.context;
 
 /**
  * <p>Title: Nepxion Matrix</p>
