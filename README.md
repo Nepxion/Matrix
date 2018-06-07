@@ -20,6 +20,7 @@ Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高�
        标准反射的方式，需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
        1)Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
        2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
+    10. 实现象@FeignClient注解那样，只有接口没有实现类，就能实现注入和动态代理，参考单独模块com.nepxion.matrix.registrar
 
 ## 场景
 Matrix框架一般可以应用到如下场景中：
