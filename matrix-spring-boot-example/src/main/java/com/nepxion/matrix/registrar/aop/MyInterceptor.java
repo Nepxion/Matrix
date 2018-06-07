@@ -21,12 +21,20 @@ public class MyInterceptor extends AbstractRegistrarInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        Object interfaze = annotationValues.get("interfaze");
-        Object name = annotationValues.get("name");
-        Object label = annotationValues.get("label");
-        Object description = annotationValues.get("description");
-        
-        System.out.println("Interface=" + interfaze + ", annotation:name=" + name + ", label=" + label + ", description=" + description);
+        System.out.println("-------------------------------------------------");
+        String interfaze = getInterface(invocation);
+        String methodName = getMethodName(invocation);
+        Object[] arguments = getArguments(invocation);
+
+        System.out.println("Interface=" + interfaze + ", methodName=" + methodName + ", arguments=" + arguments[0]);
+
+        Class<?> interfaceClass = (Class<?>) annotationValues.get("interfaze");
+        String name = annotationValues.get("name").toString();
+        String label = annotationValues.get("label").toString();
+        String description = annotationValues.get("description").toString();
+
+        System.out.println("Interface class=" + interfaceClass + ", annotation:name=" + name + ", label=" + label + ", description=" + description);
+        System.out.println("-------------------------------------------------");
 
         // 实现业务代码
 
