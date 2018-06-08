@@ -14,20 +14,28 @@ import org.springframework.stereotype.Component;
 
 import com.nepxion.matrix.registrar.service.MyService1;
 import com.nepxion.matrix.registrar.service.MyService2;
+import com.nepxion.matrix.registrar.service.MyService3;
 
 @Component
 public class MyInvoker {
     @Autowired
     private MyService1 myService1;
-    
+
     @Autowired
     private MyService2 myService2;
-    
-    public void invokeMyService1() {
-        myService1.doA("A");
+
+    @Autowired
+    private MyService3 myService3;
+
+    public String invokeMyService1() {
+        return myService1.doA("A");
     }
-    
-    public void invokeMyService2() {
-        myService2.doC("C");
+
+    public String invokeMyService2() {
+        return myService2.doC("C");
+    }
+
+    public String invokeMyService3() {
+        return myService3.doE("E");
     }
 }

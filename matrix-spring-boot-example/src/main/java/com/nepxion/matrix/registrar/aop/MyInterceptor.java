@@ -21,7 +21,7 @@ public class MyInterceptor extends AbstractRegistrarInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        System.out.println("-------------------------------------------------");
+        System.out.println("---------------------代理信息---------------------");
         String interfaze = getInterface(invocation);
         String methodName = getMethodName(invocation);
         Object[] arguments = getArguments(invocation);
@@ -38,6 +38,6 @@ public class MyInterceptor extends AbstractRegistrarInterceptor {
 
         // 实现业务代码
 
-        return null;
+        return "代理返回 " + arguments[0];
     }
 }

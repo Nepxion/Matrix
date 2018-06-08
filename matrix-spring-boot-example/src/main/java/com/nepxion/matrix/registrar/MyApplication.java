@@ -25,7 +25,8 @@ public class MyApplication {
         SpringApplication.run(MyApplication.class, args);
 
         MyInvoker myInvoker = MyContextAware.getBean(MyInvoker.class);
-        myInvoker.invokeMyService1();
-        myInvoker.invokeMyService2();
+        System.out.println("返回值：" + myInvoker.invokeMyService1());
+        System.out.println("返回值：" + myInvoker.invokeMyService2());
+        System.out.println("返回值：" + myInvoker.invokeMyService3());
     }
 }
