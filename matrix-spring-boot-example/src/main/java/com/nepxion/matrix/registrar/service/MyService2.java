@@ -11,9 +11,9 @@ package com.nepxion.matrix.registrar.service;
 
 import com.nepxion.matrix.registrar.aop.MyAnnotation;
 
-@MyAnnotation(name = "1", label = "2", description = "3")
-public interface MyService3 {
-    String doE(String id);
+@MyAnnotation(name = "x", label = "y", description = "z")
+public interface MyService2 {
+    String doC(String id);
 
-    String doF(String id);
+    String doD(String id);
 }
