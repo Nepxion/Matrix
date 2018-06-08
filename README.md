@@ -22,6 +22,9 @@ Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高�
        2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
     10. 实现象@FeignClient注解那样，只有接口没有实现类，就能实现注入和动态代理，参考单独模块com.nepxion.matrix.registrar
 
+       1)如果本地只有接口并加相关的注解，那么执行对应的切面调用方式
+       2)如果本地有接口(不管是否加注解)，并也有实现类，那么执行对应的实现类的逻辑
+
 ## 场景
 Matrix框架一般可以应用到如下场景中：
 
