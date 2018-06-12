@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar;
+package com.nepxion.matrix.extension.registrar;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -139,7 +139,7 @@ public abstract class AbstractRegistrar implements ImportBeanDefinitionRegistrar
 
                             return !target.isAnnotation();
                         } catch (Exception ex) {
-                            this.logger.error("Could not load target class: " + beanDefinition.getMetadata().getClassName(), ex);
+                            LOG.error("Could not load target class: " + beanDefinition.getMetadata().getClassName(), ex);
                         }
                     }
 

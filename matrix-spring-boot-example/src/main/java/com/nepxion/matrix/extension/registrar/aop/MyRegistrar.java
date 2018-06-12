@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar.aop;
+package com.nepxion.matrix.extension.registrar.aop;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.beans.MutablePropertyValues;
 
-import com.nepxion.matrix.registrar.AbstractRegistrar;
+import com.nepxion.matrix.extension.registrar.AbstractRegistrar;
 
 public class MyRegistrar extends AbstractRegistrar {
     @Override

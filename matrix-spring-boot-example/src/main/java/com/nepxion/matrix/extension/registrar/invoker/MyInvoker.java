@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar.invoker;
+package com.nepxion.matrix.extension.registrar.invoker;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -12,9 +12,9 @@ package com.nepxion.matrix.registrar.invoker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nepxion.matrix.registrar.service.MyService1;
-import com.nepxion.matrix.registrar.service.MyService2;
-import com.nepxion.matrix.registrar.service.MyService3;
+import com.nepxion.matrix.extension.registrar.service.MyService1;
+import com.nepxion.matrix.extension.registrar.service.MyService2;
+import com.nepxion.matrix.extension.registrar.service.MyService3;
 
 @Component
 public class MyInvoker {

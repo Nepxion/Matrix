@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar.aop;
+package com.nepxion.matrix.extension.registrar.aop;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -14,7 +14,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.nepxion.matrix.registrar.RegistrarFactoryBean;
+import com.nepxion.matrix.extension.registrar.RegistrarFactoryBean;
 
 public class MyRegistrarFactoryBean extends RegistrarFactoryBean {
     private String name;

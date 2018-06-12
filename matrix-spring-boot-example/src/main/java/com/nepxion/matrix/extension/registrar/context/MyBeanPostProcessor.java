@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar.context;
+package com.nepxion.matrix.extension.registrar.context;
 
 /**
  * <p>Title: Nepxion EventBus</p>

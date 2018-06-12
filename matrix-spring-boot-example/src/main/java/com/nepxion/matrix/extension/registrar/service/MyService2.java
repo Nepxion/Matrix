@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar.service;
+package com.nepxion.matrix.extension.registrar.service;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -9,7 +9,7 @@ package com.nepxion.matrix.registrar.service;
  * @version 1.0
  */
 
-import com.nepxion.matrix.registrar.aop.MyAnnotation;
+import com.nepxion.matrix.extension.registrar.aop.MyAnnotation;
 
 @MyAnnotation(name = "x", label = "y", description = "z")
 public interface MyService2 {

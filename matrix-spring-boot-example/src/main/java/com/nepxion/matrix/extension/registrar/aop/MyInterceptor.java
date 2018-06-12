@@ -1,4 +1,4 @@
-package com.nepxion.matrix.registrar.aop;
+package com.nepxion.matrix.extension.registrar.aop;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -12,7 +12,7 @@ package com.nepxion.matrix.registrar.aop;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.MutablePropertyValues;
 
-import com.nepxion.matrix.registrar.AbstractRegistrarInterceptor;
+import com.nepxion.matrix.extension.registrar.AbstractRegistrarInterceptor;
 
 public class MyInterceptor extends AbstractRegistrarInterceptor {
     public MyInterceptor(MutablePropertyValues annotationValues) {
