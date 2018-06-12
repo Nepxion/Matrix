@@ -25,10 +25,8 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 
-import com.nepxion.matrix.extension.registrar.AbstractRegistrar;
-
 public abstract class AbstractImportSelector<T> implements DeferredImportSelector, BeanClassLoaderAware, EnvironmentAware {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractRegistrar.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractImportSelector.class);
 
     static {
         System.out.println("");
