@@ -219,7 +219,7 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 
 更复杂的用法请参考com.nepxion.matrix.proxy.complex目录下的代码
 
-## Spring AutoProxy机制的示例
+## Spring Registrar机制的示例
 参考matrix-spring-boot-registrar-example
 
 ## Spring Import Selector机制的示例
