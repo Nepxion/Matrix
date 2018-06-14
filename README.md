@@ -35,7 +35,7 @@ Spring Import Selector机制。实现象@EnableCircuitBreaker注解那样，入�
 ## 场景
 Matrix框架一般可以应用到如下场景中：
 
-AutoProxy机制
+Spring AutoProxy机制
 
     1. 对于有复杂AOP使用场景的，用Matrix可以简化你的切面开发。例如：
        1.1 根据不同的业务逻辑，指定所有的注解由同一个或者多个拦截类来拦截；也可以指定不同的注解由不同的切面拦截类来拦截；更可以指定不同的接口和实现类，由不同的拦截类来拦截
@@ -62,7 +62,7 @@ Spring Import Selector机制
 </dependency>
 ```
 
-## AutoProxy机制的示例
+## Spring AutoProxy机制的示例
 ### 注意
 拦截实现类中@Component注解一定要加名称，因为全局拦截机制是根据名称BeanName来的
 ```java
@@ -218,3 +218,9 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 ```
 
 更复杂的用法请参考com.nepxion.matrix.proxy.complex目录下的代码
+
+## Spring AutoProxy机制的示例
+参考matrix-spring-boot-registrar-example
+
+## Spring Import Selector机制的示例
+参考matrix-spring-boot-selector-example
