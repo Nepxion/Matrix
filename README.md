@@ -62,7 +62,8 @@ Spring Import Selector机制
 </dependency>
 ```
 
-## 注意
+## AutoProxy机制的示例
+### 注意
 拦截实现类中@Component注解一定要加名称，因为全局拦截机制是根据名称BeanName来的
 ```java
 @Component("myInterceptor1")
@@ -74,7 +75,7 @@ public class MyInterceptor1 extends AbstractInterceptor {
 }
 ```
 
-## 示例
+### 示例
 调用入口1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
 ```java
 package com.nepxion.matrix.proxy.simple.aop;
