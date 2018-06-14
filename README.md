@@ -34,6 +34,7 @@ Spring Import Selector机制。实现象@EnableCircuitBreaker注解那样，入�
 
 ## 场景
 Matrix框架一般可以应用到如下场景中：
+
 AutoProxy机制
 
     1. 对于有复杂AOP使用场景的，用Matrix可以简化你的切面开发。例如：
