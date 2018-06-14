@@ -4,9 +4,10 @@
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/matrix-aop.svg)](http://www.javadoc.io/doc/com.nepxion/matrix-aop)
 [![Build Status](https://travis-ci.org/Nepxion/Matrix.svg?branch=master)](https://travis-ci.org/Nepxion/Matrix)
 
-Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高的通用性，健壮性，灵活性和易用性。它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务
+Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import Selector三种机制的AOP框架，具有很高的通用性，健壮性，灵活性和易用性
 
 ## 简介
+Spring AutoProxy机制。它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务。代码参考com.nepxion.matrix.proxy，示例参考matrix-spring-boot-proxy-example
 
     1. 实现接口走Spring代理，类走CGLIB代理
     2. 实现同一进程中，可以接口代理和类代理同存
@@ -20,13 +21,20 @@ Nepxion Matrix是一款基于Spring AutoProxy机制的AOP框架，具有很高�
        标准反射的方式，需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
        1)Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
        2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
-    10. 实现象@FeignClient注解那样，只有接口没有实现类，就能实现注入和动态代理，参考单独模块com.nepxion.matrix.extension.registrar
-       1)如果本地只有接口并加相关的注解，那么执行对应的切面调用方式
-       2)如果本地有接口(不管是否加注解)，并也有实现类，那么执行对应的实现类的逻辑
-    11. 实现象@EnableCircuitBreaker注解那样，入口加上@EnableMyAnnotation，自动初始化对应的Configuration，参考单独模块com.nepxion.matrix.extension.selector   
+
+Spring Registrar机制。实现象@FeignClient注解那样，只有接口没有实现类，就能实现注入和动态代理。代码参考com.nepxion.matrix.registrar，示例参考matrix-spring-boot-registrar-example
+
+    1. 如果本地只有接口并加相关的注解，那么执行对应的切面调用方式
+    2. 如果本地有接口(不管是否加注解)，并也有实现类，那么执行对应的实现类的逻辑
+
+Spring Import Selector机制。实现象@EnableCircuitBreaker注解那样，入口加上@EnableMyAnnotation，自动初始化对应的Configuration。代码参考com.nepxion.matrix.selector，示例参考matrix-spring-boot-selector-example
+
+    1. 入口加上@EnableXXX，并提供在spring.factories定义@EnableXXX和Configuration类的关联，达到通过注解的配置与否，控制对应相关上下文对象，例如Bean类的初始化与否
+    2. 提供在application.properties配置参数，达到上述的目的
 
 ## 场景
 Matrix框架一般可以应用到如下场景中：
+AutoProxy机制
 
     1. 对于有复杂AOP使用场景的，用Matrix可以简化你的切面开发。例如：
        1.1 根据不同的业务逻辑，指定所有的注解由同一个或者多个拦截类来拦截；也可以指定不同的注解由不同的切面拦截类来拦截；更可以指定不同的接口和实现类，由不同的拦截类来拦截
@@ -34,6 +42,14 @@ Matrix框架一般可以应用到如下场景中：
     2. 注解加在接口上，还是实现类上，或者没有接口的类，可以随意换
     3. 扫描到一个注解后，你可以做一些处理，例如你可以把注解对应的数据存入数据库
     4. 强大的注解扫描和拦截功能，在不侵入业务代码的前提下(只是需要在业务端加入一个注解而已)，你可以实现业务应用，例如API监控统计、API健康检查等
+
+Spring Registrar机制
+
+    1. 参考@FeignClient的用法
+
+Spring Import Selector机制
+
+    1. 参考@EnableCircuitBreaker的用法
 
 ### 依赖
 
@@ -60,12 +76,12 @@ public class MyInterceptor1 extends AbstractInterceptor {
 ## 示例
 调用入口1，通过全局拦截器实现对类头部注解的扫描和代理，详细用法可参考示例3
 ```java
-package com.nepxion.matrix.simple.aop;
+package com.nepxion.matrix.proxy.simple.aop;
 
 /**
  * <p>Title: Nepxion Matrix</p>
  * <p>Description: Nepxion Matrix AOP</p>
- * <p>Copyright: Copyright (c) 2017</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
  * @version 1.0
@@ -76,17 +92,18 @@ import java.lang.annotation.Annotation;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.stereotype.Component;
 
-import com.nepxion.matrix.aop.DefaultAutoScanProxy;
-import com.nepxion.matrix.mode.ProxyMode;
-import com.nepxion.matrix.mode.ScanMode;
+import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
+import com.nepxion.matrix.proxy.mode.ProxyMode;
+import com.nepxion.matrix.proxy.mode.ScanMode;
 
 // 通过全局拦截器实现对类头部注解的扫描和代理
+// 该类描述的逻辑是，目标接口或者类头部如果出现了MyAnnotation1注解，那么该接口或者类下面所有的方法都会被执行扫描和代理，代理类为MyInterceptor1
 @Component("myAutoScanProxyForClass")
 public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -5968030133395182024L;
 
     // 多个包路径，用“;”分隔
-    private static final String SCAN_PACKAGES = "com.nepxion.matrix.simple";
+    private static final String SCAN_PACKAGES = "com.nepxion.matrix.proxy.simple";
 
     @SuppressWarnings("rawtypes")
     private Class[] commonInterceptorClasses;
@@ -123,14 +140,14 @@ public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
 }
 ```
 
-调用入口2，通过额外拦截器实现对方法头部注解的扫描和代理，详细用法可参考示例3
+调用入口2，通过额外拦截器实现对方法头部注解的扫描和代理
 ```java
-package com.nepxion.matrix.simple.aop;
+package com.nepxion.matrix.proxy.simple.aop;
 
 /**
  * <p>Title: Nepxion Matrix</p>
  * <p>Description: Nepxion Matrix AOP</p>
- * <p>Copyright: Copyright (c) 2017</p>
+ * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren
  * @version 1.0
@@ -142,17 +159,18 @@ import java.lang.reflect.Method;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nepxion.matrix.aop.DefaultAutoScanProxy;
-import com.nepxion.matrix.mode.ProxyMode;
-import com.nepxion.matrix.mode.ScanMode;
-import com.nepxion.matrix.simple.service.MyService2Impl;
+import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
+import com.nepxion.matrix.proxy.mode.ProxyMode;
+import com.nepxion.matrix.proxy.mode.ScanMode;
+import com.nepxion.matrix.proxy.simple.service.MyService2Impl;
 
 // 通过额外拦截器实现对方法头部注解的扫描和代理
+// 该类描述的逻辑是，目标接口或者类的某个方法上如果出现了MyAnnotation2注解，那么该接口或者类下面所有的方法都会被执行扫描和代理，并为该接口或者类指定一个具体的代理类为MyInterceptor2
 @Component("myAutoScanProxyForMethod")
 public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -481395242918857264L;
 
-    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.simple" };
+    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.proxy.simple" };
 
     @SuppressWarnings("rawtypes")
     private Class[] methodAnnotations;
@@ -197,220 +215,4 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 }
 ```
 
-调用入口3，该示例比较复杂，为了演示Auto proxy强大的功能
-```java
-package com.nepxion.matrix.complex.aop;
-
-/**
- * <p>Title: Nepxion Matrix</p>
- * <p>Description: Nepxion Matrix AOP</p>
- * <p>Copyright: Copyright (c) 2017</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-
-import org.aopalliance.intercept.MethodInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
-
-import com.nepxion.matrix.aop.AbstractAutoScanProxy;
-import com.nepxion.matrix.complex.service.MyService3;
-import com.nepxion.matrix.complex.service.MyService4Impl;
-import com.nepxion.matrix.mode.ProxyMode;
-import com.nepxion.matrix.mode.ScanMode;
-
-@Component("myAutoScanProxy")
-public class MyAutoScanProxy extends AbstractAutoScanProxy {
-    private static final long serialVersionUID = -481395242918857264L;
-
-    private static final String[] SCAN_PACKAGES = { "com.nepxion.matrix.complex" };
-
-    @SuppressWarnings("rawtypes")
-    private Class[] commonInterceptorClasses;
-
-    @SuppressWarnings("rawtypes")
-    private Class[] classAnnotations;
-
-    @SuppressWarnings("rawtypes")
-    private Class[] methodAnnotations;
-
-    @Autowired
-    private MyInterceptor3 myInterceptor3;
-
-    private Object[] myInterceptor3Array;
-
-    @Autowired
-    private MyInterceptor4 myInterceptor4;
-
-    private Object[] myInterceptor4Array;
-
-    // 可以设定多个全局拦截器，也可以设定多个额外拦截器；可以设定拦截触发由全局拦截器执行，还是由额外拦截器执行
-    // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
-    public MyAutoScanProxy() {
-        // SCAN_PACKAGES                           扫描目录，如果不指定，则扫描全局。两种方式运行结果没区别，只是指定扫描目录加快扫描速度，同时可以减少缓存量
-        // ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION 对全部注解都进行代理
-        // ProxyMode.BY_CLASS_ANNOTATION_ONLY      只代理类或者接口名上注解
-        // ProxyMode.BY_METHOD_ANNOTATION_ONLY     只代理方法上的注解
-        // ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION 对全部注解都进行扫描
-        // ScanMode.FOR_CLASS_ANNOTATION_ONLY      只扫描类或者接口名上注解
-        // ScanMode.FOR_METHOD_ANNOTATION_ONLY     只扫描方法上的注解
-        super(SCAN_PACKAGES, ProxyMode.BY_CLASS_OR_METHOD_ANNOTATION, ScanMode.FOR_CLASS_OR_METHOD_ANNOTATION);
-    }
-
-    @Override
-    protected Class<? extends MethodInterceptor>[] getCommonInterceptors() {
-        // 返回具有调用拦截的全局切面实现类，拦截类必须实现MethodInterceptor接口, 可以多个
-        // 如果返回null， 全局切面代理关闭
-        if (commonInterceptorClasses == null) {
-            // Lazyloader模式，避免重复构造Class数组
-            commonInterceptorClasses = new Class[] { MyInterceptor3.class, MyInterceptor4.class };
-        }
-        // return commonInterceptorClasses;
-        return null;
-    }
-
-    @Override
-    protected Object[] getAdditionalInterceptors(Class<?> targetClass) {
-        // 返回额外的拦截类实例列表，拦截类必须实现MethodInterceptor接口，分别对不同的接口或者类赋予不同的拦截类，可以多个
-        // 如果返回null，额外切面代理关闭
-
-        // 由int值来表示使用策略
-        int strategy = 3;
-
-        if (strategy == 1) {
-            // 使用策略1：根据接口或者类决定选择哪个切面代理
-            // 例如下面示例中，如果所代理的接口是MyService3，执行myInterceptor3切面拦截
-            if (targetClass == MyService3.class) {
-                return getMyInterceptor3Array();
-            // 例如下面示例中，如果所代理的类是MyService4Impl，执行myInterceptor4切面拦截
-            } else if (targetClass == MyService4Impl.class) {
-                return getMyInterceptor4Array();
-            }
-        } else if (strategy == 2) {
-            // 使用策略2：根据接口或者类头部的注解决定选择哪个切面代理
-            // 例如下面示例中，如果所代理的接口或者类头部“只要”出现MyAnnotation3，所有方法都执行myInterceptor3切面拦截
-            MyAnnotation3 myAnnotation3 = AnnotationUtils.findAnnotation(targetClass, MyAnnotation3.class);
-            if (myAnnotation3 != null) {
-                return getMyInterceptor3Array();
-            }
-        } else if (strategy == 3) {
-            // 使用策略3：根据接口或者类的方法注解决定选择哪个切面代理
-            // 例如下面示例中，如果所代理的接口或者类的方法中“只要”出现MyAnnotation5，所有方法都执行myInterceptor3切面拦截；“只要”出现MyAnnotation6，所有方法都执行myInterceptor4切面拦截
-            Method[] methods = targetClass.getDeclaredMethods();
-            for (Method method : methods) {
-                MyAnnotation5 myAnnotation5 = AnnotationUtils.findAnnotation(method, MyAnnotation5.class);
-                if (myAnnotation5 != null) {
-                    return getMyInterceptor3Array();
-                }
-                MyAnnotation6 myAnnotation6 = AnnotationUtils.findAnnotation(method, MyAnnotation6.class);
-                if (myAnnotation6 != null) {
-                    return getMyInterceptor4Array();
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private Object[] getMyInterceptor3Array() {
-        if (myInterceptor3Array == null) {
-            // Lazyloader模式，避免重复构造Class数组
-            myInterceptor3Array = new Object[] { myInterceptor3 };
-        }
-        return myInterceptor3Array;
-    }
-
-    private Object[] getMyInterceptor4Array() {
-        if (myInterceptor4Array == null) {
-            // Lazyloader模式，避免重复构造Class数组
-            myInterceptor4Array = new Object[] { myInterceptor4 };
-        }
-        return myInterceptor4Array;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected Class<? extends Annotation>[] getClassAnnotations() {
-        // 返回接口名或者类名上的注解列表，可以多个, 如果接口名或者类名上存在一个或者多个该列表中的注解，即认为该接口或者类需要被代理和扫描
-        // 如果返回null，则对列表中的注解不做代理和扫描
-        // 例如下面示例中，一旦你的接口或者类名出现MyAnnotation3或者MyAnnotation4，则所在的接口或者类将被代理和扫描
-        if (classAnnotations == null) {
-            // Lazyloader模式，避免重复构造Class数组
-            classAnnotations = new Class[] { MyAnnotation3.class, MyAnnotation4.class };
-        }
-        return classAnnotations;
-        // return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected Class<? extends Annotation>[] getMethodAnnotations() {
-        // 返回接口或者类的方法名上的注解，可以多个，如果接口或者类中方法名上存在一个或者多个该列表中的注解，即认为该接口或者类需要被代理和扫描
-        // 如果返回null，则对列表中的注解不做代理和扫描
-        // 例如下面示例中，一旦你的方法名上出现MyAnnotation5或者MyAnnotation6，则该方法所在的接口或者类将被代理和扫描
-        if (methodAnnotations == null) {
-            // Lazyloader模式，避免重复构造Class数组
-            methodAnnotations = new Class[] { MyAnnotation5.class, MyAnnotation6.class };
-        }
-        return methodAnnotations;
-        // return null;
-    }
-
-    @Override
-    protected void classAnnotationScanned(Class<?> targetClass, Class<? extends Annotation> classAnnotation) {
-        // 一旦指定的接口或者类名上的注解被扫描到，将会触发该方法
-        System.out.println("Class annotation scanned, targetClass=" + targetClass + ", classAnnotation=" + classAnnotation);
-    }
-
-    @Override
-    protected void methodAnnotationScanned(Class<?> targetClass, Method method, Class<? extends Annotation> methodAnnotation) {
-        // 一旦指定的接口或者类的方法名上的注解被扫描到，将会触发该方法
-        System.out.println("Method annotation scanned, targetClass=" + targetClass + ", method=" + method + ", methodAnnotation=" + methodAnnotation);
-    }
-}
-```
-
-代理结果
-```java
-2017-05-01 12:33:40.683 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Matrix Proxy Information ---------------
-2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.complex.service.MyService3] is proxied by common interceptors [com.nepxion.matrix.complex.aop.MyInterceptor3,com.nepxion.matrix.complex.aop.MyInterceptor4], proxyTargetClass=false
-2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.complex.service.MyService3] is proxied by additional interceptors [[com.nepxion.matrix.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=false
-2017-05-01 12:33:40.684 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Matrix Proxy Information ---------------
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.complex.service.MyService4Impl] is proxied by common interceptors [com.nepxion.matrix.complex.aop.MyInterceptor3,com.nepxion.matrix.complex.aop.MyInterceptor4], proxyTargetClass=true
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.complex.service.MyService4Impl] is proxied by additional interceptors [[com.nepxion.matrix.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=true
-2017-05-01 12:33:40.692 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Matrix Proxy Information ---------------
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.complex.service.MyService5Impl] is proxied by common interceptors [com.nepxion.matrix.complex.aop.MyInterceptor3,com.nepxion.matrix.complex.aop.MyInterceptor4], proxyTargetClass=true
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:192] - Class [com.nepxion.matrix.complex.service.MyService5Impl] is proxied by additional interceptors [[com.nepxion.matrix.complex.aop.MyInterceptor3@26549e60]], proxyTargetClass=true
-2017-05-01 12:33:40.714 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
-2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:185] - --------------- Matrix Proxy Information ---------------
-2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:188] - Class [com.nepxion.matrix.complex.service.MyService6Impl] is proxied by common interceptors [com.nepxion.matrix.complex.aop.MyInterceptor3,com.nepxion.matrix.complex.aop.MyInterceptor4], proxyTargetClass=true
-2017-05-01 12:33:40.725 INFO [main][com.nepxion.matrix.aop.AbstractAutoScanProxy:194] - -------------------------------------------------
-``` 
-
-切面结果
-```java
-My Interceptor 3 :
-   proxyClassName=org.springframework.aop.framework.ReflectiveMethodInvocation
-   className=com.nepxion.matrix.complex.service.MyService3Impl
-   classAnnotations=
-      @org.springframework.stereotype.Service(value=myService3Impl)
-   interfaceName=com.nepxion.matrix.complex.service.MyService3
-   interfaceAnnotations=
-      @com.nepxion.matrix.complex.aop.MyAnnotation3(description=MyAnnotation3, name=MyAnnotation3, label=MyAnnotation3)
-      @com.nepxion.matrix.complex.aop.MyAnnotation4(description=MyAnnotation4, name=MyAnnotation4, label=MyAnnotation4)
-   methodName=doE
-   methodAnnotations=
-      @com.nepxion.matrix.complex.aop.MyAnnotation5(description=MyAnnotation5, name=MyAnnotation5, label=MyAnnotation5)
-   parameterAnnotation[MyAnnotation7]'s value=E
-   arguments=
-      E
-   parameterNames=
-      id
-``` 
+更复杂的用法请参考com.nepxion.matrix.proxy.complex目录下的代码

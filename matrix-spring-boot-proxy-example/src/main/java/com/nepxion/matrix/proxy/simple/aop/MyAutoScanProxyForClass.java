@@ -19,6 +19,7 @@ import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
 
 // 通过全局拦截器实现对类头部注解的扫描和代理
+// 该类描述的逻辑是，目标接口或者类头部如果出现了MyAnnotation1注解，那么该接口或者类下面所有的方法都会被执行扫描和代理，代理类为MyInterceptor1
 @Component("myAutoScanProxyForClass")
 public class MyAutoScanProxyForClass extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -5968030133395182024L;

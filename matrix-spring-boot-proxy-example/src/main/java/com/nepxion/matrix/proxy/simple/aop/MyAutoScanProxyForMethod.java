@@ -21,6 +21,7 @@ import com.nepxion.matrix.proxy.mode.ScanMode;
 import com.nepxion.matrix.proxy.simple.service.MyService2Impl;
 
 // 通过额外拦截器实现对方法头部注解的扫描和代理
+// 该类描述的逻辑是，目标接口或者类的某个方法上如果出现了MyAnnotation2注解，那么该接口或者类下面所有的方法都会被执行扫描和代理，并为该接口或者类指定一个具体的代理类为MyInterceptor2
 @Component("myAutoScanProxyForMethod")
 public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
     private static final long serialVersionUID = -481395242918857264L;
