@@ -1,4 +1,4 @@
-package com.nepxion.matrix.selector;
+package com.nepxion.matrix.selector.application;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -11,10 +11,11 @@ package com.nepxion.matrix.selector;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import com.nepxion.matrix.selector.aop.EnableMyAnnotation;
-import com.nepxion.matrix.selector.config.MyBean;
-import com.nepxion.matrix.selector.context.MyContextAware;
+import com.nepxion.matrix.selector.config.MyAutoConfiguration;
+import com.nepxion.matrix.selector.config.MyConfiguration;
 
 // 本例展示在Spring Boot入口加上@EnableMyAnnotation，自动初始化对应的Configuration
 // 通过spring.factories定义注解对应的配置类，当@EnableMyAnnotation加上，同时application.properties里com.nepxion.myannotation.enabled=true（或者不配置），那么
@@ -24,9 +25,11 @@ import com.nepxion.matrix.selector.context.MyContextAware;
 @EnableMyAnnotation
 public class MyApplication {
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(MyApplication.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(MyApplication.class, args);
         
-        MyBean myBean = MyContextAware.getBean(MyBean.class);
-        System.out.println(myBean);
+        System.out.println(applicationContext.getBean(MyConfiguration.class));
+        System.out.println(applicationContext.getBean(MyAutoConfiguration.class));
+        System.out.println(applicationContext.getBean("myBean1"));
+        System.out.println(applicationContext.getBean("myBean2"));
     }
 }

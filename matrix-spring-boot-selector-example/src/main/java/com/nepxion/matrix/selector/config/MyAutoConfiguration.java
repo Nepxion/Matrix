@@ -10,11 +10,12 @@ package com.nepxion.matrix.selector.config;
  */
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-// @Configuration
-public class EnableMyAnnotationConfiguration {
+@Configuration
+public class MyAutoConfiguration {
     @Bean
-    public MyBean myBean() {
-        return new MyBean("MyBean");
+    public MyBean myBean2() {
+        return new MyBean("MyBean2");
     }
 }
