@@ -11,16 +11,16 @@ package com.nepxion.matrix.proxy.complex;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
-import com.nepxion.matrix.proxy.complex.context.MyContextAware;
 import com.nepxion.matrix.proxy.complex.service.MyService4Impl;
 
 @SpringBootApplication
 public class MyApplication4 {
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(MyApplication4.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(MyApplication4.class, args);
 
-        MyService4Impl myService4 = MyContextAware.getBean(MyService4Impl.class);
+        MyService4Impl myService4 = applicationContext.getBean(MyService4Impl.class);
         myService4.doG("G");
         myService4.doH("H");
     }

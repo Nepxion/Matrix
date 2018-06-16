@@ -11,9 +11,9 @@ package com.nepxion.matrix.registrar;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import com.nepxion.matrix.registrar.aop.EnableMyAnnotation;
-import com.nepxion.matrix.registrar.context.MyContextAware;
 import com.nepxion.matrix.registrar.invoker.MyInvoker;
 
 // 本例展示在Spring Boot入口加上@EnableMyAnnotation，在接口（不需要实现类）加上MyAnnotation，就可以实现调用拦截的功能
@@ -25,9 +25,9 @@ import com.nepxion.matrix.registrar.invoker.MyInvoker;
 // @EnableMyAnnotation(basePackages = "com.nepxion.matrix.registrar.service")
 public class MyApplication {
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(MyApplication.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(MyApplication.class, args);
 
-        MyInvoker myInvoker = MyContextAware.getBean(MyInvoker.class);
+        MyInvoker myInvoker = applicationContext.getBean(MyInvoker.class);
         System.out.println("调用MyServier1，返回值=" + myInvoker.invokeMyService1());
         System.out.println("调用MyServier2，返回值=" + myInvoker.invokeMyService2());
         System.out.println("调用MyServier3，返回值=" + myInvoker.invokeMyService3());
