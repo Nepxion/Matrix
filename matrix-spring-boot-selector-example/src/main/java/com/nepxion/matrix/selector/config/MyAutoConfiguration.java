@@ -1,4 +1,4 @@
-package com.nepxion.matrix.selector.configuration;
+package com.nepxion.matrix.selector.config;
 
 /**
  * <p>Title: Nepxion Matrix</p>
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MyConfiguration {
+public class MyAutoConfiguration {
     @Bean
-    public MyBean myBean1() {
-        return new MyBean("MyBean1");
+    public MyBean myBean2() {
+        return new MyBean("MyBean2");
     }
 }
