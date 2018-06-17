@@ -125,14 +125,26 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         // 设定全局拦截器，可以是多个
         // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
         Class<? extends MethodInterceptor>[] commonInterceptorClasses = getCommonInterceptors();
+        String[] commonInterceptorNames = getCommonInterceptorNames();
+
+        String[] interceptorNames = ArrayUtils.addAll(commonInterceptorNames, convertInterceptorNames(commonInterceptorClasses));
+        if (ArrayUtils.isNotEmpty(interceptorNames)) {
+            setInterceptorNames(interceptorNames);
+        }
+    }
+
+    private String[] convertInterceptorNames(Class<? extends MethodInterceptor>[] commonInterceptorClasses) {
         if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
             String[] interceptorNames = new String[commonInterceptorClasses.length];
             for (int i = 0; i < commonInterceptorClasses.length; i++) {
                 Class<? extends MethodInterceptor> interceptorClass = commonInterceptorClasses[i];
                 interceptorNames[i] = interceptorClass.getAnnotation(Component.class).value();
             }
-            setInterceptorNames(interceptorNames);
+
+            return interceptorNames;
         }
+
+        return null;
     }
 
     @Override
@@ -223,9 +235,14 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                     proxyTargetClassMap.put(beanName, proxyTargetClass);
 
                     LOG.info("------------ Matrix Proxy Information -----------");
-                    Class<? extends MethodInterceptor>[] commonInterceptors = getCommonInterceptors();
-                    if (ArrayUtils.isNotEmpty(commonInterceptors)) {
-                        LOG.info("Class [{}] is proxied by common interceptors [{}], proxyTargetClass={}", targetClassName, ProxyUtil.toString(commonInterceptors), proxyTargetClass);
+                    Class<? extends MethodInterceptor>[] commonInterceptorClasses = getCommonInterceptors();
+                    if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
+                        LOG.info("Class [{}] is proxied by common interceptor classes [{}], proxyTargetClass={}", targetClassName, ProxyUtil.toString(commonInterceptorClasses), proxyTargetClass);
+                    }
+
+                    String[] commonInterceptorNames = getCommonInterceptorNames();
+                    if (ArrayUtils.isNotEmpty(commonInterceptorNames)) {
+                        LOG.info("Class [{}] is proxied by common interceptor beans [{}], proxyTargetClass={}", targetClassName, ProxyUtil.toString(commonInterceptorNames), proxyTargetClass);
                     }
 
                     if (proxyInterceptors != PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS && ArrayUtils.isNotEmpty(proxyInterceptors)) {
@@ -357,7 +374,8 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         }
 
         Class<? extends MethodInterceptor>[] commonInterceptorClasses = getCommonInterceptors();
-        if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
+        String[] commonInterceptorNames = getCommonInterceptorNames();
+        if (ArrayUtils.isNotEmpty(commonInterceptorClasses) || ArrayUtils.isNotEmpty(commonInterceptorNames)) {
             return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
         }
 
@@ -367,6 +385,10 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     // 返回具有调用拦截的全局切面实现类，拦截类必须实现MethodInterceptor接口, 可以多个，通过@Component("xxx")方式寻址
     // 如果返回null， 全局切面代理关闭
     protected abstract Class<? extends MethodInterceptor>[] getCommonInterceptors();
+
+    // 返回具有调用拦截的全局切面实现类的Bean名，拦截类必须实现MethodInterceptor接口, 可以多个
+    // 如果返回null， 全局切面代理关闭
+    protected abstract String[] getCommonInterceptorNames();
 
     // 返回额外的拦截类实例列表，拦截类必须实现MethodInterceptor接口，分别对不同的接口或者类赋予不同的拦截类，可以多个
     // 如果返回null， 额外切面代理关闭

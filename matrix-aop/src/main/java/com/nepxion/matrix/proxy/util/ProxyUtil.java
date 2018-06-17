@@ -30,4 +30,23 @@ public class ProxyUtil {
 
         return "";
     }
+
+    // 转换String数组成字符串格式
+    public static String toString(String[] values) {
+        if (ArrayUtils.isEmpty(values)) {
+            return "";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (String value : values) {
+            builder.append("," + value);
+        }
+
+        String parameter = builder.toString().trim();
+        if (parameter.length() > 0) {
+            return parameter.substring(1);
+        }
+
+        return "";
+    }
 }
