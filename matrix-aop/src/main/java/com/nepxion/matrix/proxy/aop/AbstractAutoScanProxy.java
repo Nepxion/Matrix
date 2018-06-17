@@ -124,11 +124,11 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
         // 设定全局拦截器，可以是多个
         // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
-        Class<?>[] commonInterceptorClasses = getCommonInterceptors();
+        Class<? extends MethodInterceptor>[] commonInterceptorClasses = getCommonInterceptors();
         if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
             String[] interceptorNames = new String[commonInterceptorClasses.length];
             for (int i = 0; i < commonInterceptorClasses.length; i++) {
-                Class<?> interceptorClass = commonInterceptorClasses[i];
+                Class<? extends MethodInterceptor> interceptorClass = commonInterceptorClasses[i];
                 interceptorNames[i] = interceptorClass.getAnnotation(Component.class).value();
             }
             setInterceptorNames(interceptorNames);
@@ -356,7 +356,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             return interceptors;
         }
 
-        Class<?>[] commonInterceptorClasses = getCommonInterceptors();
+        Class<? extends MethodInterceptor>[] commonInterceptorClasses = getCommonInterceptors();
         if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
             return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
         }
@@ -364,7 +364,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         return DO_NOT_PROXY;
     }
 
-    // 返回具有调用拦截的全局切面实现类，拦截类必须实现MethodInterceptor接口, 可以多个
+    // 返回具有调用拦截的全局切面实现类，拦截类必须实现MethodInterceptor接口, 可以多个，通过@Component("xxx")方式寻址
     // 如果返回null， 全局切面代理关闭
     protected abstract Class<? extends MethodInterceptor>[] getCommonInterceptors();
 
