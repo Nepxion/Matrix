@@ -48,7 +48,7 @@ public abstract class AbstractRegistrar implements ImportBeanDefinitionRegistrar
         System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
         System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
         System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
-        System.out.println("Nepxion Matrix - Registrar  v1.0.14");
+        System.out.println("Nepxion Matrix - Registrar  v1.0.15");
         System.out.println("");
     }
 

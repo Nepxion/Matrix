@@ -15,6 +15,6 @@
 @title Nepxion Matrix
 @color 0a
 
-call mvn versions:set -DnewVersion=1.0.14
+call mvn versions:set -DnewVersion=1.0.15
 
 pause
