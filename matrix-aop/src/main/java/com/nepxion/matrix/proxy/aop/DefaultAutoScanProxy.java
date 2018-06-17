@@ -62,7 +62,7 @@ public class DefaultAutoScanProxy extends AbstractAutoScanProxy {
     }
 
     @Override
-    protected Object[] getAdditionalInterceptors(Class<?> targetClass) {
+    protected MethodInterceptor[] getAdditionalInterceptors(Class<?> targetClass) {
         return null;
     }
 

@@ -12,6 +12,7 @@ package com.nepxion.matrix.proxy.example.simple.aop;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,23 +35,23 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
     @Autowired
     private MyInterceptor2 myInterceptor2;
 
-    private Object[] myInterceptor2Array;
+    private MethodInterceptor[] myInterceptor2Array;
 
     public MyAutoScanProxyForMethod() {
         super(SCAN_PACKAGES, ProxyMode.BY_METHOD_ANNOTATION_ONLY, ScanMode.FOR_METHOD_ANNOTATION_ONLY);
     }
 
     @Override
-    protected Object[] getAdditionalInterceptors(Class<?> targetClass) {
+    protected MethodInterceptor[] getAdditionalInterceptors(Class<?> targetClass) {
         if (targetClass == MyService2Impl.class) {
             return getMyInterceptor2Array();
         }
         return null;
     }
 
-    private Object[] getMyInterceptor2Array() {
+    private MethodInterceptor[] getMyInterceptor2Array() {
         if (myInterceptor2Array == null) {
-            myInterceptor2Array = new Object[] { myInterceptor2 };
+            myInterceptor2Array = new MethodInterceptor[] { myInterceptor2 };
         }
         return myInterceptor2Array;
     }

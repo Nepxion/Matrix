@@ -41,12 +41,12 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     @Autowired
     private MyInterceptor3 myInterceptor3;
 
-    private Object[] myInterceptor3Array;
+    private MethodInterceptor[] myInterceptor3Array;
 
     @Autowired
     private MyInterceptor4 myInterceptor4;
 
-    private Object[] myInterceptor4Array;
+    private MethodInterceptor[] myInterceptor4Array;
 
     // 可以设定多个全局拦截器，也可以设定多个额外拦截器；可以设定拦截触发由全局拦截器执行，还是由额外拦截器执行
     // 如果同时设置了全局和额外的拦截器，那么它们都同时工作，全局拦截器先运行，额外拦截器后运行
@@ -74,7 +74,7 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
     }
 
     @Override
-    protected Object[] getAdditionalInterceptors(Class<?> targetClass) {
+    protected MethodInterceptor[] getAdditionalInterceptors(Class<?> targetClass) {
         // 返回额外的拦截类实例列表，拦截类必须实现MethodInterceptor接口，分别对不同的接口或者类赋予不同的拦截类，可以多个
         // 如果返回null，额外切面代理关闭
 
@@ -116,18 +116,18 @@ public class MyAutoScanProxy extends AbstractAutoScanProxy {
         return null;
     }
 
-    private Object[] getMyInterceptor3Array() {
+    private MethodInterceptor[] getMyInterceptor3Array() {
         if (myInterceptor3Array == null) {
             // Lazyloader模式，避免重复构造Class数组
-            myInterceptor3Array = new Object[] { myInterceptor3 };
+            myInterceptor3Array = new MethodInterceptor[] { myInterceptor3 };
         }
         return myInterceptor3Array;
     }
 
-    private Object[] getMyInterceptor4Array() {
+    private MethodInterceptor[] getMyInterceptor4Array() {
         if (myInterceptor4Array == null) {
             // Lazyloader模式，避免重复构造Class数组
-            myInterceptor4Array = new Object[] { myInterceptor4 };
+            myInterceptor4Array = new MethodInterceptor[] { myInterceptor4 };
         }
         return myInterceptor4Array;
     }
