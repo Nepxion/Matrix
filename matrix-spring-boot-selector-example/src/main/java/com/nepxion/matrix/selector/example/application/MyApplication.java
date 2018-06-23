@@ -14,8 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.nepxion.matrix.selector.example.aop.EnableMyAnnotation;
-import com.nepxion.matrix.selector.example.config.MyAutoConfiguration;
-import com.nepxion.matrix.selector.example.config.MyConfiguration;
+import com.nepxion.matrix.selector.example.configuration.MyAutoConfiguration;
+import com.nepxion.matrix.selector.example.configuration.MyConfiguration;
 
 // 本例展示在Spring Boot入口加上@EnableMyAnnotation，自动初始化对应的Configuration
 // 通过spring.factories定义注解对应的配置类，当@EnableMyAnnotation加上，同时application.properties里com.nepxion.myannotation.enabled=true（或者不配置），那么
