@@ -6,7 +6,7 @@
     <name>Nepxion Matrix</name>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.0.15</version>
+    <version>${revision}</version>
     <description>Nepxion Matrix is an AOP framework integrated with Spring AutoProxy, Spring Registrar and Spring Import Selector</description>
     <url>http://www.nepxion.com</url>
 
@@ -25,6 +25,7 @@
         <disruptor.version>3.3.7</disruptor.version>
         <log4j.version>2.9.1</log4j.version>
         <java.version>1.8</java.version>
+        <revision>1.0.16</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
