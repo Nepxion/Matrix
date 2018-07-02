@@ -9,48 +9,43 @@ Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import
 ## 简介
 Spring AutoProxy机制。它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务。代码参考com.nepxion.matrix.proxy，示例参考matrix-spring-boot-proxy-example
 
-    1. 实现接口走Spring代理，类走CGLIB代理
-    2. 实现同一进程中，可以接口代理和类代理同存
-    3. 实现对类或者接口名上注解Annotation，方法上注解Annotation的快速扫描，并开放处理接口供业务端实现
-    4. 实现“只扫描不代理”，“既扫描又代理”；代理支持“只代理类或者接口名上注解”、“只代理方法上的注解”、“全部代理”三种模式；扫描支持“只扫描类或者接口名上注解”、“只扫描方法上的注解”、“全部扫描”三种模式
-    5. 实现“代理和扫描多个注解“
-    6. 实现“支持多个切面实现类Interceptor做调用拦截”  
-    7. 实现“自身调用自身的注解方法，达到切面效果”，提供自动装配(Spring 4.3.X以上的版本支持)和AopContext.currentProxy()两种方式
-    8. 实现“只扫描指定目录”和“扫描全局目录”两种方式
-    9. 实现根据Java8的特性来获取注解对应方法上的变量名(不是变量类型)，支持标准反射和字节码CGLIG(ASM library)来获取，前者适用于接口代理，后者适用于类代理
-       标准反射的方式，需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
-       1)Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
-       2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
+- 实现接口走Spring代理，类走CGLIB代理
+- 实现同一进程中，可以接口代理和类代理同存
+- 实现对类或者接口名上注解Annotation，方法上注解Annotation的快速扫描，并开放处理接口供业务端实现
+- 实现“只扫描不代理”，“既扫描又代理”；代理支持“只代理类或者接口名上注解”、“只代理方法上的注解”、“全部代理”三种模式；扫描支持“只扫描类或者接口名上注解”、“只扫描方法上的注解”、“全部扫描”三种模式
+- 实现“代理和扫描多个注解“
+- 实现“支持多个切面实现类Interceptor做调用拦截”  
+- 实现“自身调用自身的注解方法，达到切面效果”，提供自动装配(Spring 4.3.X以上的版本支持)和AopContext.currentProxy()两种方式
+- 实现“只扫描指定目录”和“扫描全局目录”两种方式
+- 实现根据Java8的特性来获取注解对应方法上的变量名(不是变量类型)，支持标准反射和字节码CGLIG(ASM library)来获取，前者适用于接口代理，后者适用于类代理
+  标准反射的方式，需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
+  - Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
+  - Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
 
 Spring Registrar机制。实现象@FeignClient注解那样，只有接口没有实现类，就能实现注入和动态代理。代码参考com.nepxion.matrix.registrar，示例参考matrix-spring-boot-registrar-example
-
-    1. 如果本地只有接口并加相关的注解，那么执行对应的切面调用方式
-    2. 如果本地有接口(不管是否加注解)，并也有实现类，那么执行对应的实现类的逻辑
+- 如果本地只有接口并加相关的注解，那么执行对应的切面调用方式
+- 如果本地有接口(不管是否加注解)，并也有实现类，那么执行对应的实现类的逻辑
 
 Spring Import Selector机制。实现象@EnableCircuitBreaker注解那样，入口加上@EnableMyAnnotation，自动初始化对应的Configuration。代码参考com.nepxion.matrix.selector，示例参考matrix-spring-boot-selector-example
-
-    1. 入口加上@EnableXXX，并提供在spring.factories定义@EnableXXX和Configuration类的关联，达到通过注解的配置与否，控制对应相关上下文对象，例如Bean类的初始化与否
-    2. 提供在application.properties配置参数，达到上述的目的
+- 入口加上@EnableXXX，并提供在spring.factories定义@EnableXXX和Configuration类的关联，达到通过注解的配置与否，控制对应相关上下文对象，例如Bean类的初始化与否
+- 提供在application.properties配置参数，达到上述的目的
 
 ## 场景
 Matrix框架一般可以应用到如下场景中：
 
 Spring AutoProxy机制
-
-    1. 对于有复杂AOP使用场景的，用Matrix可以简化你的切面开发。例如：
-       1.1 根据不同的业务逻辑，指定所有的注解由同一个或者多个拦截类来拦截；也可以指定不同的注解由不同的切面拦截类来拦截；更可以指定不同的接口和实现类，由不同的拦截类来拦截
-       1.2 如果注解很多，可以指定，你只关心哪些类注解，哪些方法注解，不管这些注解是你自定义的，还是系统定义的
-    2. 注解加在接口上，还是实现类上，或者没有接口的类，可以随意换
-    3. 扫描到一个注解后，你可以做一些处理，例如你可以把注解对应的数据存入数据库
-    4. 强大的注解扫描和拦截功能，在不侵入业务代码的前提下(只是需要在业务端加入一个注解而已)，你可以实现业务应用，例如API监控统计、API健康检查等
+- 对于有复杂AOP使用场景的，用Matrix可以简化你的切面开发。例如：
+  - 根据不同的业务逻辑，指定所有的注解由同一个或者多个拦截类来拦截；也可以指定不同的注解由不同的切面拦截类来拦截；更可以指定不同的接口和实现类，由不同的拦截类来拦截
+  - 如果注解很多，可以指定，你只关心哪些类注解，哪些方法注解，不管这些注解是你自定义的，还是系统定义的
+- 注解加在接口上，还是实现类上，或者没有接口的类，可以随意换
+- 扫描到一个注解后，你可以做一些处理，例如你可以把注解对应的数据存入数据库
+- 强大的注解扫描和拦截功能，在不侵入业务代码的前提下(只是需要在业务端加入一个注解而已)，你可以实现业务应用，例如API监控统计、API健康检查等
 
 Spring Registrar机制
-
-    1. 参考@FeignClient的用法
+> 参考@FeignClient的用法
 
 Spring Import Selector机制
-
-    1. 参考@EnableCircuitBreaker的用法
+> 参考@EnableCircuitBreaker的用法
 
 ### 依赖
 
@@ -220,7 +215,7 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 更复杂的用法请参考com.nepxion.matrix.proxy.complex目录下的代码
 
 ## Spring Registrar机制的示例
-参考matrix-spring-boot-registrar-example
+> 参考matrix-spring-boot-registrar-example
 
 ## Spring Import Selector机制的示例
-参考matrix-spring-boot-selector-example
+> 参考matrix-spring-boot-selector-example
