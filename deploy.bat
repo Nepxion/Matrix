@@ -15,6 +15,6 @@
 @title Nepxion Matrix
 @color 0a
 
-call mvn clean deploy -DskipTests -e -P release -pl matrix-aop -am
+call mvn clean deploy -DskipTests -e -P release -pl matrix-aop-starter -am
 
 pause
