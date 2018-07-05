@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <artifactId>matrix-aop-starter</artifactId>
+    <name>Nepxion Matrix Aop Starter</name>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <description>Nepxion Matrix is an AOP framework integrated with Spring AutoProxy, Spring Registrar and Spring Import Selector</description>
+    <url>http://www.nepxion.com</url>
+
+    <parent>
+        <groupId>com.nepxion</groupId>
+        <artifactId>matrix</artifactId>
+        <version>1.0.18</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>matrix-aop</artifactId>
+        </dependency>
+    </dependencies>
+</project>

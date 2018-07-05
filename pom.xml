@@ -12,6 +12,7 @@
 
     <modules>
         <module>matrix-aop</module>
+        <module>matrix-aop-starter</module>
         <module>matrix-spring-boot-proxy-example</module>
         <module>matrix-spring-boot-registrar-example</module>
         <module>matrix-spring-boot-selector-example</module>
@@ -33,6 +34,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>matrix-aop</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>matrix-aop-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
