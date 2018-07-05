@@ -15,13 +15,18 @@
     </parent>
 
     <properties>
-        <spring.boot.version>1.5.8.RELEASE</spring.boot.version>
+        <spring.boot.version>1.5.14.RELEASE</spring.boot.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>matrix-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
 
         <dependency>
