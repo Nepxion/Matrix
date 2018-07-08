@@ -75,7 +75,7 @@ public class RelaxedPropertyResolver implements PropertyResolver {
        return defaultValue;
    }
 
-   @Override
+   /*@Override
    @Deprecated
    public <T> Class<T> getPropertyAsClass(String key, Class<T> targetType) {
        RelaxedNames prefixes = new RelaxedNames(this.prefix);
@@ -84,6 +84,23 @@ public class RelaxedPropertyResolver implements PropertyResolver {
            for (String relaxedKey : keys) {
                if (this.resolver.containsProperty(prefix + relaxedKey)) {
                    return this.resolver.getPropertyAsClass(prefix + relaxedKey,
+                           targetType);
+               }
+           }
+       }
+       return null;
+   }*/
+
+   // 兼容 Spring 5.x.x
+   @SuppressWarnings("unchecked")
+   @Deprecated
+   public <T> Class<T> getPropertyAsClass(String key, Class<T> targetType) {
+       RelaxedNames prefixes = new RelaxedNames(this.prefix);
+       RelaxedNames keys = new RelaxedNames(key);
+       for (String prefix : prefixes) {
+           for (String relaxedKey : keys) {
+               if (this.resolver.containsProperty(prefix + relaxedKey)) {
+                   return (Class<T>) this.resolver.getProperty(prefix + relaxedKey,
                            targetType);
                }
            }
