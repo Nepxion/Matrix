@@ -36,7 +36,7 @@ public abstract class AbstractImportSelector<T> implements DeferredImportSelecto
         System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
         System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
         System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
-        System.out.println("Nepxion Matrix - Import Selector  v1.0.20");
+        System.out.println("Nepxion Matrix - Import Selector  v2.0.0");
         System.out.println("");
     }
 
