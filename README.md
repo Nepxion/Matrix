@@ -33,6 +33,9 @@ Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import
 - 入口加上@EnableXXX，并提供在spring.factories定义@EnableXXX和Configuration类的关联，达到通过注解的配置与否，控制对应相关上下文对象，例如Bean类的初始化与否
 - 提供在application.properties配置参数，达到上述的目的
 
+## 兼容
+请使用2.0.0以上版本，它同时兼容Spring 4.x.x和5.x.x版本
+
 ## 场景
 Matrix框架一般可以应用到如下场景中：
 
