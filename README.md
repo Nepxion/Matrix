@@ -34,8 +34,9 @@ Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import
 - 提供在application.properties配置参数，达到上述的目的
 
 ## 兼容
-- 兼容Spring 4.x.x和Spring Boot 1.x.x
-- 兼容Spring 5.x.x和Spring Boot 2.x.x
+最新版本兼容
+- Spring 4.x.x和Spring Boot 1.x.x
+- Spring 5.x.x和Spring Boot 2.x.x
 
 ## 场景
 Matrix框架一般可以应用到如下场景中：
