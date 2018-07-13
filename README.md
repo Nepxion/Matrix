@@ -55,8 +55,7 @@ Matrix框架一般可以应用到如下场景中：
 ### Spring Import Selector机制
 > 参考@EnableCircuitBreaker的用法
 
-### 依赖
-
+## 依赖
 ```xml
 <dependency>
   <groupId>com.nepxion</groupId>
