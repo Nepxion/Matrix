@@ -63,9 +63,16 @@ Matrix框架一般可以应用到如下场景中：
 ## 依赖
 ```xml
 <dependency>
-  <groupId>com.nepxion</groupId>
-  <artifactId>matrix-aop</artifactId>
-  <version>${matrix.version}</version>
+    <groupId>com.nepxion</groupId>
+    <artifactId>matrix</artifactId>
+    <version>${matrix.version}</version>
+    <type>pom</type>
+    <scope>import</scope>
+</dependency>
+
+<dependency>
+    <groupId>com.nepxion</groupId>
+    <artifactId>matrix-aop</artifactId>
 </dependency>
 ```
 
