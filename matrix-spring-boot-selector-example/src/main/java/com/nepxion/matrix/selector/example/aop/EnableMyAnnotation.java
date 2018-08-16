@@ -24,5 +24,5 @@ import org.springframework.context.annotation.Import;
 @Inherited
 @Import(EnableMyAnnotationImportSelector.class)
 public @interface EnableMyAnnotation {
-
+    boolean extension() default true;
 }

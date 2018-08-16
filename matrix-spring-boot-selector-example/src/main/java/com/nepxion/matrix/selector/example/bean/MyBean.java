@@ -1,4 +1,4 @@
-package com.nepxion.matrix.selector.example.configuration;
+package com.nepxion.matrix.selector.example.bean;
 
 /**
  * <p>Title: Nepxion Matrix</p>

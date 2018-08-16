@@ -12,6 +12,8 @@ package com.nepxion.matrix.selector.example.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.nepxion.matrix.selector.example.bean.MyBean;
+
 @Configuration
 public class MyConfiguration {
     @Bean
