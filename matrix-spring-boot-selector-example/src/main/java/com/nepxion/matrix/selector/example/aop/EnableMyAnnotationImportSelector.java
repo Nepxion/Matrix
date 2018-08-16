@@ -19,11 +19,15 @@ import com.nepxion.matrix.selector.RelaxedPropertyResolver;
 public class EnableMyAnnotationImportSelector extends AbstractImportSelector<EnableMyAnnotation> {
     @Override
     protected boolean isEnabled() {
+        // Spring boot 1.x.x版本的用法
         return new RelaxedPropertyResolver(getEnvironment()).getProperty("com.nepxion.myannotation.enabled", Boolean.class, Boolean.TRUE);
+
+        // Spring boot 2.x.x版本的用法
+        // return getEnvironment().getProperty("com.nepxion.myannotation.enabled", Boolean.class, Boolean.TRUE);
     }
 
-    /*@Override
-    protected boolean hasDefaultFactory() {
-        return true;
-    }*/
+    // @Override
+    // protected boolean hasDefaultFactory() {
+    //    return true;
+    // }
 }
