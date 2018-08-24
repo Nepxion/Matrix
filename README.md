@@ -3,6 +3,8 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/matrix.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20matrix)
 [![Javadocs](http://www.javadoc.io/badge/com.nepxion/matrix-aop.svg)](http://www.javadoc.io/doc/com.nepxion/matrix-aop)
 [![Build Status](https://travis-ci.org/Nepxion/Matrix.svg?branch=master)](https://travis-ci.org/Nepxion/Matrix)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0baa5e8bd30d46e6be7ef936640f64de)](https://www.codacy.com/project/HaojunRen/Matrix/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Matrix&amp;utm_campaign=Badge_Grade_Dashboard)
+![CoL](https://tokei.rs/b1/github/Nepxion/Matrix)
 
 Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import Selector三种机制的AOP框架，具有很高的通用性，健壮性，灵活性和易用性
 
