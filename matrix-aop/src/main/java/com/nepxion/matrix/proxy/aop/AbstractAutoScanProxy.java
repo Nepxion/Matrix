@@ -206,7 +206,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             } else {
                 Object[] proxyInterceptors = null;
                 switch (proxyMode) {
-                // 只通过扫描到接口名或者类名上的注解后，来确定是否要代理
+                    // 只通过扫描到接口名或者类名上的注解后，来确定是否要代理
                     case BY_CLASS_ANNOTATION_ONLY:
                         proxyInterceptors = scanAndProxyForClass(targetClass, targetClassName, beanName, interceptors, proxyTargetClass);
                         break;
