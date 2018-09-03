@@ -10,7 +10,7 @@ Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import
 
 ## 请联系我
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
- 
+
 ## 简介
 ### Spring AutoProxy机制
 它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务。代码参考com.nepxion.matrix.proxy，示例参考matrix-spring-boot-proxy-example
