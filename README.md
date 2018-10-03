@@ -9,20 +9,24 @@
 Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import Selector三种机制的AOP框架，具有很高的通用性、健壮性、灵活性和易用性
 
 ## 请联系我
+微信和公众号
+
 ![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
+![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/公众号-1.jpg)
 
 ## 简介
 ### Spring AutoProxy机制
-它统一封装接口(Spring)代理和类代理(CGLIB)，注解无论在接口和类的头部或者方法上，都可以让业务端无编程的被有效切面，可以轻松快速实现对接口或者类的复杂代理业务。代码参考com.nepxion.matrix.proxy，示例参考matrix-spring-boot-proxy-example
+它统一封装接口（Spring）代理和类代理（CGLIB），注解无论在接口和类的头部或者方法上，都可以让业务端执行有效切面，可以轻松快速实现对接口或者类的复杂代理业务。代码参考com.nepxion.matrix.proxy，示例参考matrix-spring-boot-proxy-example
 - 实现接口走Spring代理，类走CGLIB代理
+- 实现通用代理和额外代理两种机制
 - 实现同一进程中，可以接口代理和类代理同存
 - 实现对类或者接口名上注解Annotation，方法上注解Annotation的快速扫描，并开放处理接口供业务端实现
-- 实现“只扫描不代理”，“既扫描又代理”；代理支持“只代理类或者接口名上注解”、“只代理方法上的注解”、“全部代理”三种模式；扫描支持“只扫描类或者接口名上注解”、“只扫描方法上的注解”、“全部扫描”三种模式
+- 实现“只扫描不代理”，“既扫描又代理”；代理模式ProxyMode，支持“只代理类或者接口名上注解”、“只代理方法上的注解”、“全部代理”三种模式；扫描模式ScanMode，支持“只扫描类或者接口名上注解”、“只扫描方法上的注解”、“全部扫描”三种模式
 - 实现“代理和扫描多个注解“
 - 实现“支持多个切面实现类Interceptor做调用拦截”  
-- 实现“自身调用自身的注解方法，达到切面效果”，提供自动装配(Spring 4.3.X以上的版本支持)和AopContext.currentProxy()两种方式
+- 实现“自身调用自身的注解方法，达到切面效果”，提供自动装配（Spring 4.3.X以上的版本支持）和AopContext.currentProxy()两种方式
 - 实现“只扫描指定目录”和“扫描全局目录”两种方式
-- 实现根据Java8的特性来获取注解对应方法上的变量名(不是变量类型)，支持标准反射和字节码CGLIG(ASM library)来获取，前者适用于接口代理，后者适用于类代理
+- 实现根据Java8的特性来获取注解对应方法上的变量名（不是变量类型），支持标准反射和字节码CGLIG（ASM library）来获取，前者适用于接口代理，后者适用于类代理
 
   标准反射的方式，需要在IDE和Maven里设置"-parameters"的Compiler Argument。参考如下：
   - Eclipse加"-parameters"参数：https://www.concretepage.com/java/jdk-8/java-8-reflection-access-to-parameter-names-of-method-and-constructor-with-maven-gradle-and-eclipse-using-parameters-compiler-argument
