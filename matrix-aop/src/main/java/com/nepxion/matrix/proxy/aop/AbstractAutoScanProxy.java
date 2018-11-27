@@ -9,11 +9,9 @@ package com.nepxion.matrix.proxy.aop;
  * @version 1.0
  */
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.nepxion.matrix.proxy.mode.ProxyMode;
+import com.nepxion.matrix.proxy.mode.ScanMode;
+import com.nepxion.matrix.proxy.util.ProxyUtil;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,12 +20,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator;
-import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Component;
 
-import com.nepxion.matrix.proxy.mode.ProxyMode;
-import com.nepxion.matrix.proxy.mode.ScanMode;
-import com.nepxion.matrix.proxy.util.ProxyUtil;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private static final long serialVersionUID = 6827218905375993727L;
@@ -55,8 +53,8 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         System.out.println("");
     }
 
-    // Bean名称和Bean对象关联
-    private final Map<String, Object> beanMap = new HashMap<String, Object>();
+    // Bean名称和当前Bean对象关联
+    private final Map<String, Object> currentBeanMap = new HashMap<String, Object>();
 
     // Spring容器中哪些接口或者类需要被代理
     private final Map<String, Boolean> proxyMap = new HashMap<String, Boolean>();
@@ -155,6 +153,13 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     }
 
     @Override
+    protected Object wrapIfNecessary(Object bean, String beanName, Object cacheKey) {
+        //存储当前实例化过程中的当前状态下的bean，有可能是被代理过的bean
+        currentBeanMap.put(beanName, bean);
+        return super.wrapIfNecessary(bean, beanName, cacheKey);
+    }
+
+    @Override
     protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName, TargetSource targetSource) {
         boolean scanPackagesEnabled = scanPackagesEnabled();
         // scanPackagesEnabled=false，表示“只扫描指定目录”的方式未开启，则不会对扫描到的bean进行代理预先判断
@@ -166,16 +171,11 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             }
         }
 
-        // 根据Bean名称获取Bean对象
-        Object bean = beanMap.get(beanName);
+        // 根据Bean名称获取当前Bean对象
+        Object bean = currentBeanMap.get(beanName);
 
         // 获取最终目标类
-        Class<?> targetClass = null;
-        if (bean != null /* && AopUtils.isCglibProxy(bean) */) {
-            targetClass = AopProxyUtils.ultimateTargetClass(bean);
-        } else {
-            targetClass = beanClass;
-        }
+        Class<?> targetClass = AopProxyUtils.ultimateTargetClass(bean);
 
         // Spring容器扫描实现类
         if (!targetClass.isInterface()) {
@@ -317,26 +317,6 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         }
 
         return proxied ? interceptors : DO_NOT_PROXY;
-    }
-
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        Object object = super.postProcessBeforeInitialization(bean, beanName);
-
-        // 前置扫描，把Bean名称和Bean对象关联存入Map
-        boolean scanPackagesEnabled = scanPackagesEnabled();
-        if (scanPackagesEnabled) {
-            boolean scanPackagesContained = scanPackagesContained(bean.getClass());
-            if (scanPackagesContained) {
-                // 如果beanClass的类路径，包含在扫描目录中，则加入beanMap
-                 beanMap.put(beanName, bean);
-            }
-        } else {
-            // scanPackagesEnabled=false，表示“只扫描指定目录”的方式未开启，则所有扫描到的bean都加入beanMap
-            beanMap.put(beanName, bean);
-        }
-
-        return object;
     }
 
     @Override
