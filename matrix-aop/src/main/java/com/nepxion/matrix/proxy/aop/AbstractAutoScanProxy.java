@@ -36,6 +36,13 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
 
     private static final String SEPARATOR = ";";
 
+    //jdk proxy 名称关键字
+    private static final String JDK_PROXY_NAME_KEY = "com.sun.proxy";
+
+    //cglib proxy 名称关键字
+    private static final String CGLIB_PROXY_NAME_KEY = "ByCGLIB";
+
+
     static {
         System.out.println("");
         System.out.println("╔═╗╔═╗   ╔╗");
@@ -322,7 +329,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             boolean scanPackagesContained = scanPackagesContained(bean.getClass());
             if (scanPackagesContained) {
                 // 如果beanClass的类路径，包含在扫描目录中，则加入beanMap
-                beanMap.put(beanName, bean);
+                 beanMap.put(beanName, bean);
             }
         } else {
             // scanPackagesEnabled=false，表示“只扫描指定目录”的方式未开启，则所有扫描到的bean都加入beanMap
@@ -354,7 +361,8 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             if (StringUtils.isNotEmpty(scanPackage)) {
                 // beanClassName有时候会为null...
                 String beanClassName = beanClass.getCanonicalName();
-                if (StringUtils.isNotEmpty(beanClassName) && beanClassName.startsWith(scanPackage)) {
+                if ((StringUtils.isNotEmpty(beanClassName) && beanClassName.startsWith(scanPackage))
+                        || beanClassName.contains(JDK_PROXY_NAME_KEY) || beanClassName.contains(CGLIB_PROXY_NAME_KEY)) {
                     return true;
                 }
             }
