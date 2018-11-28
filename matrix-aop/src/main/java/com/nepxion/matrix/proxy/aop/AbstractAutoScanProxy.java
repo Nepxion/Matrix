@@ -25,6 +25,7 @@ import org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Component;
 
+import com.nepxion.matrix.proxy.constant.ProxyConstant;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
 import com.nepxion.matrix.proxy.util.ProxyUtil;
@@ -33,15 +34,6 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private static final long serialVersionUID = 6827218905375993727L;
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAutoScanProxy.class);
-
-    private static final String SEPARATOR = ";";
-
-    //jdk proxy 名称关键字
-    private static final String JDK_PROXY_NAME_KEY = "com.sun.proxy";
-
-    //cglib proxy 名称关键字
-    private static final String CGLIB_PROXY_NAME_KEY = "ByCGLIB";
-
 
     static {
         System.out.println("");
@@ -102,7 +94,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     }
 
     public AbstractAutoScanProxy(String scanPackages, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
-        this(StringUtils.isNotEmpty(scanPackages) ? scanPackages.trim().split(SEPARATOR) : null, proxyMode, scanMode, exposeProxy);
+        this(StringUtils.isNotEmpty(scanPackages) ? scanPackages.trim().split(ProxyConstant.SEPARATOR) : null, proxyMode, scanMode, exposeProxy);
     }
 
     public AbstractAutoScanProxy(String[] scanPackages, ProxyMode proxyMode, ScanMode scanMode, boolean exposeProxy) {
@@ -117,7 +109,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                 String scanPackage = scanPackages[i];
                 builder.append(scanPackage);
                 if (i < scanPackages.length - 1) {
-                    builder.append(SEPARATOR);
+                    builder.append(ProxyConstant.SEPARATOR);
                 }
             }
         }
@@ -329,7 +321,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             boolean scanPackagesContained = scanPackagesContained(bean.getClass());
             if (scanPackagesContained) {
                 // 如果beanClass的类路径，包含在扫描目录中，则加入beanMap
-                 beanMap.put(beanName, bean);
+                beanMap.put(beanName, bean);
             }
         } else {
             // scanPackagesEnabled=false，表示“只扫描指定目录”的方式未开启，则所有扫描到的bean都加入beanMap
@@ -361,8 +353,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             if (StringUtils.isNotEmpty(scanPackage)) {
                 // beanClassName有时候会为null...
                 String beanClassName = beanClass.getCanonicalName();
-                if ((StringUtils.isNotEmpty(beanClassName) && beanClassName.startsWith(scanPackage))
-                        || beanClassName.contains(JDK_PROXY_NAME_KEY) || beanClassName.contains(CGLIB_PROXY_NAME_KEY)) {
+                if ((StringUtils.isNotEmpty(beanClassName) && beanClassName.startsWith(scanPackage)) || beanClassName.contains(ProxyConstant.JDK_PROXY_NAME_KEY) || beanClassName.contains(ProxyConstant.CGLIB_PROXY_NAME_KEY)) {
                     return true;
                 }
             }
