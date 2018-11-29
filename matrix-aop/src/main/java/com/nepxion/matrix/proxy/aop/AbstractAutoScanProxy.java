@@ -353,8 +353,12 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             if (StringUtils.isNotEmpty(scanPackage)) {
                 // beanClassName有时候会为null...
                 String beanClassName = beanClass.getCanonicalName();
-                if ((StringUtils.isNotEmpty(beanClassName) && beanClassName.startsWith(scanPackage)) || beanClassName.contains(ProxyConstant.JDK_PROXY_NAME_KEY) || beanClassName.contains(ProxyConstant.CGLIB_PROXY_NAME_KEY)) {
-                    return true;
+                if (StringUtils.isNotEmpty(beanClassName)) {
+                    if (beanClassName.startsWith(scanPackage) || beanClassName.contains(ProxyConstant.JDK_PROXY_NAME_KEY) || beanClassName.contains(ProxyConstant.CGLIB_PROXY_NAME_KEY)) {
+                        return true;
+                    }
+                } else {
+                    return false;
                 }
             }
         }
