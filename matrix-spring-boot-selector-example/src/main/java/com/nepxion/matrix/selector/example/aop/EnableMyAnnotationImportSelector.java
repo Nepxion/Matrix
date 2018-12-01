@@ -23,7 +23,6 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.type.AnnotationMetadata;
 
 import com.nepxion.matrix.selector.AbstractImportSelector;
-import com.nepxion.matrix.selector.RelaxedPropertyResolver;
 import com.nepxion.matrix.selector.example.configuration.MyConfigurationExtension;
 
 @Order(Ordered.LOWEST_PRECEDENCE - 100)
@@ -61,10 +60,10 @@ public class EnableMyAnnotationImportSelector extends AbstractImportSelector<Ena
     @Override
     protected boolean isEnabled() {
         // Spring boot 1.x.x版本的用法
-        return new RelaxedPropertyResolver(getEnvironment()).getProperty("com.nepxion.myannotation.enabled", Boolean.class, Boolean.TRUE);
+        // return new RelaxedPropertyResolver(getEnvironment()).getProperty("com.nepxion.myannotation.enabled", Boolean.class, Boolean.TRUE);
 
         // Spring boot 2.x.x版本的用法
-        // return getEnvironment().getProperty("com.nepxion.myannotation.enabled", Boolean.class, Boolean.TRUE);
+        return getEnvironment().getProperty("com.nepxion.myannotation.enabled", Boolean.class, Boolean.TRUE);
     }
 
     // @Override
