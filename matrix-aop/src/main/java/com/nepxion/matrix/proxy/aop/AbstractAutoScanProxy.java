@@ -198,10 +198,8 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
         if (StringUtils.isNotEmpty(targetClassName) && !targetClassName.startsWith("java.")) {
             // 避免对同一个接口或者类扫描多次
             Boolean proxied = proxyMap.get(targetClassName);
-            if (proxied != null) {
-                if (proxied) {
+            if (proxied != null && proxied) {
                     return interceptors;
-                }
             } else {
                 Object[] proxyInterceptors = null;
                 switch (proxyMode) {
@@ -353,13 +351,14 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             if (StringUtils.isNotEmpty(scanPackage)) {
                 // beanClassName有时候会为null...
                 String beanClassName = beanClass.getCanonicalName();
-                if (StringUtils.isNotEmpty(beanClassName)) {
-                    if (beanClassName.startsWith(scanPackage) || beanClassName.contains(ProxyConstant.JDK_PROXY_NAME_KEY) || beanClassName.contains(ProxyConstant.CGLIB_PROXY_NAME_KEY)) {
-                        return true;
-                    }
-                } else {
-                    return false;
+                boolean isBeanClassName = StringUtils.isNotEmpty(beanClassName) && beanClassName.startsWith(scanPackage)
+                        || beanClassName.contains(ProxyConstant.JDK_PROXY_NAME_KEY)
+                        || beanClassName.contains(ProxyConstant.CGLIB_PROXY_NAME_KEY);
+                if (isBeanClassName) {
+                    return true;
                 }
+                return false;
+
             }
         }
 
