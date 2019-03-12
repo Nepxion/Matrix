@@ -45,7 +45,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
             System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
             System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
-            System.out.println("Nepxion Matrix - AutoScanProxy  v2.0.4");
+            System.out.println("Nepxion Matrix - AutoScanProxy  v2.0.5");
             System.out.println("");
         }
     }
