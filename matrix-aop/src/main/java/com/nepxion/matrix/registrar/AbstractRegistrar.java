@@ -41,15 +41,18 @@ public abstract class AbstractRegistrar implements ImportBeanDefinitionRegistrar
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRegistrar.class);
 
     static {
-        System.out.println("");
-        System.out.println("╔═╗╔═╗   ╔╗");
-        System.out.println("║║╚╝║║  ╔╝╚╗");
-        System.out.println("║╔╗╔╗╠══╬╗╔╬═╦╦╗╔╗");
-        System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
-        System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
-        System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
-        System.out.println("Nepxion Matrix - Registrar  v2.0.3");
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═╗╔═╗   ╔╗");
+            System.out.println("║║╚╝║║  ╔╝╚╗");
+            System.out.println("║╔╗╔╗╠══╬╗╔╬═╦╦╗╔╗");
+            System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
+            System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
+            System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
+            System.out.println("Nepxion Matrix - Registrar  v2.0.4");
+            System.out.println("");
+        }
     }
 
     private ResourceLoader resourceLoader;

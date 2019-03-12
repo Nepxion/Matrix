@@ -29,15 +29,18 @@ public abstract class AbstractImportSelector<T> implements DeferredImportSelecto
     private static final Logger LOG = LoggerFactory.getLogger(AbstractImportSelector.class);
 
     static {
-        System.out.println("");
-        System.out.println("╔═╗╔═╗   ╔╗");
-        System.out.println("║║╚╝║║  ╔╝╚╗");
-        System.out.println("║╔╗╔╗╠══╬╗╔╬═╦╦╗╔╗");
-        System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
-        System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
-        System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
-        System.out.println("Nepxion Matrix - Import Selector  v2.0.3");
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═╗╔═╗   ╔╗");
+            System.out.println("║║╚╝║║  ╔╝╚╗");
+            System.out.println("║╔╗╔╗╠══╬╗╔╬═╦╦╗╔╗");
+            System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
+            System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
+            System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
+            System.out.println("Nepxion Matrix - Import Selector  v2.0.4");
+            System.out.println("");
+        }
     }
 
     private ClassLoader beanClassLoader;

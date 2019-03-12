@@ -36,15 +36,18 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAutoScanProxy.class);
 
     static {
-        System.out.println("");
-        System.out.println("╔═╗╔═╗   ╔╗");
-        System.out.println("║║╚╝║║  ╔╝╚╗");
-        System.out.println("║╔╗╔╗╠══╬╗╔╬═╦╦╗╔╗");
-        System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
-        System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
-        System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
-        System.out.println("Nepxion Matrix - AutoScanProxy  v2.0.3");
-        System.out.println("");
+        String logoShown = System.getProperty("nepxion.logo.shown", "true");
+        if (Boolean.valueOf(logoShown)) {
+            System.out.println("");
+            System.out.println("╔═╗╔═╗   ╔╗");
+            System.out.println("║║╚╝║║  ╔╝╚╗");
+            System.out.println("║╔╗╔╗╠══╬╗╔╬═╦╦╗╔╗");
+            System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
+            System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
+            System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
+            System.out.println("Nepxion Matrix - AutoScanProxy  v2.0.4");
+            System.out.println("");
+        }
     }
 
     // Bean名称和Bean对象关联
