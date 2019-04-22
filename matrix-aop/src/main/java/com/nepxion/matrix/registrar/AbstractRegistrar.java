@@ -63,7 +63,7 @@ public abstract class AbstractRegistrar implements ImportBeanDefinitionRegistrar
 
         LogoBanner logoBanner = new LogoBanner(AbstractRegistrar.class, "/com/nepxion/matrix/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
 
-        NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", MatrixConstant.MATRIX_VERSION, 0, 1), new Description(BannerConstant.PLUGIN + ":", "Registrar", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/matrix", 0, 1));
+        NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", MatrixConstant.MATRIX_VERSION, 0, 1), new Description(BannerConstant.PLUGIN + ":", "Registrar", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Matrix", 0, 1));
     }
 
     private ResourceLoader resourceLoader;
