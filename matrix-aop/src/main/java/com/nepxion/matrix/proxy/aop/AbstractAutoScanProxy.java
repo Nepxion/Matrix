@@ -25,10 +25,16 @@ import org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Component;
 
+import com.nepxion.banner.BannerConstant;
+import com.nepxion.banner.Description;
+import com.nepxion.banner.LogoBanner;
+import com.nepxion.banner.NepxionBanner;
+import com.nepxion.matrix.constant.MatrixConstant;
 import com.nepxion.matrix.proxy.constant.ProxyConstant;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
 import com.nepxion.matrix.proxy.util.ProxyUtil;
+import com.taobao.text.Color;
 
 public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private static final long serialVersionUID = 6827218905375993727L;
@@ -36,8 +42,8 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAutoScanProxy.class);
 
     static {
-        String logoShown = System.getProperty("nepxion.logo.shown", "true");
-        if (Boolean.valueOf(logoShown)) {
+        /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
+        if (Boolean.valueOf(bannerShown)) {
             System.out.println("");
             System.out.println("╔═╗╔═╗   ╔╗");
             System.out.println("║║╚╝║║  ╔╝╚╗");
@@ -45,9 +51,13 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
             System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
             System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
             System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
-            System.out.println("Nepxion Matrix - AutoScanProxy  v2.0.5");
+            System.out.println("Nepxion Matrix - AutoScanProxy  v" + MatrixConstant.MATRIX_VERSION);
             System.out.println("");
-        }
+        }*/
+
+        LogoBanner logoBanner = new LogoBanner(AbstractAutoScanProxy.class, "/com/nepxion/matrix/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
+
+        NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", MatrixConstant.MATRIX_VERSION, 0, 1), new Description(BannerConstant.PLUGIN + ":", "AutoScanProxy", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/matrix", 0, 1));
     }
 
     // Bean名称和Bean对象关联

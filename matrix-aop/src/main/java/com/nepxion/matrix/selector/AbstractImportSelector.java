@@ -25,12 +25,19 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 
+import com.nepxion.banner.BannerConstant;
+import com.nepxion.banner.Description;
+import com.nepxion.banner.LogoBanner;
+import com.nepxion.banner.NepxionBanner;
+import com.nepxion.matrix.constant.MatrixConstant;
+import com.taobao.text.Color;
+
 public abstract class AbstractImportSelector<T> implements DeferredImportSelector, BeanClassLoaderAware, EnvironmentAware {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractImportSelector.class);
 
     static {
-        String logoShown = System.getProperty("nepxion.logo.shown", "true");
-        if (Boolean.valueOf(logoShown)) {
+        /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
+        if (Boolean.valueOf(bannerShown)) {
             System.out.println("");
             System.out.println("╔═╗╔═╗   ╔╗");
             System.out.println("║║╚╝║║  ╔╝╚╗");
@@ -38,9 +45,13 @@ public abstract class AbstractImportSelector<T> implements DeferredImportSelecto
             System.out.println("║║║║║║╔╗║║║║╔╬╬╬╬╝");
             System.out.println("║║║║║║╔╗║║╚╣║║╠╬╬╗");
             System.out.println("╚╝╚╝╚╩╝╚╝╚═╩╝╚╩╝╚╝");
-            System.out.println("Nepxion Matrix - Import Selector  v2.0.5");
+            System.out.println("Nepxion Matrix - Import Selector  v" + MatrixConstant.MATRIX_VERSION);
             System.out.println("");
-        }
+        }*/
+
+        LogoBanner logoBanner = new LogoBanner(AbstractImportSelector.class, "/com/nepxion/matrix/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
+
+        NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", MatrixConstant.MATRIX_VERSION, 0, 1), new Description(BannerConstant.PLUGIN + ":", "Import Selector", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/matrix", 0, 1));
     }
 
     private ClassLoader beanClassLoader;

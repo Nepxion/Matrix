@@ -19,6 +19,7 @@
     </modules>
 
     <properties>
+        <banner.version>1.0.2</banner.version>
         <commons.lang3.version>3.6</commons.lang3.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.io.version>2.5</commons.io.version>
@@ -41,6 +42,12 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>matrix-aop-starter</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>banner</artifactId>
+                <version>${banner.version}</version>
             </dependency>
 
             <dependency>
