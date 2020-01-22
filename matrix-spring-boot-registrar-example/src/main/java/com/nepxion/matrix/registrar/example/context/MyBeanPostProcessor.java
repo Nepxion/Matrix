@@ -1,8 +1,8 @@
 package com.nepxion.matrix.registrar.example.context;
 
 /**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
+ * <p>Title: Nepxion Matrix</p>
+ * <p>Description: Nepxion Matrix AOP</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
  * @author Haojun Ren

@@ -1,18 +1,12 @@
 # Nepxion Matrix
-[![Total lines](https://tokei.rs/b1/github/Nepxion/Matrix?category=lines)](https://github.com/Nepxion/Matrix)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Matrix/blob/master/LICENSE)
-[![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/matrix.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20matrix)
-[![Javadocs](http://www.javadoc.io/badge/com.nepxion/matrix-aop.svg)](http://www.javadoc.io/doc/com.nepxion/matrix-aop)
-[![Build Status](https://travis-ci.org/Nepxion/Matrix.svg?branch=master)](https://travis-ci.org/Nepxion/Matrix)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0baa5e8bd30d46e6be7ef936640f64de)](https://www.codacy.com/project/HaojunRen/Matrix/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Matrix&amp;utm_campaign=Badge_Grade_Dashboard)
+[![Total lines](https://tokei.rs/b1/github/Nepxion/Matrix?category=lines)](https://tokei.rs/b1/github/Nepxion/Matrix?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://github.com/Nepxion/Matrix/blob/master/LICENSE)  [![Maven Central](https://img.shields.io/maven-central/v/com.nepxion/matrix.svg?label=maven%20central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nepxion%22%20AND%20matrix)  [![Javadocs](http://www.javadoc.io/badge/com.nepxion/matrix-aop.svg)](http://www.javadoc.io/doc/com.nepxion/matrix-aop)  [![Build Status](https://travis-ci.org/Nepxion/Matrix.svg?branch=master)](https://travis-ci.org/Nepxion/Matrix)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0baa5e8bd30d46e6be7ef936640f64de)](https://www.codacy.com/project/HaojunRen/Matrix/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nepxion/Matrix&amp;utm_campaign=Badge_Grade_Dashboard)
 
 Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import Selector三种机制的AOP框架，具有很高的通用性、健壮性、灵活性和易用性
 
 ## 请联系我
 微信和公众号
 
-![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/微信-1.jpg)
-![Alt text](https://github.com/Nepxion/Docs/blob/master/zxing-doc/公众号-1.jpg)
+![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/微信-1.jpg)![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/公众号-1.jpg)
 
 ## 简介
 ### Spring AutoProxy机制
@@ -68,15 +62,8 @@ Matrix框架一般可以应用到如下场景中：
 ```xml
 <dependency>
     <groupId>com.nepxion</groupId>
-    <artifactId>matrix</artifactId>
-    <version>${matrix.version}</version>
-    <type>pom</type>
-    <scope>import</scope>
-</dependency>
-
-<dependency>
-    <groupId>com.nepxion</groupId>
     <artifactId>matrix-aop</artifactId>
+    <version>${matrix.version}</version>
 </dependency>
 ```
 
@@ -242,3 +229,7 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 
 ## Spring Import Selector机制的示例
 > 参考matrix-spring-boot-selector-example
+
+## Star走势图
+
+[![Stargazers over time](https://starchart.cc/Nepxion/Matrix.svg)](https://starchart.cc/Nepxion/Matrix)
