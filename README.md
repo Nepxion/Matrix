@@ -232,4 +232,4 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 
 ## Star走势图
 
-[![Stargazers over time](https://starchart.cc/Nepxion/Matrix.svg)](https://starchart.cc/Nepxion/Matrix)
+[![Stargazers over time](https://starchart.cc/Nepxion/Matrix.svg)](https://starchart.cc/Nepxion/Matrix) 
