@@ -6,7 +6,7 @@ Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import
 ## 请联系我
 微信和公众号
 
-![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/微信-1.jpg)![Alt text](https://github.com/HaojunRen/Docs/raw/master/zxing-doc/公众号-1.jpg)
+![Alt text](http://nepxion.gitee.io/docs/zxing-doc/微信-1.jpg)![Alt text](http://nepxion.gitee.io/docs/zxing-doc/公众号-1.jpg)
 
 ## 简介
 ### Spring AutoProxy机制
