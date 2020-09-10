@@ -15,6 +15,6 @@
 @title Nepxion Matrix
 @color 0a
 
-call mvn versions:set -DgenerateBackupPoms=false -DnewVersion=2.0.7
+call mvn versions:set -DgenerateBackupPoms=false -DnewVersion=2.0.8
 
 pause

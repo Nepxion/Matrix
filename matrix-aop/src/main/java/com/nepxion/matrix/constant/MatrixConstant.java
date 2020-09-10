@@ -10,5 +10,5 @@ package com.nepxion.matrix.constant;
  */
 
 public class MatrixConstant {
-    public static final String MATRIX_VERSION = "2.0.7";
+    public static final String MATRIX_VERSION = "2.0.8";
 }
