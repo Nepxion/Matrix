@@ -231,5 +231,4 @@ public class MyAutoScanProxyForMethod extends DefaultAutoScanProxy {
 > 参考matrix-spring-boot-selector-example
 
 ## Star走势图
-
 [![Stargazers over time](https://starchart.cc/Nepxion/Matrix.svg)](https://starchart.cc/Nepxion/Matrix)
