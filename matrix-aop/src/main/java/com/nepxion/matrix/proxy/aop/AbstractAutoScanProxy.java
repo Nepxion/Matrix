@@ -246,7 +246,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                     // 是接口代理还是类代理
                     proxyTargetClassMap.put(beanName, proxyTargetClass);
 
-                    LOG.info("------------ Matrix Proxy Information -----------");
+                    /*LOG.info("------------ Matrix Proxy Information -----------");
                     Class<? extends MethodInterceptor>[] commonInterceptorClasses = getCommonInterceptors();
                     if (ArrayUtils.isNotEmpty(commonInterceptorClasses)) {
                         LOG.info("Class [{}] is proxied by common interceptor classes [{}], proxyTargetClass={}", targetClassName, ProxyUtil.toString(commonInterceptorClasses), proxyTargetClass);
@@ -260,7 +260,7 @@ public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
                     if (proxyInterceptors != PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS && ArrayUtils.isNotEmpty(proxyInterceptors)) {
                         LOG.info("Class [{}] is proxied by additional interceptors [{}], proxyTargetClass={}", targetClassName, proxyInterceptors, proxyTargetClass);
                     }
-                    LOG.info("-------------------------------------------------");
+                    LOG.info("-------------------------------------------------");*/
                 }
 
                 return proxyInterceptors;
