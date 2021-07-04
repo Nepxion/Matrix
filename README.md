@@ -5,7 +5,7 @@
 
 Nepxion Matrix是一款集成Spring AutoProxy，Spring Registrar和Spring Import Selector三种机制的AOP框架，具有很高的通用性、健壮性、灵活性和易用性
 
-## 简介
+## 简介 
 ### Spring AutoProxy机制
 它统一封装接口（Spring）代理和类代理（CGLIB），注解无论在接口和类的头部或者方法上，都可以让业务端执行有效切面，可以轻松快速实现对接口或者类的复杂代理业务。代码参考com.nepxion.matrix.proxy，示例参考matrix-spring-boot-proxy-example
 - 实现接口走Spring代理，类走CGLIB代理
