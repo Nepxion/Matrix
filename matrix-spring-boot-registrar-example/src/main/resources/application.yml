@@ -1,0 +1,6 @@
+server:
+  port: 9999
+
+
+myAnno:
+  c: localhost:8080

@@ -11,7 +11,7 @@ package com.nepxion.matrix.registrar.example.service;
 
 import com.nepxion.matrix.registrar.example.aop.MyAnnotation;
 
-@MyAnnotation(name = "a", label = "b", description = "c")
+@MyAnnotation(name = "a", label = "b", description = "${myAnno.c:hello}")
 public interface MyService1 {
     String doA(String id);
 
