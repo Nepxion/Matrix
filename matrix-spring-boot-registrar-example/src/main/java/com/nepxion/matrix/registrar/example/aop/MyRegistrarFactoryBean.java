@@ -15,6 +15,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.nepxion.matrix.registrar.RegistrarFactoryBean;
+import org.springframework.core.env.Environment;
 
 public class MyRegistrarFactoryBean extends RegistrarFactoryBean {
     private String name;
@@ -45,7 +46,13 @@ public class MyRegistrarFactoryBean extends RegistrarFactoryBean {
         this.description = description;
     }
 
-    @Override
+	@Override
+	protected void resolveVariable(Environment environment) {
+		resolve(label);
+		resolveUrl(description);
+	}
+
+	@Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
