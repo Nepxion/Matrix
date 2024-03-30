@@ -15,7 +15,6 @@ import java.lang.reflect.Method;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
@@ -34,8 +33,9 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
     // 2)Idea加"-parameters"参数：http://blog.csdn.net/royal_lr/article/details/52279993
     private ParameterNameDiscoverer standardReflectionParameterNameDiscoverer = new StandardReflectionParameterNameDiscoverer();
 
+    // Spring Boot 3.2已移除LocalVariableTableParameterNameDiscoverer
     // 通过解析字节码文件的本地变量表来获取的，只支持CGLIG(ASM library)，适用于类代理
-    private ParameterNameDiscoverer localVariableTableParameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
+    // private ParameterNameDiscoverer localVariableTableParameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
 
     public boolean isCglibAopProxy(MethodInvocation invocation) {
         return getProxyClassName(invocation).contains(ProxyConstant.CGLIB);
@@ -107,7 +107,9 @@ public abstract class AbstractInterceptor implements MethodInterceptor {
 
         boolean isCglibAopProxy = isCglibAopProxy(invocation);
         if (isCglibAopProxy) {
-            return localVariableTableParameterNameDiscoverer.getParameterNames(method);
+            // Spring Boot 3.2已移除LocalVariableTableParameterNameDiscoverer
+            // return localVariableTableParameterNameDiscoverer.getParameterNames(method);
+            return standardReflectionParameterNameDiscoverer.getParameterNames(method);
         } else {
             return standardReflectionParameterNameDiscoverer.getParameterNames(method);
         }
