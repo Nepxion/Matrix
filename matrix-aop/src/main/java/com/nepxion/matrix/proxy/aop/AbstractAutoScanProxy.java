@@ -33,7 +33,6 @@ import com.nepxion.matrix.constant.MatrixConstant;
 import com.nepxion.matrix.proxy.constant.ProxyConstant;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
-import com.nepxion.matrix.proxy.util.ProxyUtil;
 import com.taobao.text.Color;
 
 public abstract class AbstractAutoScanProxy extends AbstractAutoProxyCreator {
