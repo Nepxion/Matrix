@@ -147,7 +147,10 @@ public abstract class AbstractRegistrar implements ImportBeanDefinitionRegistrar
             @Override
             protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
                 if (beanDefinition.getMetadata().isIndependent()) {
-                    if (beanDefinition.getMetadata().isInterface() && beanDefinition.getMetadata().getInterfaceNames().length == 1 && Annotation.class.getName().equals(beanDefinition.getMetadata().getInterfaceNames()[0])) {
+                    boolean isInterface = beanDefinition.getMetadata().isInterface() &&
+                            beanDefinition.getMetadata().getInterfaceNames().length == 1 &&
+                            Annotation.class.getName().equals(beanDefinition.getMetadata().getInterfaceNames()[0]);
+                    if (isInterface) {
                         try {
                             Class<?> target = ClassUtils.forName(beanDefinition.getMetadata().getClassName(), AbstractRegistrar.this.classLoader);
 
